@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post a Job | FIX-IT</title>
+  <link rel="stylesheet" href="assets/css/post.css">
+</head>
+
+<body>
+
+  <video autoplay loop muted playsinline class="background-clip">
+    <source src="assets/videos/po.mp4" type="video/mp4">
+  </video>
+
+  <a href="index.html" class="back-btn">⬅ Back</a>
+
+  <div class="container">
+    <h2>Post a Job</h2>
+    <form id="jobForm">
+      <label>Job Title</label>
+      <input type="text" id="title" placeholder="e.g. Need a Plumber">
+      <div class="error" id="titleError"></div>
+
+      <label>Description</label>
+      <textarea id="description" placeholder="Describe the task..."></textarea>
+      <div class="error" id="descError"></div>
+
+      <label>Category</label>
+      <select id="category">
+        <option value="">Select Category</option>
+        <option>Plumbing</option>
+        <option>Electrical</option>
+        <option>Cleaning</option>
+        <option>Web Development</option>
+        <option>Other</option>
+      </select>
+      <div class="error" id="catError"></div>
+
+      <label>Budget ($)</label>
+      <input type="number" id="budget" placeholder="Enter amount">
+      <div class="error" id="budgetError"></div>
+
+      <label>Deadline</label>
+      <input type="date" id="deadline">
+      <div class="error" id="dateError"></div>
+
+      <button type="submit">Post Job</button>
+    </form>
+    <div class="success" id="successMsg"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById("jobForm");
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      let title = document.getElementById("title").value.trim();
+      let desc = document.getElementById("description").value.trim();
+      let category = document.getElementById("category").value;
+      let budget = document.getElementById("budget").value;
+      let deadline = document.getElementById("deadline").value;
+
+      let titleError = document.getElementById("titleError");
+      let descError = document.getElementById("descError");
+      let catError = document.getElementById("catError");
+      let budgetError = document.getElementById("budgetError");
+      let dateError = document.getElementById("dateError");
+      let successMsg = document.getElementById("successMsg");
+
+      titleError.innerHTML = "";
+      descError.innerHTML = "";
+      catError.innerHTML = "";
+      budgetError.innerHTML = "";
+      dateError.innerHTML = "";
+      successMsg.innerHTML = "";
+
+      let valid = true;
+
+      if (title === "") { titleError.innerHTML = "Job title is required"; valid = false; }
+      if (desc === "") { descError.innerHTML = "Description is required"; valid = false; }
+      if (category === "") { catError.innerHTML = "Please select a category"; valid = false; }
+      if (budget === "" || budget <= 0) { budgetError.innerHTML = "Enter a valid budget"; valid = false; }
+      if (deadline === "") { dateError.innerHTML = "Select a deadline"; valid = false; }
+
+      if (valid) {
+        successMsg.innerHTML = "✅ Job posted successfully!";
+        form.reset();
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,376 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.banner {
+    width: 100%;
+    height: auto;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.75)), url(../images/office-supplies.webp);
+    background-size: cover;
+    background-position: center;
+}
+
+.back-videos {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.navbar {
+    width: 85%;
+    margin: auto;
+    padding: 35px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    cursor: pointer;
+    color: rgb(155, 155, 245);
+    font-weight: bold;
+    font-size: 80px;
+}
+
+.navbar ul li {
+    list-style: none;
+    display: inline-block;
+    margin: 0 20px;
+    position: relative;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.navbar ul li::after {
+    content: '';
+    height: 3px;
+    width: 0;
+    background: #009688;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    transition: 0.5s;
+}
+
+.navbar ul li:hover::after {
+    width: 100%;
+}
+
+.content {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    color: #fff;
+
+}
+
+.content h1 {
+    font-size: 70px;
+    margin-top: 80px;
+    color: #000000;
+    -webkit-text-stroke: 0.1vw rgb(253, 253, 253);
+}
+
+.content h3 {
+    margin-bottom: 80px;
+    margin-top: 10px;
+    font-weight: 100;
+    line-height: 25px;
+}
+
+.text600 {
+    color: rgb(55, 0, 255);
+    transition: 0.5S;
+}
+
+.text600:hover {
+    -webkit-text-stroke: 2px #1b02fd;
+    color: transparent;
+}
+
+button {
+    width: 200px;
+    padding: 15px 0;
+    text-align: center;
+    margin: 20px 10px;
+    border-radius: 25px;
+    font-weight: bold;
+    border: 2px solid #009688;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 25px #0ef;
+}
+
+.butt {
+    background: #772dff;
+    height: 100%;
+    width: 0;
+    border-radius: 25px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    transition: 1.80s;
+}
+
+button:hover span {
+    width: 100%
+}
+
+button:hover {
+    border: none;
+}
+
+.lg {
+    background-color: #772dff;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.und {
+    color: #fff;
+    margin-top: 800;
+    text-align: center;
+    height: 40;
+}
+
+img {
+    margin-top: 490px;
+}
+
+.logo a {
+    color: #0ef;
+    text-decoration: none;
+}
+
+.btnn a {
+    padding: 25px 20px;
+    text-align: center;
+    margin: -20px -280px;
+    font-weight: 30px bold;
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    box-shadow: 0 20px 25px rgba(0, 0, 0, .5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    overflow: hidden;
+
+}
+
+.btnn a:before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    Left: 2px;
+    bottom: 2px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05) transparent;
+}
+
+.btnn a span:nth-child(1) {
+    position: absolute;
+    top: 0;
+    Left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, #0c002b, #1779ff);
+    animation: animate1 2S linear infinite;
+}
+
+@keyframes animate1 {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.btnn a span:nth-child(2) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(to bottom, #0c002b, #1779ff);
+    animation: animate2 2S linear infinite;
+}
+
+@keyframes animate2 {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+.btnn a span:nth-child(3) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to left, #0c002b, #1779ff);
+    animation: animate3 2S linear infinite;
+}
+
+@keyframes animate3 {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.btnn a span:nth-child(4) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(to top, #0c002b, #1779ff);
+    animation: animate4 2S linear infinite;
+}
+
+@keyframes animate4 {
+    0% {
+        transform: translateY(100%);
+    }
+
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
+
+
+
+
+
+.btnn1 a {
+    padding: 25px 20px;
+    text-align: center;
+    margin: -20px 80px;
+    font-weight: 30px bold;
+    color: #fff;
+    cursor: pointer;
+    position: absolute;
+    box-shadow: 0 20px 25px rgba(0, 0, 0, .5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+.btnn1 a:before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    Left: 2px;
+    bottom: 2px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05) transparent;
+}
+
+.btnn1 a span:nth-child(1) {
+    position: absolute;
+    top: 0;
+    Left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, #0c002b, #1779ff);
+    animation: animate1 2S linear infinite;
+}
+
+@keyframes animate1 {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.btnn1 a span:nth-child(2) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(to bottom, #0c002b, #1779ff);
+    animation: animate2 2S linear infinite;
+}
+
+@keyframes animate2 {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+.btnn1 a span:nth-child(3) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to left, #0c002b, #1779ff);
+    animation: animate3 2S linear infinite;
+}
+
+@keyframes animate3 {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.btnn1 a span:nth-child(4) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(to top, #0c002b, #1779ff);
+    animation: animate4 2S linear infinite;
+}
+
+@keyframes animate4 {
+    0% {
+        transform: translateY(100%);
+    }
+
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
+.mySlides {
+    display: none;
+}
