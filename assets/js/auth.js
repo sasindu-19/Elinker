@@ -122,18 +122,80 @@ if (loginForm) {
 }
 
 // ============================================
-// Register Form Handler
+// Register Form Handler & Validations
 // ============================================
 const registerForm = document.getElementById('register-form');
 if (registerForm) {
+    const regEmail = document.getElementById('reg-email');
+    const emailError = document.getElementById('email-exists-error');
+    const emailLoader = document.getElementById('email-check-loader');
+    
+    const regPassword = document.getElementById('reg-password');
+    const confirmPassword = document.getElementById('reg-confirm-password');
+    const matchError = document.getElementById('password-match-error');
+
+    let emailIsValid = true;
+
+    // Realtime Password Match Validation
+    function checkPasswords() {
+        if (confirmPassword.value && regPassword.value !== confirmPassword.value) {
+            matchError.style.display = 'block';
+            return false;
+        } else {
+            matchError.style.display = 'none';
+            return true;
+        }
+    }
+    regPassword.addEventListener('keyup', checkPasswords);
+    confirmPassword.addEventListener('keyup', checkPasswords);
+
+    // Realtime Email Validation (Debounced)
+    let emailCheckTimeout;
+    regEmail.addEventListener('keyup', () => {
+        clearTimeout(emailCheckTimeout);
+        emailError.style.display = 'none';
+        
+        const val = regEmail.value.trim();
+        if (!val || !val.includes('@')) {
+            emailLoader.style.display = 'none';
+            emailIsValid = false;
+            return;
+        }
+        
+        emailLoader.style.display = 'block';
+        emailCheckTimeout = setTimeout(async () => {
+            // Call our RPC function
+            const { data: exists, error } = await supabaseClient.rpc('check_email_exists', { lookup_email: val });
+            emailLoader.style.display = 'none';
+            
+            if (!error && exists) {
+                emailError.style.display = 'block';
+                emailIsValid = false;
+            } else {
+                emailIsValid = true;
+            }
+        }, 600); // 600ms debounce
+    });
+
+    // Form Submit
     registerForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        if (!checkPasswords()) {
+            showToast('Passwords do not match.', 'error');
+            return;
+        }
+
+        if (!emailIsValid) {
+            showToast('Please fix the email issue before continuing.', 'error');
+            return;
+        }
 
         const fullName = document.getElementById('reg-name').value;
         const phone = document.getElementById('reg-phone').value;
         const type = document.getElementById('reg-type').value;
-        const email = document.getElementById('reg-email').value;
-        const password = document.getElementById('reg-password').value;
+        const email = regEmail.value;
+        const password = regPassword.value;
 
         if (!type) {
             showToast('Please select a user type (Client or Worker)', 'warning');
@@ -162,6 +224,9 @@ if (registerForm) {
         if (error) {
             if (error.message.includes('rate limit') || error.message.includes('Rate limit')) {
                 showToast('Too many attempts! Please wait a few minutes and try again.', 'warning', 6000);
+            } else if (error.message.includes('User already registered')) {
+                emailError.style.display = 'block';
+                showToast('This email is already in use.', 'error');
             } else {
                 showToast(error.message, 'error');
             }
@@ -178,3 +243,98 @@ if (registerForm) {
         }
     });
 }
+
+// ============================================
+// Forgot Password / Reset Flow
+// ============================================
+const forgotLink = document.getElementById('forgot-password-link');
+const forgotOverlay = document.getElementById('forgot-password-overlay');
+const closeForgotBtn = document.getElementById('close-forgot-btn');
+const sendResetBtn = document.getElementById('send-reset-link-btn');
+
+if (forgotLink && forgotOverlay) {
+    forgotLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        forgotOverlay.style.display = 'flex';
+        requestAnimationFrame(() => forgotOverlay.classList.add('confirm-show'));
+    });
+
+    closeForgotBtn.addEventListener('click', () => {
+        forgotOverlay.classList.remove('confirm-show');
+        setTimeout(() => forgotOverlay.style.display = 'none', 400);
+    });
+
+    sendResetBtn.addEventListener('click', async () => {
+        const email = document.getElementById('forgot-email').value;
+        if (!email) {
+            showToast('Please enter your email', 'warning');
+            return;
+        }
+
+        sendResetBtn.disabled = true;
+        sendResetBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> Sending...';
+
+        const { data, error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.origin + window.location.pathname,
+        });
+
+        sendResetBtn.disabled = false;
+        sendResetBtn.textContent = 'Send Reset Link';
+
+        if (error) {
+            if (error.message.includes('rate limit') || error.message.includes('Rate limit')) {
+                showToast('Too many requests! Supabase free limit reached. Please wait an hour or configure Custom SMTP.', 'warning', 7000);
+            } else {
+                showToast(error.message, 'error');
+            }
+        } else {
+            showToast('Reset link sent to your email!', 'success');
+            closeForgotBtn.click();
+        }
+    });
+}
+
+// Handle Password Recovery Hash on Load
+window.addEventListener('DOMContentLoaded', () => {
+    // Supabase appends #access_token=...&type=recovery when clicking reset link
+    if (window.location.hash.includes('type=recovery')) {
+        const resetModal = document.getElementById('reset-password-modal');
+        if (resetModal) {
+            // Switch back to login form view first
+            document.querySelector('.wrapper').classList.remove('active');
+            
+            resetModal.style.display = 'flex';
+            requestAnimationFrame(() => resetModal.classList.add('confirm-show'));
+
+            const submitNewPasswordBtn = document.getElementById('submit-new-password-btn');
+            submitNewPasswordBtn.addEventListener('click', async () => {
+                const newPassword = document.getElementById('new-password').value;
+                if (!newPassword || newPassword.length < 6) {
+                    showToast('Password must be at least 6 characters', 'warning');
+                    return;
+                }
+
+                submitNewPasswordBtn.disabled = true;
+                submitNewPasswordBtn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> Updating...';
+
+                // We are authenticated via the hash params, we can just update the user
+                const { error } = await supabaseClient.auth.updateUser({
+                    password: newPassword
+                });
+
+                submitNewPasswordBtn.disabled = false;
+                submitNewPasswordBtn.textContent = 'Update Password';
+
+                if (error) {
+                    showToast(error.message, 'error');
+                } else {
+                    showToast('Password updated successfully! You can now login.', 'success');
+                    resetModal.classList.remove('confirm-show');
+                    setTimeout(() => resetModal.style.display = 'none', 400);
+                    // Clear the hash so it doesn't trigger again
+                    window.history.replaceState(null, document.title, window.location.pathname);
+                }
+            });
+        }
+    }
+});

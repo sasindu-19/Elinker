@@ -20,11 +20,16 @@ body {
 .wrapper {
     position: relative;
     width: 750px;
-    height: 600px;
+    height: 450px;
     background: transparent;
     border: 2px solid #0ef;
     box-shadow: 0 0 25px #0ef;
     overflow: hidden;
+    transition: height 0.6s ease;
+}
+
+.wrapper.active {
+    height: 680px;
 }
 
 .wrapper .form-box {
@@ -61,6 +66,15 @@ body {
     right: 0;
     padding: 0 40px 0 60px;
     pointer-events: none;
+}
+
+.wrapper .form-box.register .input-box {
+    margin: 15px 0;
+}
+
+.wrapper .form-box.register h2 {
+    font-size: 28px;
+    margin-bottom: 5px;
 }
 
 .wrapper.active .form-box.register {
@@ -270,7 +284,7 @@ body {
     top: -4px;
     right: 0;
     width: 850px;
-    height: 600px;
+    height: 100%;
     background: linear-gradient(45deg, #081b29, #0ef);
     border-bottom: 3px solid #0ef;
     transform: rotate(10deg) skewY(40deg);
@@ -308,4 +322,62 @@ body {
     font-size: 30px;
     margin: 10px;
     font-style: bold;
+}
+
+/* ========================================= */
+/* Mobile Responsiveness */
+/* ========================================= */
+@media (max-width: 768px) {
+    .wrapper {
+        width: 95%;
+        height: auto;
+        min-height: 600px;
+        padding-bottom: 20px;
+        overflow-y: auto;
+    }
+    .wrapper .bg-animate, .wrapper .bg-animate2 {
+        display: none; /* Remove background animating shapes on mobile */
+    }
+    .wrapper .info-text {
+        display: none; /* Hide the large greeting text on mobile */
+    }
+    .wrapper .form-box {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+    
+    /* Reset padding and placement */
+    .wrapper .form-box.login, .wrapper .form-box.register {
+        padding: 40px 20px;
+    }
+
+    /* Override animation behavior for mobile toggles */
+    .wrapper .form-box.login {
+        display: flex;
+    }
+    .wrapper .form-box.register {
+        display: none;
+    }
+
+    .wrapper.active .form-box.login {
+        display: none;
+    }
+    .wrapper.active .form-box.register {
+        display: flex;
+        pointer-events: auto;
+        opacity: 1;
+        filter: blur(0);
+        transform: translateX(0);
+    }
+
+    /* Cancel delays so it toggles instantly on mobile */
+    .wrapper .form-box.login .animation, 
+    .wrapper .form-box.register .animation {
+        transition: none !important;
+        transition-delay: 0s !important;
+        transform: none !important;
+        opacity: 1 !important;
+        filter: none !important;
+    }
 }

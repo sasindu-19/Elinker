@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Work | FIX-IT</title>
+  <link rel="stylesheet" href="assets/css/post.css">
+  <link rel="stylesheet" href="assets/css/toast.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css" rel="stylesheet">
+  <link href="https://cdn.boxicons.com/3.0.8/fonts/filled/boxicons-filled.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Add a basic grid for jobs */
+    .jobs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .job-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+    .job-card:hover {
+      transform: translateY(-5px);
+      border-color: #0ef;
+    }
+    .job-card h3 {
+      color: #fff;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .job-card p {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .job-card .budget {
+      color: #0ef;
+      font-weight: 600;
+      margin-top: 15px;
+      display: block;
+    }
+    /* Set container broader for jobs */
+    #job-container { width: 90%; max-width: 1000px; padding-bottom: 40px; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ALL content hidden until auth check passes -->
+  <div id="page-content" style="display: none;">
+    <video autoplay loop muted playsinline class="background-clip">
+      <source src="assets/videos/po.mp4" type="video/mp4">
+    </video>
+
+    <a href="index.html" class="back-btn">⬅ Back</a>
+
+    <div class="container" id="job-container">
+      <h2>Find Work</h2>
+      <p style="color:rgba(255,255,255,0.7); text-align:center; margin-bottom:30px;">Browse the latest job opportunities posted by clients.</p>
+      
+      <div class="jobs-grid">
+        <!-- Placeholder jobs -->
+        <div class="job-card">
+          <h3>Plumbing Repair Needed</h3>
+          <p>Looking for an experienced plumber to fix a leaking sink pipe in my kitchen. Needs to be done by tomorrow.</p>
+          <span class="budget">Budget: $50</span>
+        </div>
+        <div class="job-card">
+          <h3>Electrical Wiring Check</h3>
+          <p>Need someone to inspect and repair the wiring in our living room. Some outlets are not working.</p>
+          <span class="budget">Budget: $100</span>
+        </div>
+        <div class="job-card">
+          <h3>House Cleaning</h3>
+          <p>Require a full house deep clean. 3 bedrooms, 2 bathrooms. Must bring own cleaning apparatus.</p>
+          <span class="budget">Budget: $80</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-init.js"></script>
+  <script>
+    // ============================================
+    // Access Control: Must be logged in
+    // ============================================
+    (async () => {
+      const user = await getCurrentUser();
+
+      if (!user) {
+        // Not logged in — show must-login overlay
+        showAccessDenied(
+          'Login Required',
+          'You need to login first to find work. Create an account or login to continue.',
+          'bxs-lock-alt',
+          [
+            { text: 'Login Now', href: 'login.html', cls: 'primary' },
+            { text: 'Go Home', href: 'index.html', cls: 'secondary' }
+          ]
+        );
+        return;
+      }
+
+      // Authenticated — show the entire page
+      document.getElementById('page-content').style.display = '';
+    })();
+
+    function showAccessDenied(title, message, icon, buttons) {
+      const overlay = document.createElement('div');
+      overlay.className = 'access-denied-overlay';
+
+      let btnsHtml = buttons.map(b =>
+        `<a href="${b.href}" class="ad-btn ${b.cls}">${b.text}</a>`
+      ).join('');
+
+      overlay.innerHTML = `
+        <div class="access-denied-card">
+          <div class="ad-icon"><i class='bx ${icon}'></i></div>
+          <h2>${title}</h2>
+          <p>${message}</p>
+          <div>${btnsHtml}</div>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+    }
+  </script>
+</body>
+
+</html>

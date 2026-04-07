@@ -86,14 +86,14 @@
       const profile = await getUserProfile(user.id);
       const userType = profile?.user_type;
 
-      if (userType !== 'Client') {
+      if (userType !== 'client') {
         // Worker trying to access — show denied overlay
         showAccessDenied(
           'Access Denied',
           'Only Clients can post jobs. As a Worker, you can browse and apply for available jobs instead.',
           'bxs-shield-x',
           [
-            { text: 'Find Work', href: '#', cls: 'primary' },
+            { text: 'Find Work', href: 'jobs.html', cls: 'primary' },
             { text: 'Go Home', href: 'index.html', cls: 'secondary' }
           ]
         );
