@@ -238,7 +238,7 @@ header {
 }
 
 .dropdown_menu.open {
-    max-height: 400px;
+    max-height: 800px;
 }
 
 .dropdown_menu li {

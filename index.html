@@ -64,6 +64,7 @@
       <li><a href="jobs.html">Find Work</a></li>
       <li id="post-job-link-mobile"><a href="post.html">Post a Job</a></li>
       <li><a href="reviews.html">Reviews</a></li>
+      <li id="login-btn-link-mobile" style="padding: 15px 0; border-bottom: none;"><a href="login.html" style="background-color: rgb(150, 150, 245); color: #fff; margin: 0 auto; width: 80%; padding: 0.8rem 0; border-radius: 20px; text-align: center; font-weight: bold; display: block;">Login</a></li>
     </div>
   </header>
 
@@ -205,10 +206,12 @@
       (async () => {
         const user = await getCurrentUser();
         const loginBtnLink = document.getElementById('login-btn-link');
+        const loginBtnLinkMobile = document.getElementById('login-btn-link-mobile');
         const profileArea = document.getElementById('profile-area');
 
         if (user) {
           loginBtnLink.style.display = 'none';
+          if (loginBtnLinkMobile) loginBtnLinkMobile.style.display = 'none';
           profileArea.style.display = 'flex';
 
           const profile = await getUserProfile(user.id);
@@ -259,6 +262,7 @@
           });
         } else {
           loginBtnLink.style.display = '';
+          if (loginBtnLinkMobile) loginBtnLinkMobile.style.display = 'block';
           profileArea.style.display = 'none';
         }
       })();
