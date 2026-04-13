@@ -31,6 +31,7 @@
 
 body {
   font-family: var(--font);
+  background-color: #0b1220;
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="assets/css/pr.css">
+</head>
+<body>
+      
+    <div class="container">
+      <a href="login.html" class="back-btn">⬅ Back</a>
+  <h1>Create your account</h1>
+  <p class="subtitle">Join FIX-IT to find work or post jobs</p>
+
+  <div class="card">
+
+    <!-- Toggle -->
+    <div class="toggle">
+        
+      <div class="option active" id="findWork"><img src="assets/images/jobb.webp" alt=""><h3>Find Work</h3></div>
+      <div class="option" id="postJobs"><img src="assets/images/jobjobe.webp" alt=""><h3>Post Jobs</h3></div>
+    </div>
+
+    <!-- Form -->
+    <form>
+      <div class="grid">
+        <input type="text" placeholder="Full Name">
+        <input type="text" placeholder="Phone Number">
+      </div>
+
+      <div class="grid">
+        <select>
+          <option>Gender</option>
+          <option>Male</option>
+          <option>Female</option>
+        </select>
+
+        <input placeholder="Date of Birth" type="date">
+
+        <select>
+          <option>Select District</option>
+        </select>
+      </div>
+
+      <!-- Skills Section -->
+      <div id="skillsSection" class="hidden">
+        <p class="label">Skills & Categories</p>
+        <input type="text" placeholder="Skills & Categories">
+      </div>
+
+      <!-- Business Section -->
+      <div id="businessSection" class="hidden">
+        <p class="label">Business Information</p>
+
+        <div class="toggle-small">
+          <button type="button" id="individualBtn" class="active">No / Individual</button>
+          <button type="button" id="registeredBtn">Yes, Registered</button>
+        </div>
+
+<input type="text" id="businessName" placeholder="Business Name (Optional)" class="hidden">     
+ </div>
+<button class="btn">Continue →</button>
+<div class="container">
+  <label>
+    <input type="checkbox" id="agree" class="agreement">
+    <h5>I agree to the</h5><a href=""><h5>Terms & Data Policy</h5></a>
+  </label>
+  <br>
+
+</div>
+
+    </form>
+  </div>
+</div>
+<script src="assets/js/pr.js"></script>
+
+</body>
+</html>

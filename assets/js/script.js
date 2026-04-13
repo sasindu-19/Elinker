@@ -9,3 +9,7 @@ registerlink.onclick = () => {
 loginlink.onclick = () => {
     wrapper.classList.remove('active');
 }
+
+function goToSignup() {
+    window.location.href = "pr.html";
+}

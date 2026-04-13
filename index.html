@@ -64,9 +64,7 @@
       <li><a href="jobs.html">Find Work</a></li>
       <li id="post-job-link-mobile"><a href="post.html">Post a Job</a></li>
       <li><a href="reviews.html">Reviews</a></li>
-      <li id="login-btn-link-mobile" style="padding: 15px 0; border-bottom: none;"><a href="login.html"
-          style="background-color: rgb(150, 150, 245); color: #fff; margin: 0 auto; width: 80%; padding: 0.8rem 0; border-radius: 20px; text-align: center; font-weight: bold; display: block;">Login</a>
-      </li>
+      <li id="login-btn-link-mobile" style="padding: 15px 0; border-bottom: none;"><a href="login.html" style="background-color: rgb(150, 150, 245); color: #fff; margin: 0 auto; width: 80%; padding: 0.8rem 0; border-radius: 20px; text-align: center; font-weight: bold; display: block;">Login</a></li>
     </div>
   </header>
 
@@ -198,7 +196,7 @@
     toggleBtn.onclick = function () {
       dropDownMenu.classList.toggle('open')
       const isOpen = dropDownMenu.classList.contains('open')
-      toggleBtnIcon.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'
+      toggleBtnIcon.classList = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'
     }
   </script>
 

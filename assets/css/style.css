@@ -8,7 +8,7 @@
 body {
     height: cover;
     background-color: #000;
-    background-image: url(../images/hme.png);
+    background-image: url(../images/hme.webp);
     margin-top: -20px;
     background-size: cover;
     background-position: center;
@@ -553,7 +553,6 @@ h1 {
 
 .icon:hover {
     transform: translateY(-10px);
-    text-shadow: 0 0 10px #e0e0e0;
 }
 
 .icon i {
@@ -570,7 +569,7 @@ h1 {
 
 .contentii h3:hover {
     color: #1b02fd;
-    text-shadow: 0 0 10px #e0e0e0;
+
 }
 
 .contentii p {

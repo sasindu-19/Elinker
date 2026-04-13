@@ -33,10 +33,9 @@
             <li><a href="jobs.html">Find Work</a></li>
             <li><a href="post.html">Post a Job</a></li>
             <li><a href="reviews.html">Reviews</a></li> 
-
     </div>
-</header> 
 
+</header> 
 
 <section>
         <div class="content">
@@ -100,22 +99,18 @@
   </div>
 </footer>
 
-    <script>
-        const toggleBtn = document.querySelector('.toggle_btn')
-        const toggleBtnIcon = document. querySelector('.toggle_btn i')
-        const dropDownMenu = document.querySelector('.dropdown_menu')
 
-        toggleBtn.onclick = function () {
-            dropDownMenu.classList.toggle('open')
-            const isOpen = dropDownMenu. classList.contains('open')
+  <script>
+    const toggleBtn = document.querySelector('.toggle_btn')
+    const toggleBtnIcon = document.querySelector('.toggle_btn i')
+    const dropDownMenu = document.querySelector('.dropdown_menu')
 
-            toggleBtnIcon.className = isOpen
-                ? 'fa-solid fa-xmark'
-                : 'fa-solid fa-bars'    
-        }
-    </script>
-
-
+    toggleBtn.onclick = function () {
+      dropDownMenu.classList.toggle('open')
+      const isOpen = dropDownMenu.classList.contains('open')
+      toggleBtnIcon.classList = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'
+    }
+  </script>
 
 </body>
 </html>

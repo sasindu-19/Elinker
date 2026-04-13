@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="assets/css/toast.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css" rel="stylesheet">
+    <!-- Filled Icons -->
     <link href="https://cdn.boxicons.com/3.0.8/fonts/filled/boxicons-filled.min.css" rel="stylesheet">
+    <!-- Brand Icons -->
     <link href="https://cdn.boxicons.com/3.0.8/fonts/brands/boxicons-brands.min.css" rel="stylesheet">
 </head>
 
@@ -21,7 +23,6 @@
         <span class="bg-animate"></span>
         <span class="bg-animate2"></span>
 
-        <!-- ===== LOGIN FORM ===== -->
         <div class="form-box login">
             <h2 class="animation" style="--i:0; --j:21;">Login</h2>
             <form action="#" id="login-form">
@@ -35,77 +36,66 @@
                     <label>Password</label>
                     <i class="bx bxs-lock-alt"></i>
                 </div>
-                <div class="remember-forgot animation"
-                    style="--i:2.5; --j:23.5; text-align: right; margin-bottom: 15px; margin-top: -10px;">
-                    <a href="#" id="forgot-password-link"
-                        style="color: #fff; font-size: 14px; text-decoration: none; transition: .3s;"
-                        onmouseover="this.style.color='#0ef'" onmouseout="this.style.color='#fff'">Forgot Password?</a>
+                <div class="remember-forgot animation" style="--i:2.5; --j:23.5; text-align: right; margin-bottom: 15px; margin-top: -10px;">
+                    <a href="#" id="forgot-password-link" style="color: #fff; font-size: 14px; text-decoration: none; transition: .3s;" onmouseover="this.style.color='#0ef'" onmouseout="this.style.color='#fff'">Forgot Password?</a>
                 </div>
                 <button type="submit" class="btn animation" style="--i:3; --j:24;">Login</button>
                 <div class="logreg-link animation" style="--i:4; --j:25;">
-                    <p>Don't have an account? <a href="#" class="register-link">Sign Up</a></p>
+                    <p>Don't have an account <a href="#" class="register-link">Sign Up</a></p>
                 </div>
             </form>
         </div>
         <div class="info-text login">
-            <h2 class="animation" style="--i:0; --j:20;">Welcome FIX-IT!</h2>
-            <p class="animation" style="--i:1; --j:21;">Fast &amp; Reliable Solutions</p>
+            <h2 class="animation" style="--i:0 --j:20;">Welcome FIX-IT!</h2>
+            <p class="animation" style="--i:1 --j:21;">Fast & Reliable Solutions</p>
         </div>
 
-        <!-- ===== REGISTER FORM (Email + Password + Confirm Password only) ===== -->
         <div class="form-box register">
             <h2 class="animation" style="--i:17; --j:0;">Sign Up</h2>
             <form action="#" id="register-form">
-                <div class="input-box animation" style="--i:18; --j:1; margin-bottom: 30px;">
+
+                <div class="input-box animation" style="--i:19.5; --j:2.5; margin-bottom: 30px;">
                     <input type="email" id="reg-email" required>
                     <label>Email</label>
                     <i class='bx bxs-envelope'></i>
-                    <div id="email-exists-error"
-                        style="color: #ff4d4d; font-size: 12px; position: absolute; bottom: -20px; left: 0; display: none;">
-                        ❌ This email is already in use</div>
-                    <div id="email-check-loader"
-                        style="color: #0ef; font-size: 12px; position: absolute; bottom: -20px; left: 0; display: none;">
-                        <i class="bx bx-loader-alt bx-spin"></i> Checking...</div>
+                    <div id="email-exists-error" style="color: #ff4d4d; font-size: 12px; position: absolute; bottom: -20px; left: 0; display: none;">❌ This email is already in use</div>
+                    <div id="email-check-loader" style="color: #0ef; font-size: 12px; position: absolute; bottom: -20px; left: 0; display: none;"><i class="bx bx-loader-alt bx-spin"></i> Checking...</div>
                 </div>
-                <div class="input-box animation" style="--i:19; --j:2;">
+                <div class="input-box animation" style="--i:20; --j:3;">
                     <input type="password" id="reg-password" required minlength="6">
                     <label>Password</label>
                     <i class="bx bxs-lock-alt"></i>
                 </div>
-                <div class="input-box animation" style="--i:20; --j:3; margin-bottom: 35px;">
+                <div class="input-box animation" style="--i:20.5; --j:3.5; margin-bottom: 35px;">
                     <input type="password" id="reg-confirm-password" required minlength="6">
                     <label>Confirm Password</label>
                     <i class="bx bxs-lock-alt"></i>
-                    <div id="password-match-error"
-                        style="color: #ff4d4d; font-size: 12px; position: absolute; bottom: -20px; left: 0; display: none;">
-                        ❌ Passwords do not match</div>
+                    <div id="password-match-error" style="color: #ff4d4d; font-size: 12px; position: absolute; bottom: -20px; left: 0; display: none;">❌ Passwords do not match</div>
                 </div>
-                <button type="submit" class="btn animation" style="--i:21; --j:4;">Sign Up</button>
+                <button type="submit" class="btn animation" style="--i:21; --j:4;" class="signup-btn" onclick="goToSignup()">Sign Up</button>
                 <div class="logreg-link animation" style="--i:22; --j:5;">
                     <p>Already have an account? <a href="#" class="login-link">Login</a></p>
                 </div>
+                
             </form>
         </div>
         <div class="info-text register">
             <h2 class="animation" style="--i:17; --j:0;">Welcome FIX-IT!</h2>
-            <p class="animation" style="--i:18; --j:1;">Fast &amp; Reliable Solutions</p>
+            <p class="animation" style="--i:18;  --j:1;">Fast & Reliable Solutions</p>
         </div>
     </div>
 
     <!-- Reset Password Modal -->
     <div id="reset-password-modal" class="confirm-overlay" style="display: none;">
-        <div class="confirm-modal" style="width: 350px;">
+        <div class="confirm-modal" style="width: 90%; max-width: 350px;">
             <div class="confirm-icon" style="color: #0ef;">
                 <i class='bx bxs-key bx-tada'></i>
             </div>
             <h2>Reset Password</h2>
             <p>Enter your new password below.</p>
             <div class="input-box" style="margin: 20px 0; border-bottom: 2px solid #fff; position: relative;">
-                <input type="password" id="new-password" required
-                    style="width: 100%; height: 100%; background: transparent; border: none; outline: none; font-size: 16px; color: #fff; padding: 0 35px 0 5px;"
-                    placeholder="New Password" minlength="6">
-                <i class="bx bxs-lock-alt"
-                    style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 20px;"></i>
+                <input type="password" id="new-password" required style="width: 100%; height: 100%; background: transparent; border: none; outline: none; font-size: 16px; color: #fff; padding: 0 35px 0 5px;" placeholder="New Password" minlength="6">
+                <i class="bx bxs-lock-alt" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 20px;"></i>
             </div>
             <button class="confirm-btn" id="submit-new-password-btn" style="width: 100%;">
                 Update Password
@@ -113,27 +103,22 @@
         </div>
     </div>
 
-    <!-- Forgot Password Modal -->
+    <!-- Forgot Password Generic Modal -->
     <div id="forgot-password-overlay" class="confirm-overlay" style="display: none;">
-        <div class="confirm-modal" style="width: 350px;">
+        <div class="confirm-modal" style="width: 90%; max-width: 350px;">
             <div class="confirm-icon" style="color: #0ef;">
                 <i class='bx bxs-envelope'></i>
             </div>
             <h2>Find Account</h2>
             <p>Enter your email to receive a password reset link.</p>
-            <div class="input-box"
-                style="margin: 20px 0; border-bottom: 2px solid #fff; position: relative; height: 40px;">
-                <input type="email" id="forgot-email" required
-                    style="width: 100%; height: 100%; background: transparent; border: none; outline: none; font-size: 16px; color: #fff; padding: 0 35px 0 5px;"
-                    placeholder="Your Email Address">
-                <i class="bx bxs-envelope"
-                    style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 20px;"></i>
+            <div class="input-box" style="margin: 20px 0; border-bottom: 2px solid #fff; position: relative; height: 40px;">
+                <input type="email" id="forgot-email" required style="width: 100%; height: 100%; background: transparent; border: none; outline: none; font-size: 16px; color: #fff; padding: 0 35px 0 5px;" placeholder="Your Email Address">
+                <i class="bx bxs-envelope" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 20px;"></i>
             </div>
             <button class="confirm-btn" id="send-reset-link-btn" style="width: 100%; margin-bottom: 10px;">
                 Send Reset Link
             </button>
-            <button class="confirm-btn" id="close-forgot-btn"
-                style="width: 100%; background: transparent; border: 1px solid rgba(0, 238, 255, 0.4); color: #fff;">
+            <button class="confirm-btn" id="close-forgot-btn" style="width: 100%; background: transparent; border: 1px solid rgba(0, 238, 255, 0.4); color: #fff;">
                 Cancel
             </button>
         </div>
@@ -143,6 +128,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/supabase-init.js"></script>
     <script src="assets/js/auth.js"></script>
-</body>
 
+
+</body>
 </html>
