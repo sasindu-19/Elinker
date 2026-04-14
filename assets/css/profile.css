@@ -1,5 +1,5 @@
 /* ============================================
-   PROFILE PAGE — Premium Dark Design (Restored)
+   PROFILE PAGE — Premium Dark Design
    ============================================ */
 * {
     margin: 0;
@@ -267,6 +267,7 @@ header {
     justify-content: center;
     color: var(--accent);
     font-size: 18px;
+    flex-shrink: 0;
 }
 
 .card-title {
@@ -344,15 +345,7 @@ header {
     border: 1px solid rgba(150, 150, 245, 0.25);
 }
 
-/* ─── EDIT FORM ─── */
-.edit-form {
-    display: none;
-}
-
-.edit-form.active {
-    display: block;
-}
-
+/* ─── FORM INPUTS ─── */
 .form-group {
     margin-bottom: 18px;
 }
@@ -601,6 +594,19 @@ header {
     display: inline-block;
 }
 
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ─── SECTION DIVIDER ─── */
+.section-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.06);
+    margin: 20px 0;
+}
+
 /* ─── EDIT MODAL ─── */
 .modal-overlay {
     position: fixed;
@@ -684,19 +690,6 @@ header {
     flex-shrink: 0;
 }
 
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* ─── SECTION DIVIDER ─── */
-.section-divider {
-    height: 1px;
-    background: rgba(255, 255, 255, 0.06);
-    margin: 20px 0;
-}
-
 /* ─── RESPONSIVE ─── */
 @media (max-width: 700px) {
     .cards-grid {
@@ -725,6 +718,16 @@ header {
 
     .nav-links {
         display: none;
+    }
+
+    .modal-box {
+        max-height: 95vh;
+        border-radius: 16px;
+    }
+
+    .modal-overlay {
+        padding: 12px;
+        align-items: flex-end;
     }
 }
 
