@@ -1,7 +1,29 @@
 // Supabase Init - Shared across all pages
 const SUPABASE_URL = 'https://ijmbjtypajvecijbwvfx.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlqbWJqdHlwYWp2ZWNpamJ3dmZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1NDIwNjEsImV4cCI6MjA5MTExODA2MX0.1H2BtyB0RFcqzcUdXDMhqThO2WiyIO18kAuk6OQqBY4';
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// Custom Storage using Session Cookies (persists across tabs, clears on browser close)
+const sessionCookieStorage = {
+    getItem: (key) => {
+        const match = document.cookie.match(new RegExp('(^| )' + key + '=([^;]+)'));
+        return match ? decodeURIComponent(match[2]) : null;
+    },
+    setItem: (key, value) => {
+        // No expires/max-age means it's a Session Cookie
+        document.cookie = `${key}=${encodeURIComponent(value)}; path=/; SameSite=Lax`;
+    },
+    removeItem: (key) => {
+        document.cookie = `${key}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    }
+};
+
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: {
+        storage: sessionCookieStorage,
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: true
+    }
+});
 
 // Get current user session (uses getUser() to verify token with server,
 // preventing false-null on page reload / token refresh race conditions)
