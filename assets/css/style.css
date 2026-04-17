@@ -5,15 +5,14 @@
     scroll-behavior: smooth;
 }
 
-body {
-    height: cover;
-    background-color: #000;
-    background-image: url(../images/hme.webp);
-    margin-top: -20px;
-    background-size: cover;
+/* ====== HEADER ====== */
+.header {
+    min-height: 100vh;
+    background-image: linear-gradient(rgba(4, 9, 30, 0.76), rgba(4, 9, 30, 0.7)), url(/assets/images/worksec.webp);
     background-position: center;
-    backdrop-filter: brightness(20%);
-    background-attachment: fixed;
+    background-size: cover;
+    position: relative;
+    top: 0;
 }
 
 li {
@@ -30,17 +29,6 @@ a:hover {
     color: rgb(150, 150, 245);
 }
 
-/* ====== HEADER ====== */
-header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    padding: 0 2rem;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
-
 .navbar {
     width: 100%;
     height: 80px;
@@ -52,9 +40,16 @@ header {
 }
 
 .navbar .logo a {
-    font-size: 35px;
+    font-size: 50px;
     font-weight: bold;
     color: rgb(150, 150, 245);
+    margin-left: 10px;
+}
+
+.navbar .logo span {
+    font-size: 65px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.788);
 }
 
 .logo:hover {
@@ -224,7 +219,7 @@ header {
     display: none;
     flex-direction: column;
     position: absolute;
-    right: 2rem;
+    right: 3rem;
     top: 80px;
     width: 240px;
     background: rgba(10, 10, 25, 0.97);
@@ -279,13 +274,14 @@ header {
     text-align: center;
     color: #fff;
     box-sizing: border-box;
+    margin-top: 50px;
 }
 
 .content h1 {
     font-size: clamp(2rem, 7vw, 60px);
     margin-top: 60px;
     color: #000000;
-    -webkit-text-stroke: 0.1vw rgb(253, 253, 253);
+    -webkit-text-stroke: 0.1vw rgba(253, 253, 253, 0.781);
 }
 
 .content h3 {
@@ -437,6 +433,7 @@ header {
 .how-it-works {
     padding: 6rem 1.5rem;
     text-align: center;
+    background-color: #00000093;
 }
 
 .container {
@@ -486,7 +483,7 @@ h1 {
 }
 
 .card {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(5, 5, 5, 0.507);
     color: #fff;
     border-radius: 15px;
     padding: 20px;
@@ -526,17 +523,30 @@ h1 {
 
 /* ====== FEATURES ====== */
 .features {
-    background: transparent;
-    padding: 3rem 1.5rem;
-    max-width: 800px;
-    margin: 2rem auto 4rem;
+    background-color: #00000093;
+
+}
+
+.features img {
+    padding: 20px;
+    display: inline-block;
+    margin-left: 35%;
+}
+
+.features img {
+    display: block;
+    width: 500px;
+    border-radius: 50% 40% 60% 50% / 50% 60% 40% 50%;
+    filter: brightness(50%);
+
 }
 
 .feature-box {
     display: flex;
     align-items: flex-start;
     gap: 20px;
-    margin-bottom: 50px;
+    align-items: center;
+    margin-left: 35%;
 }
 
 .icon {
@@ -548,12 +558,16 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* center each row */
     flex-shrink: 0;
     transition: transform 0.3s;
+    gap: 15px;
+    margin: 15px 0;
 }
 
 .icon:hover {
     transform: translateY(-10px);
+    background: transparent;
 }
 
 .icon i {
@@ -563,13 +577,13 @@ h1 {
 
 .contentii h3 {
     margin: 0;
-    color: #2c4cff;
+    color: #fafafade;
     font-size: clamp(1.3rem, 3vw, 30px);
     font-weight: bold;
 }
 
 .contentii h3:hover {
-    color: #1b02fd;
+    color: #ffffff;
 
 }
 
@@ -664,159 +678,12 @@ h1 {
     width: 20%;
 }
 
-/* ============================
-   RESPONSIVE — TABLET (≤992px)
-   ============================ */
-@media (max-width: 992px) {
 
-    .navbar .links,
-    .navbar .action_btn {
-        display: none;
-    }
 
-    .navbar .toggle_btn {
-        display: block;
-    }
-
-    .dropdown_menu {
-        display: flex;
-    }
-
-    /* Hide profile text on smaller screens */
-    .profile-name,
-    .profile-type,
-    .bx-chevron-down {
-        display: none;
-    }
-
-    .profile-btn {
-        padding: 0.3rem;
-        background: transparent;
-        border-color: transparent;
-    }
-
-    .features {
-        margin-left: auto;
-        margin-right: auto;
-    }
-}
-
-/* ============================
-   RESPONSIVE — MOBILE (≤768px)
-   ============================ */
-@media (max-width: 768px) {
-    header {
-        padding: 0 1rem;
-    }
-
-    .dropdown_menu {
-        right: 1rem;
-        top: 70px;
-    }
-
-    .hme {
-        min-height: calc(100vh - 70px);
-    }
-
-    .content {
-        padding: 1.5rem 1.25rem 3rem;
-    }
-
-    .content h1 {
-        margin-top: 20px;
-    }
-
-    .content h3 {
-        font-size: 0.95rem;
-        line-height: 1.6;
-        margin-bottom: 2rem;
-    }
-
-    /* Stack buttons vertically */
-    .hero-btns-wrap {
-        flex-direction: column;
-        gap: 1.5rem;
-        align-items: center;
-    }
-
-    .btnn a,
-    .btnn1 a {
-        padding: 16px 24px;
-        font-size: 0.8rem;
-        letter-spacing: 1.5px;
-    }
-
-    .how-it-works {
-        padding: 4rem 1.25rem;
-    }
-
-    .card {
-        width: 100%;
-        max-width: 340px;
-    }
-
-    .feature-box {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .icon {
-        width: 70px;
-        height: 70px;
-        min-width: 70px;
-    }
-
-    .icon i {
-        font-size: 28px;
-    }
-
-    .footer-container {
-        flex-direction: column;
-        gap: 30px;
-    }
-
-    .logo {
-        width: 40%;
-    }
-}
-
-/* ============================
-   RESPONSIVE — SMALL (≤480px)
-   ============================ */
-@media (max-width: 480px) {
-    .navbar {
-        height: 64px;
-    }
-
-    .navbar .logo a {
-        font-size: 1.6rem;
-    }
-
-    .dropdown_menu {
-        right: 0.75rem;
-        left: 0.75rem;
-        width: auto;
-    }
-
-    .btnn a,
-    .btnn1 a {
-        padding: 14px 18px;
-        font-size: 0.75rem;
-        letter-spacing: 1px;
-    }
-
-    .contentii h3 {
-        font-size: 1.15rem;
-    }
-
-    .how-it-works {
-        padding: 3rem 1rem;
-    }
-}
-
+/*Blog Section*/
 .blog-section {
     padding: 60px 20px;
+    background-color: #00000093;
 }
 
 .containeroi {
@@ -884,23 +751,251 @@ h1 {
 
 }
 
-/* RESPONSIVE */
+/* ============================
+   RESPONSIVE — TABLET (≤992px)
+   ============================ */
+@media (max-width: 992px) {
+
+    .navbar .links,
+    .navbar .action_btn {
+        display: none;
+    }
+
+    .navbar .toggle_btn {
+        display: block;
+    }
+
+    .dropdown_menu {
+        display: flex;
+    }
+
+    /* Hide profile text on smaller screens */
+    .profile-name,
+    .profile-type,
+    .bx-chevron-down {
+        display: none;
+    }
+
+    .profile-btn {
+        padding: 0.3rem;
+        background: transparent;
+        border-color: transparent;
+    }
+
+    .features {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .features img {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* ============================
+   RESPONSIVE — MOBILE (≤768px)
+   ============================ */
 @media (max-width: 768px) {
-    .containeroi {
+    .header {
+        padding: 0 1rem;
+    }
+
+    .dropdown_menu {
+        right: 1rem;
+        top: 70px;
+    }
+
+    .hme {
+        min-height: calc(100vh - 70px);
+    }
+
+    .content {
+        padding: 1.5rem 1.25rem 3rem;
+    }
+
+    .content h1 {
+        margin-top: 20px;
+    }
+
+    .content h3 {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+    }
+
+    /* Stack buttons vertically */
+    .hero-btns-wrap {
         flex-direction: column;
-        text-align: center;
+        gap: 1.5rem;
+        align-items: center;
     }
 
-    .containerooi2 {
+    .btnn a,
+    .btnn1 a {
+        padding: 16px 24px;
+        font-size: 0.8rem;
+        letter-spacing: 1.5px;
+    }
+
+    .how-it-works {
+        padding: 4rem 1.25rem;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 340px;
+    }
+
+    .feature-box {
         flex-direction: column;
+        align-items: center;
         text-align: center;
+        margin-right: 35%;
     }
 
-    .shape img {
-        width: 250px;
+    /* ============================
+   RESPONSIVE — TABLET (≤992px)
+   ============================ */
+    @media (max-width: 992px) {
+
+        .navbar .links,
+        .navbar .action_btn {
+            display: none;
+        }
+
+        .navbar .toggle_btn {
+            display: block;
+        }
+
+        .dropdown_menu {
+            display: flex;
+        }
+
+        /* Hide profile text on smaller screens */
+        .profile-name,
+        .profile-type,
+        .bx-chevron-down {
+            display: none;
+        }
+
+        .profile-btn {
+            padding: 0.3rem;
+            background: transparent;
+            border-color: transparent;
+        }
+
+        .features {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features img {
+            margin-left: auto;
+            margin-right: auto;
+        }
     }
 
-    .shape2 img {
-        width: 250px;
+    /* ============================
+   RESPONSIVE — MOBILE (≤768px)
+   ============================ */
+    @media (max-width: 768px) {
+        header {
+            padding: 0 1rem;
+        }
+
+        .dropdown_menu {
+            right: 1rem;
+            top: 70px;
+        }
+
+        .hme {
+            min-height: calc(100vh - 70px);
+        }
+
+        .icon {
+            width: 70px;
+            height: 70px;
+            min-width: 70px;
+        }
+
+        .icon i {
+            font-size: 28px;
+        }
+
+        .footer-container {
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .logo {
+            width: 40%;
+        }
+
+        .features img {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    /* ============================
+   RESPONSIVE — SMALL (≤480px)
+   ============================ */
+    @media (max-width: 480px) {
+        .navbar {
+            height: 64px;
+        }
+
+        .navbar .logo a {
+            font-size: 1.6rem;
+        }
+
+        .dropdown_menu {
+            right: 0.75rem;
+            left: 0.75rem;
+            width: auto;
+        }
+
+        .btnn a,
+        .btnn1 a {
+            padding: 14px 18px;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        .contentii h3 {
+            font-size: 1.15rem;
+        }
+
+        .how-it-works {
+            padding: 3rem 1rem;
+        }
+
+        .features img {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+        .containeroi {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .containerooi2 {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .shape img {
+            width: 250px;
+        }
+
+        .shape2 img {
+            width: 250px;
+        }
     }
 }

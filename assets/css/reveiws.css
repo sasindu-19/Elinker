@@ -13,7 +13,7 @@
     position: absolute;
     top: 20px;
     left: 20px;
-    color: rgba(255,255,255,0.8);
+    color: rgba(255, 255, 255, 0.8);
     text-decoration: none;
     font-size: 18px;
     font-weight: 600;
@@ -34,6 +34,7 @@ body {
     align-items: center;
     height: 100vh;
     overflow: hidden;
+    background-color: #0a0a0ade;
 }
 
 .container {
@@ -130,6 +131,7 @@ button:hover {
     .container {
         padding: 30px 20px;
     }
+
     h2 {
         font-size: 26px;
     }
