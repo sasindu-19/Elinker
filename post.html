@@ -17,7 +17,7 @@
 
   <div id="page-content" style="display: none;">
 
-    <a href="index.html" class="back-btn">⬅ Back</a>
+    <a href="index.html" class="back-btn"><i class='bx bx-arrow-back'></i> Back</a>
     <form id="jobForm" class="container">
       <h1>Post a new job</h1>
       <p class="subtitle">Describe your task so the right workers can find it</p>
@@ -96,8 +96,8 @@
               <div class="form-group">
                 <label>Minimum Age</label>
                 <select id="minAge">
-                  <option>18+</option>
-                  <option>Under 18</option>
+                  <option value="18">18+</option>
+                  <option value="16">Under 18</option>
                 </select>
               </div>
               <div class="form-group">
@@ -139,8 +139,8 @@
             <div class="card-title">Posting As</div>
             <div class="form-group">
               <div class="btn-group posting-as" id="postingGroup">
-                <button type="button" data-value="Individual">Individual</button>
-                <button type="button" class="active" data-value="Business">Business</button>
+                <button type="button" class="active" data-value="Individual">Individual</button>
+                <button type="button" data-value="Business">Business</button>
               </div>
             </div>
 
@@ -155,16 +155,16 @@
 
           <!-- PREVIEW -->
           <div class="card" style="margin-bottom: 20px;">
-            <div class="card-title" style="margin-bottom: 12px; font-size: 0.65rem;">Preview</div>
-            <div class="preview-title" id="prevTitle">painting</div>
-            <div class="preview-location" id="prevLocation">Elpitiya, Galle</div>
+            <div class="card-title" style="margin-bottom: 12px; font-size: 0.65rem;">Live Preview</div>
+            <div class="preview-title" id="prevTitle">Job Title</div>
+            <div class="preview-location" id="prevLocation">— Select location —</div>
             <div class="preview-tags">
               <span class="tag-easy" id="prevDiff">Easy</span>
               <span class="tag-gender" id="prevGender">Any Gender</span>
               <span class="tag-age" id="prevAge">18+</span>
-              <span class="tag-biz" id="prevBiz">✓ Verified Biz</span>
+              <span class="tag-biz" id="prevBiz" style="display:none;">✓ Verified Biz</span>
             </div>
-            <div class="preview-pay" id="prevPay">Rs. 2,000</div>
+            <div class="preview-pay" id="prevPay">Rs. —</div>
           </div>
 
           <button type="submit" class="submit-btn" id="postJobBtn">Post Job Now &rarr;</button>
@@ -172,10 +172,11 @@
       </div>
     </form>
 
-    <script src="assets/js/srilanka-locations.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="assets/js/supabase-init.js"></script>
-    <script src="assets/js/post.js"></script>
+  <!-- Scripts: supabase first, then init, then locations, then page logic -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-init.js"></script>
+  <script src="assets/js/srilanka-locations.js"></script>
+  <script src="assets/js/post.js"></script>
 </body>
 
 </html>
