@@ -8,32 +8,38 @@
   scroll-behavior: smooth;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 :root {
-  --glass: rgba(255, 255, 255, 0.04);
-  --glass-border: rgba(255, 255, 255, 0.09);
-  --glass-hover: rgba(255, 255, 255, 0.07);
-  --accent: #00d1d1;
-  --accent-glow: rgba(0, 209, 209, 0.2);
-  --accent2: #3b82f6;
-  --green: #00d084;
-  --green-glow: rgba(0, 208, 132, 0.15);
-  --red: #ef4444;
-  --yellow: #f59e0b;
-  --text: #f1f5f9;
-  --text-muted: #94a3b8;
-  --text-dim: #64748b;
-  --input-bg: rgba(11, 18, 32, 0.75);
-  --input-border: rgba(42, 53, 80, 0.85);
-  --bg: #0b1220;
-  --radius: 14px;
-  --radius-sm: 8px;
-  --radius-pill: 50px;
-  --font: 'Poppins', sans-serif;
+  --bg:           #080d1a;
+  --glass:        rgba(14, 22, 48, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.10);
+  --glass-hover:  rgba(14, 22, 48, 0.85);
+  --card-border:  rgba(255, 255, 255, 0.10);
+  --accent:       #00d1d1;
+  --accent-glow:  rgba(0, 209, 209, 0.18);
+  --accent2:      #3b82f6;
+  --green:        #10b981;
+  --green-glow:   rgba(16, 185, 129, 0.15);
+  --red:          #ef4444;
+  --yellow:       #f59e0b;
+  --text:         #f0f4ff;
+  --text-muted:   #8b98b1;
+  --text-dim:     #4b5a73;
+  --input-bg:     rgba(6, 12, 28, 0.80);
+  --input-border: rgba(60, 80, 130, 0.60);
+  --radius:       16px;
+  --radius-sm:    10px;
+  --radius-pill:  50px;
+  --font:         'Poppins', sans-serif;
 }
 
 body {
   font-family: var(--font);
   background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 10% 10%, rgba(0, 209, 209, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 90%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
@@ -89,6 +95,8 @@ body {
   max-width: 1100px;
   margin: 0 auto;
   padding: 70px 24px 80px;
+  position: relative;
+  z-index: 1;
 }
 
 /* ============================
@@ -116,21 +124,26 @@ body {
    ============================ */
 .profile-card {
   background: var(--glass);
-  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(0, 209, 209, 0.15);
   border-radius: var(--radius);
-  padding: 16px 20px;
+  padding: 16px 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 20px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  transition: border-color 0.3s ease;
+  margin-bottom: 22px;
+  position: relative;
+  overflow: hidden;
 }
 
-.profile-card:hover {
-  border-color: rgba(255, 255, 255, 0.14);
+.profile-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 209, 209, 0.4), transparent);
 }
 
 .profile-card-left {
@@ -201,8 +214,14 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   flex-wrap: wrap;
+  background: var(--glass);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 12px 18px;
 }
 
 .filter-label {
@@ -217,17 +236,18 @@ body {
 
 .filter-select {
   padding: 8px 32px 8px 12px;
-  background: var(--input-bg);
-  border: 1px solid var(--input-border);
+  background: rgba(6, 12, 28, 0.80);
+  border: 1px solid rgba(60, 80, 130, 0.60);
   border-radius: var(--radius-sm);
   color: var(--text);
   font-family: var(--font);
   font-size: 0.82rem;
+  font-weight: 500;
   outline: none;
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238b98b1' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 10px center;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -240,7 +260,7 @@ body {
 }
 
 .filter-select option {
-  background: #0b1220;
+  background: #0c1428;
   color: var(--text);
 }
 
@@ -248,8 +268,8 @@ body {
   flex: 1;
   min-width: 180px;
   padding: 8px 14px;
-  background: var(--input-bg);
-  border: 1px solid var(--input-border);
+  background: rgba(6, 12, 28, 0.80);
+  border: 1px solid rgba(60, 80, 130, 0.60);
   border-radius: var(--radius-sm);
   color: var(--text);
   font-family: var(--font);
@@ -258,9 +278,7 @@ body {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.filter-search::placeholder {
-  color: var(--text-dim);
-}
+.filter-search::placeholder { color: var(--text-dim); }
 
 .filter-search:focus {
   border-color: var(--accent);
@@ -293,33 +311,47 @@ body {
    ============================ */
 .job-card {
   background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius);
-  padding: 18px 18px 16px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  padding: 18px 20px 16px;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
   position: relative;
+  overflow: hidden;
   cursor: pointer;
   display: flex;
   flex-direction: column;
 }
 
+/* Subtle top glow line */
+.job-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 209, 209, 0.25), transparent);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.job-card:hover::before { opacity: 1; }
+
 .job-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(0, 209, 209, 0.35);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  border-color: rgba(0, 209, 209, 0.3);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
 }
 
 .job-card.ineligible {
-  opacity: 0.5;
+  opacity: 0.55;
+  filter: grayscale(15%);
 }
 
 .job-card.ineligible:hover {
-  transform: none;
-  border-color: var(--glass-border);
-  box-shadow: none;
-  cursor: default;
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 /* Card Header Row */
@@ -713,6 +745,7 @@ body {
 
   .filter-bar {
     gap: 8px;
+    padding: 10px 14px;
   }
 
   .filter-select {

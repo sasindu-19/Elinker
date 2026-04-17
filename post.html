@@ -15,6 +15,11 @@
 
 <body>
 
+  <!-- Background: riw.mp4 video / jobjobe.webp fallback image -->
+  <video autoplay loop muted playsinline class="background-clip" poster="assets/images/jobjobe.webp">
+    <!-- <source src="assets/videos/riw.mp4" type="video/mp4"> -->
+  </video>
+
   <div id="page-content" style="display: none;">
 
     <a href="index.html" class="back-btn"><i class='bx bx-arrow-back'></i> Back</a>
@@ -172,11 +177,11 @@
       </div>
     </form>
 
-  <!-- Scripts: supabase first, then init, then locations, then page logic -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="assets/js/supabase-init.js"></script>
-  <script src="assets/js/srilanka-locations.js"></script>
-  <script src="assets/js/post.js"></script>
+    <!-- Scripts: supabase first, then init, then locations, then page logic -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-init.js"></script>
+    <script src="assets/js/srilanka-locations.js"></script>
+    <script src="assets/js/post.js"></script>
 </body>
 
 </html>
