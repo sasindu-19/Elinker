@@ -326,3 +326,46 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+// ============================================
+// Google OAuth Sign-In Handler
+// ============================================
+async function signInWithGoogle() {
+    const { data, error } = await supabaseClient.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+            redirectTo: window.location.origin + '/signup.html'
+        }
+    });
+
+    if (error) {
+        showToast('Google sign-in failed: ' + error.message, 'error');
+    }
+    // Supabase redirects automatically — no need to handle data here
+}
+
+// Attach to Login page Google button
+const googleLoginBtn = document.getElementById('google-login-btn');
+if (googleLoginBtn) {
+    googleLoginBtn.addEventListener('click', () => {
+        googleLoginBtn.disabled = true;
+        googleLoginBtn.innerHTML = `
+            <i class="bx bx-loader-alt bx-spin" style="font-size:18px;"></i>
+            Connecting to Google...
+        `;
+        signInWithGoogle();
+    });
+}
+
+// Attach to Sign Up page Google button
+const googleSignupBtn = document.getElementById('google-signup-btn');
+if (googleSignupBtn) {
+    googleSignupBtn.addEventListener('click', () => {
+        googleSignupBtn.disabled = true;
+        googleSignupBtn.innerHTML = `
+            <i class="bx bx-loader-alt bx-spin" style="font-size:18px;"></i>
+            Connecting to Google...
+        `;
+        signInWithGoogle();
+    });
+}
