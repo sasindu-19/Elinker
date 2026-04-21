@@ -9,40 +9,101 @@
 </head>
 
 <body>
-    <video autoplay loop muted playsinline class="background-clip">
-        <!-- <source src="assets/videos/riw.mp4" type="video/mp4"> -->
-    </video>
 
     <a href="index.html" class="back-btn">⬅ Back</a>
 
-    <div class="container">
+    <section>
+        <div id="overlay">
+            <div class="container" id="popupBox">
 
-        <h2>Leave a Review</h2>
+                <h2>Leave a Review</h2>
 
-        <form action="#">
-            <div class="star-rating">
-                <input type="radio" id="star5" value="5">
-                <label for="star5">&#9733</label>
+                <form action="#">
+                    <div class="star-rating">
+                        <input type="radio" id="star5" value="5">
+                        <label for="star5">&#9733</label>
 
-                <input type="radio" id="star4" value="4">
-                <label for="star4">&#9733</label>
+                        <input type="radio" id="star4" value="4">
+                        <label for="star4">&#9733</label>
 
-                <input type="radio" id="star3" value="3">
-                <label for="star3">&#9733</label>
+                        <input type="radio" id="star3" value="3">
+                        <label for="star3">&#9733</label>
 
-                <input type="radio" id="star2" value="2">
-                <label for="star2">&#9733</label>
+                        <input type="radio" id="star2" value="2">
+                        <label for="star2">&#9733</label>
 
-                <input type="radio" id="star1" value="1">
-                <label for="star1">&#9733</label>
+                        <input type="radio" id="star1" value="1">
+                        <label for="star1">&#9733</label>
+                    </div>
+
+                    <textarea name="#" id="#" placeholder="write your feedback ... " required></textarea>
+
+                    <button type="submit">Submit Review</button>
+                </form>
+            </div>
+    </section>
+
+    <section class="rate-views">
+        <div class="cardll">
+            <div class="top">
+                <div class="logo-box">
+                </div>
+                <div class="rating-info">
+                    <h2>1.0 <span class="stars">★☆☆☆☆</span></h2>
+                    <p>218 reviews & ratings</p>
+                </div>
+            </div>
+            <div class="bars">
+                <div class="bar-row"><span>5 ★</span>
+                    <div class="bar">
+                        <div style="width:0%"></div>
+                    </div><span>0%</span>
+                </div>
+                <div class="bar-row"><span>4 ★</span>
+                    <div class="bar">
+                        <div style="width:0%"></div>
+                    </div><span>0%</span>
+                </div>
+                <div class="bar-row"><span>3 ★</span>
+                    <div class="bar">
+                        <div style="width:0%"></div>
+                    </div><span>0%</span>
+                </div>
+                <div class="bar-row"><span>2 ★</span>
+                    <div class="bar">
+                        <div style="width:0%"></div>
+                    </div><span>0%</span>
+                </div>
+                <div class="bar-row"><span>1 ★</span>
+                    <div class="bar">
+                        <div style="width:100%" class="active"></div>
+                    </div><span>100%</span>
+                </div>
             </div>
 
-            <textarea name="#" id="#" placeholder="write your feedback ... " required></textarea>
+            <button class="review-btn" id="openPopup">Write a review</button>
 
-            <button type="submit">Submit Review</button>
+            <div class="verify">
+                <h3 onclick="toggleVerify()">How we verify our reviews ▼</h3>
+
+                <div class="verify-content" id="verifyContent">
+                    <h2>0</h2>
+                    <p>reviews on ConsumerAffairs are verified</p><br>
+
+                    <ul>
+                        <li>✔ We require contact information to ensure reviewers are real.</li><br>
+                        <li>✔ Our moderators read all reviews to verify quality.</li><br>
+                        <li>✔ We use intelligent software to maintain integrity.</li><br>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="/assets/js/review.js"></script>
 
 
-        </form>
+
 
 </body>
 
