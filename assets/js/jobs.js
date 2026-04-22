@@ -500,7 +500,7 @@ async function fetchPosterContact(userId, job) {
 
     const jobTitle    = sanitizeInput(job.title || 'your job posting');
     const waMessage   = encodeURIComponent(
-      `Hi! I saw your job posting "${jobTitle}" on FIX-IT and I'm interested in applying. Could you please share more details?`
+      `Hi! I saw your job posting "${jobTitle}" on Elinker and I'm interested in applying. Could you please share more details?`
     );
     const waUrl  = `https://wa.me/${waNumber}?text=${waMessage}`;
     const telUrl = `tel:+${waNumber}`;
