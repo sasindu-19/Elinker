@@ -347,9 +347,11 @@ a:hover {
    HEADER / HERO
    ============================================================ */
 .header {
-  background-image:
+  /* background-image:
     linear-gradient(135deg, rgba(7, 7, 26, 0.88) 0%, rgba(71, 66, 102, 0.82) 100%),
-    url(/assets/images/worksec.webp);
+    url(/assets/images/worksec.webp); */
+  background-image: linear-gradient(rgba(8, 8, 8, 0.76), rgba(4, 9, 30, 0.7)), url(/assets/images/worksec.webp);
+
   background-position: center;
   background-size: cover;
   position: relative;
