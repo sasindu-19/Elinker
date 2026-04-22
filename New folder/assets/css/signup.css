@@ -1,0 +1,260 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+body {
+  background: #0d1428;
+  background-image: linear-gradient(135deg, rgba(20, 30, 60, 0.8), rgba(15, 25, 45, 0.8)), url(../images/bga.webp);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 800px;
+  margin: 50px auto;
+  text-align: center;
+}
+
+.subtitle {
+  color: #aebfd6;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}
+
+.card {
+  background: rgba(30, 40, 70, 0.5);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 40px;
+  border-radius: 20px;
+  border: 1px solid rgba(150, 150, 245, 0.25);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Toggle */
+.toggle {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.option {
+  flex: 1;
+  padding: 15px;
+  border-radius: 12px;
+  background: rgba(22, 34, 58, 0.6);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.option:hover {
+  background: rgba(30, 50, 80, 0.8);
+}
+
+.option.active {
+  border: 2px solid #4da3ff;
+  background: rgba(14, 42, 56, 0.8);
+  box-shadow: 0 0 15px rgba(77, 163, 255, 0.2);
+}
+
+/* Form */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.grid input,
+.grid select,
+input {
+  width: 100%;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(150, 150, 245, 0.2);
+  border-radius: 10px;
+  color: white;
+  transition: all 0.3s;
+}
+
+.grid input:focus,
+.grid select:focus,
+input:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: #4da3ff;
+  box-shadow: 0 0 10px rgba(77, 163, 255, 0.2);
+}
+
+.grid select option {
+  background: #16223a;
+  color: white;
+}
+
+/* Skills */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tags span {
+  padding: 8px 12px;
+  background: #000000;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* Business */
+.toggle-small {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.toggle-small button {
+  flex: 1;
+  padding: 12px;
+  background: rgba(22, 34, 58, 0.6);
+  border: 1px solid transparent;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.toggle-small .active {
+  border: 2px solid #4da3ff;
+  background: rgba(14, 42, 56, 0.8);
+}
+
+/* Button */
+.btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #1779ff, #6366f1);
+  border: none;
+  border-radius: 12px;
+  margin-top: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  color: white;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 10px 25px rgba(23, 121, 255, 0.3);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(23, 121, 255, 0.45);
+}
+
+.hidden {
+  display: none;
+}
+
+.label {
+  margin: 15px 0;
+  text-align: left;
+  color: #8aa0c3;
+}
+
+.hidden {
+  display: none;
+}
+
+.toggle-small button.active {
+  border: 2px solid #4da3ff;
+  background: rgba(14, 42, 56, 0.8);
+}
+
+img{
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-bottom: 15px;
+}
+
+a{
+  color: aliceblue;
+}
+
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    transition: 0.3s;
+    z-index: 10;
+}
+
+.back-btn:hover {
+    color: #4da3ff;
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .card {
+    padding: 20px;
+  }
+  
+  .toggle {
+    flex-direction: column;
+  }
+  
+  .container {
+    margin: 50px auto 20px;
+    padding: 0 10px;
+  }
+}
+
+
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.skill-chip {
+  background: rgba(22, 34, 58, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.skill-chip:hover {
+  background: rgba(30, 48, 80, 0.8);
+  color: #f1f5f9;
+}
+
+.skill-chip.active {
+  background: rgba(14, 42, 56, 0.9);
+  border: 1px solid rgba(77, 163, 255, 0.5);
+  color: #4da3ff;
+  box-shadow: 0 0 10px rgba(77, 163, 255, 0.2);
+}

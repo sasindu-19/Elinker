@@ -1,0 +1,335 @@
+body {
+    margin: 0;
+    height: 100vh;
+    background-image: url(/assets/images/rewi.webp);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    backdrop-filter: brightness(40%);
+}
+
+.bg-section {
+
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url("/assets/images/rewi.webp");
+
+}
+
+.back-btn {
+    position: fixed;
+    top: 85px;
+    left: 20px;
+    text-decoration: none;
+    color: #fff;
+    transition: 0.3s;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 15px;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.back-btn:hover {
+    color: #4da3ff;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background-color: #0a0a0ade;
+}
+
+.container {
+    background: rgba(20, 15, 45, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 40px;
+    width: 90%;
+    max-width: 450px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    text-align: center;
+    color: white;
+    border: 1px solid rgba(150, 150, 245, 0.2);
+    box-shadow: 0 15px 40px rgba(23, 121, 255, 0.15);
+
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 32px;
+    text-align: left;
+}
+
+.star-rating {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.star-rating input:checked~label,
+.star-rating label:hover,
+.star-rating label:hover~label {
+    color: gold;
+}
+
+textarea {
+    width: 100%;
+    height: 120px;
+    font-family: inherit;
+    margin-top: 10px;
+    padding: 15px;
+    border: 1px solid rgba(150, 150, 245, 0.3);
+    border-radius: 8px;
+    resize: none;
+    box-sizing: border-box;
+    background: rgba(10, 10, 25, 0.6);
+    color: #fff;
+    transition: 0.3s;
+}
+
+textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #1779ff;
+    box-shadow: 0 0 10px rgba(23, 121, 255, 0.3);
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    font-size: 18px;
+    background: linear-gradient(135deg, #1779ff, #6366f1);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+    font-weight: bold;
+    box-shadow: 0 10px 25px rgba(23, 121, 255, 0.4);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(23, 121, 255, 0.6);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 30px 20px;
+    }
+
+    h2 {
+        font-size: 26px;
+    }
+
+    body {
+        margin: 0;
+        height: 100vh;
+        background-image: url(/assets/images/rewi.webp);
+        background-size: 150%;
+        background-position: center;
+        background-repeat: no-repeat;
+        backdrop-filter: brightness(40%);
+    }
+
+    .rate-views {
+        max-width: 65%;
+    }
+}
+
+
+
+
+/*rating section*/
+.rate-views {
+    min-height: 50vh;
+    display: flex;
+    justify-content: center;
+    /* horizontal center */
+    align-items: center;
+    /* vertical center */
+    padding: 20px;
+    gap: 40px;
+    padding: 40px;
+    flex: 1;
+}
+
+.cardll {
+    background: transparent;
+    border-radius: 10%;
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 5px 20px rgb(0, 0, 0);
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.top {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.rating-info h2 {
+    color: #ffffff;
+    margin: 0;
+    font-size: 40px;
+}
+
+.stars {
+    color: #5eff00;
+    font-size: 40px;
+}
+
+.bars {
+    margin: 20px 0;
+}
+
+.bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.bar {
+    flex: 1;
+    height: 10px;
+    background: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.bar div {
+    height: 100%;
+    background: #4502ff;
+}
+
+.bar-row span {
+    color: #d6e2f0;
+}
+
+.review-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: linear-gradient(135deg, #1779ff, #6366f1);
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.review-btn:hover {
+    background-color: #06b6d4;
+}
+
+.business {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.verify {
+    background: transparent;
+    border-radius: 15px;
+    padding: 15px;
+    color: #ddd;
+}
+
+.verify h3 {
+    cursor: pointer;
+    margin: 0;
+    color: #ddd;
+    text-align: center;
+}
+
+.verify-content {
+    display: none;
+    margin-top: 15px;
+    font-size: 12px;
+}
+
+.verify-content h2 {
+    margin: 10px 0;
+}
+
+.verify-content ul {
+    padding-left: 15px;
+}
+
+.verify-content li {
+    margin-bottom: 8px;
+}
+
+
+/* Hide by default */
+#overlay,
+#popupBox {
+    display: none;
+}
+
+/* Overlay */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Popup */
+#popupBox {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 8px;
+    width: 700px;
+
+}
+
+
+
+/* Scrollable paragraph */
+.content {
+    max-height: 200px;
+    /* control scroll height */
+    overflow-y: auto;
+    margin-bottom: 20px;
+    font-size: 10px;
+}
+
+/* Optional: smooth scrollbar */
+.content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.content::-webkit-scrollbar-thumb {
+    background: #6c11ff93;
+    border-radius: 5px;
+}

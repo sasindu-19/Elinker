@@ -1,0 +1,121 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elinker</title>
+  <link rel="stylesheet" href="assets/css/about.css">
+  <link rel="stylesheet" href="assets/css/shared-header.css">
+  <!-- Basic Icons -->
+  <link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css" rel="stylesheet">
+  <!-- Filled Icons -->
+  <link href="https://cdn.boxicons.com/3.0.8/fonts/filled/boxicons-filled.min.css" rel="stylesheet">
+  <!-- Brand Icons -->
+  <link href="https://cdn.boxicons.com/3.0.8/fonts/brands/boxicons-brands.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+
+<body>
+
+  <header>
+    <div class="navbar">
+      <div class="logo"><a href="index.html"><span>E</span>linker</a></div>
+      <ul class="links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="jobs.html">Find Work</a></li>
+        <li><a href="post.html">Post a Job</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+      </ul>
+
+      <div class="toggle_btn">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+
+      <div class="dropdown_menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="jobs.html">Find Work</a></li>
+        <li><a href="post.html">Post a Job</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+      </div>
+
+  </header>
+
+  <section class="about-wrapper">
+    <div class="content">
+      <h1>About <span class="text600">Us</span></h1>
+      <p class="about-desc">
+        We started Elinker to bridge the gap between local talent and immediate needs. Our mission is to provide
+        a transparent, safe, and fast environment for the gig economy.
+      </p>
+
+      <h1 class="why-choose-heading">Why Choose <span class="text600">Elinker?</span></h1>
+      <p class="about-desc">
+        We started Elinker to bridge the gap between local talent and immediate community needs. The old way of
+        finding help was slow, unsafe, and unreliable.
+      </p>
+      <div class="features-list">
+        <p><i class='bx bx-check-circle'></i> Background-checked professionals</p>
+        <p><i class='bx bx-check-circle'></i> Transparent, upfront pricing</p>
+        <p><i class='bx bx-check-circle'></i> 24/7 customer support</p>
+        <p><i class='bx bx-check-circle'></i> Money-back guarantee</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-container">
+
+      <img src="assets/images/logo.webp" alt="" class="logo">
+
+      <!-- Logo / Brand -->
+      <div class="footer-brand">
+        <h2>Elinker</h2>
+        <p>Connecting skills to opportunities. Get things done faster.</p>
+      </div>
+
+      <!-- Links -->
+      <div class="footer-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="jobs.html">Find Work</a></li>
+          <li><a href="post.html">Post a Job</a></li>
+          <li><a href="reviews.html">Reviews</a></li>
+        </ul>
+      </div>
+
+      <!-- Social -->
+      <div class="footer-social">
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom -->
+    <div class="footer-bottom">
+      <p>© 2026 Elinker. All rights reserved.</p>
+    </div>
+  </footer>
+
+
+  <script>
+    const toggleBtn = document.querySelector('.toggle_btn')
+    const toggleBtnIcon = document.querySelector('.toggle_btn i')
+    const dropDownMenu = document.querySelector('.dropdown_menu')
+
+    toggleBtn.onclick = function () {
+      dropDownMenu.classList.toggle('open')
+      const isOpen = dropDownMenu.classList.contains('open')
+      toggleBtnIcon.classList = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'
+    }
+  </script>
+
+</body>
+
+</html>
