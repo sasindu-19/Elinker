@@ -348,7 +348,7 @@ a:hover {
    ============================================================ */
 .header {
   background-image:
-    linear-gradient(135deg, rgba(7, 7, 26, 0.88) 0%, rgba(15, 10, 50, 0.82) 100%),
+    linear-gradient(135deg, rgba(7, 7, 26, 0.88) 0%, rgba(71, 66, 102, 0.82) 100%),
     url(/assets/images/worksec.webp);
   background-position: center;
   background-size: cover;
