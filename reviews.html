@@ -2,109 +2,371 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reveiw & Feedback</title>
-    <link rel="stylesheet" href="assets/css/reveiws.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elinker | Reviews</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/reviews.css">
+  <link rel="stylesheet" href="assets/css/toast.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
 <body>
 
-    <a href="index.html" class="back-btn">⬅ Back</a>
+  <header class="site-header">
+    <div class="navbar">
+      <div class="logo"><a href="index.html"><span>E</span>linker</a></div>
+      <ul class="links">
+        <li><a href="about.html">About</a></li>
+        <li id="find-work-link"><a href="jobs.html">Find Work</a></li>
+        <li id="post-job-link"><a href="post.html">Post a Job</a></li>
+        <li><a href="reviews.html" class="active">Reviews</a></li>
+      </ul>
 
-    <section>
-        <div id="overlay">
-            <div class="container" id="popupBox">
+      <!-- Login Button -->
+      <a href="login.html" id="login-btn-link" class="action_btn">Login</a>
 
-                <h2>Leave a Review</h2>
-
-                <form action="#">
-                    <div class="star-rating">
-                        <input type="radio" id="star5" value="5">
-                        <label for="star5">&#9733</label>
-
-                        <input type="radio" id="star4" value="4">
-                        <label for="star4">&#9733</label>
-
-                        <input type="radio" id="star3" value="3">
-                        <label for="star3">&#9733</label>
-
-                        <input type="radio" id="star2" value="2">
-                        <label for="star2">&#9733</label>
-
-                        <input type="radio" id="star1" value="1">
-                        <label for="star1">&#9733</label>
-                    </div>
-
-                    <textarea name="#" id="#" placeholder="write your feedback ... " required></textarea>
-
-                    <button type="submit">Submit Review</button>
-                </form>
+      <!-- Nav Right: Profile + Toggle grouped together -->
+      <div class="nav-right">
+        <!-- Profile Area -->
+        <div class="profile-area" id="profile-area" style="display: none;">
+          <div class="profile-btn" id="profile-toggle">
+            <div class="profile-avatar" id="profile-avatar">?</div>
+            <div>
+              <div class="profile-name" id="profile-display-name">Loading...</div>
+              <div class="profile-type" id="profile-display-type">—</div>
             </div>
-    </section>
-
-    <section class="rate-views">
-        <div class="cardll">
-            <div class="top">
-                <div class="logo-box">
-                </div>
-                <div class="rating-info">
-                    <h2>1.0 <span class="stars">★☆☆☆☆</span></h2>
-                    <p>218 reviews & ratings</p>
-                </div>
+            <i class='bx bx-chevron-down' style="color: rgba(255,255,255,0.5); font-size: 18px;"></i>
+          </div>
+          <div class="profile-dropdown" id="profile-dropdown">
+            <div class="dropdown-header">
+              <div class="dh-name" id="dd-name"></div>
+              <div class="dh-email" id="dd-email"></div>
+              <span class="dh-badge" id="dd-badge"></span>
             </div>
-            <div class="bars">
-                <div class="bar-row"><span>5 ★</span>
-                    <div class="bar">
-                        <div style="width:0%"></div>
-                    </div><span>0%</span>
-                </div>
-                <div class="bar-row"><span>4 ★</span>
-                    <div class="bar">
-                        <div style="width:0%"></div>
-                    </div><span>0%</span>
-                </div>
-                <div class="bar-row"><span>3 ★</span>
-                    <div class="bar">
-                        <div style="width:0%"></div>
-                    </div><span>0%</span>
-                </div>
-                <div class="bar-row"><span>2 ★</span>
-                    <div class="bar">
-                        <div style="width:0%"></div>
-                    </div><span>0%</span>
-                </div>
-                <div class="bar-row"><span>1 ★</span>
-                    <div class="bar">
-                        <div style="width:100%" class="active"></div>
-                    </div><span>100%</span>
-                </div>
-            </div>
-
-            <button class="review-btn" id="openPopup">Write a review</button>
-
-            <div class="verify">
-                <h3 onclick="toggleVerify()">How we verify our reviews ▼</h3>
-
-                <div class="verify-content" id="verifyContent">
-                    <h2>0</h2>
-                    <p>reviews on ConsumerAffairs are verified</p><br>
-
-                    <ul>
-                        <li>✔ We require contact information to ensure reviewers are real.</li><br>
-                        <li>✔ Our moderators read all reviews to verify quality.</li><br>
-                        <li>✔ We use intelligent software to maintain integrity.</li><br>
-                    </ul>
-                </div>
-            </div>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="profile.html">
+              <i class='bx bxs-user'></i> My Profile
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item logout" id="logout-btn">
+              <i class='bx bx-log-out'></i> Logout
+            </a>
+          </div>
         </div>
-    </section>
 
-    <script src="/assets/js/review.js"></script>
+        <div class="toggle_btn">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="dropdown_menu">
+      <li><a href="about.html">About</a></li>
+      <li id="find-work-link-mobile"><a href="jobs.html">Find Work</a></li>
+      <li id="post-job-link-mobile"><a href="post.html">Post a Job</a></li>
+      <li><a href="reviews.html" class="active">Reviews</a></li>
+      <li id="login-btn-link-mobile" style="padding: 15px 0; border-bottom: none;"><a href="login.html"
+          style="background-color: rgb(150, 150, 245); color: #fff; margin: 0 auto; width: 80%; padding: 0.8rem 0; border-radius: 20px; text-align: center; font-weight: bold; display: block;">Login</a>
+      </li>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="reviews-hero">
+    <div class="reviews-hero-content">
+      <h1>What our <span class="accent-text">Users Say</span></h1>
+      <p>Real feedback from homeowners, freelancers, and businesses who trust Elinker.</p>
+      <button class="write-review-btn" id="openPopupBtn"><i class="fa-solid fa-pen"></i> Write a Review</button>
+    </div>
+  </section>
+
+  <!-- Main Reviews Section -->
+  <section class="reviews-main">
+    <div class="reviews-container">
+      <!-- Stats card removed as requested -->
 
 
+      <div class="reviews-list" id="reviews-list">
+        <div class="loading-reviews"><i class='bx bx-loader-alt bx-spin'></i> Loading reviews...</div>
+      </div>
+    </div>
+  </section>
 
+  <!-- Review Modal -->
+  <div class="modal-overlay" id="reviewModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Leave a Review</h2>
+        <span class="close-modal" id="closeModalBtn">&times;</span>
+      </div>
+      <form id="reviewForm">
+        <div class="star-rating-input">
+          <input type="radio" id="star5" name="rating" value="5" required>
+          <label for="star5" title="5 stars"><i class="fa-solid fa-star"></i></label>
+          <input type="radio" id="star4" name="rating" value="4">
+          <label for="star4" title="4 stars"><i class="fa-solid fa-star"></i></label>
+          <input type="radio" id="star3" name="rating" value="3">
+          <label for="star3" title="3 stars"><i class="fa-solid fa-star"></i></label>
+          <input type="radio" id="star2" name="rating" value="2">
+          <label for="star2" title="2 stars"><i class="fa-solid fa-star"></i></label>
+          <input type="radio" id="star1" name="rating" value="1">
+          <label for="star1" title="1 star"><i class="fa-solid fa-star"></i></label>
+        </div>
+        <textarea id="reviewText" placeholder="Share details of your own experience at Elinker..." required></textarea>
+        <button type="submit" class="submit-review-btn">Submit Review</button>
+      </form>
+    </div>
+  </div>
 
+  <!-- ======== FOOTER ======== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand-col">
+        <div class="footer-logo"><span>E</span>linker</div>
+        <p class="footer-brand-desc">Connecting skills to opportunities across Sri Lanka. Get things done faster, smarter, and safer.</p>
+        <div class="footer-socials">
+          <a href="#" class="fsocial-icon"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="fsocial-icon"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" class="fsocial-icon"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="fsocial-icon"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-links-col">
+        <h5 class="footer-col-title">Quick Links</h5>
+        <ul class="footer-nav">
+          <li><a href="about.html"><i class="fa-solid fa-chevron-right"></i> About</a></li>
+          <li><a href="jobs.html"><i class="fa-solid fa-chevron-right"></i> Find Work</a></li>
+          <li id="post-job-link-footer"><a href="post.html"><i class="fa-solid fa-chevron-right"></i> Post a Job</a></li>
+          <li><a href="reviews.html"><i class="fa-solid fa-chevron-right"></i> Reviews</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h5 class="footer-col-title">Support</h5>
+        <ul class="footer-nav">
+          <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Help Center</a></li>
+          <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Privacy Policy</a></li>
+          <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Terms of Service</a></li>
+          <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact-col">
+        <h5 class="footer-col-title">Contact</h5>
+        <div class="footer-contact-item"><i class="fa-solid fa-envelope"></i> info@elinker.lk</div>
+        <div class="footer-contact-item"><i class="fa-solid fa-phone"></i> +94 77 123 4567</div>
+        <div class="footer-contact-item"><i class="fa-solid fa-location-dot"></i> Colombo, Sri Lanka</div>
+      </div>
+    </div>
+
+    <div class="footer-bottom-bar">
+      <p>© 2026 <strong>Elinker</strong>. All rights reserved. Built with ❤️ in Sri Lanka.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-init.js"></script>
+  <script>
+    const toggleBtn = document.querySelector('.toggle_btn')
+    const toggleBtnIcon = document.querySelector('.toggle_btn i')
+    const dropDownMenu = document.querySelector('.dropdown_menu')
+
+    toggleBtn.onclick = function () {
+      dropDownMenu.classList.toggle('open')
+      const isOpen = dropDownMenu.classList.contains('open')
+      toggleBtnIcon.classList = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'
+    }
+
+    let currentUser = null;
+    let currentUserProfile = null;
+
+    (async () => {
+      currentUser = await getCurrentUser();
+      const loginBtnLink = document.getElementById('login-btn-link');
+      const loginBtnLinkMobile = document.getElementById('login-btn-link-mobile');
+      const profileArea = document.getElementById('profile-area');
+
+      if (currentUser) {
+        loginBtnLink.style.display = 'none';
+        if (loginBtnLinkMobile) loginBtnLinkMobile.style.display = 'none';
+        profileArea.style.display = 'flex';
+
+        currentUserProfile = await getUserProfile(currentUser.id);
+        if (currentUserProfile && (!currentUserProfile.gender || !currentUserProfile.dob)) {
+          window.location.href = 'signup.html';
+          return;
+        }
+        const name = currentUserProfile?.full_name || currentUser.email.split('@')[0];
+        const type = currentUserProfile?.user_type || 'User';
+        const email = currentUser.email;
+        const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2);
+        const displayType = type.charAt(0).toUpperCase() + type.slice(1);
+
+        document.getElementById('profile-avatar').textContent = initials;
+        document.getElementById('profile-display-name').textContent = name;
+        document.getElementById('profile-display-type').textContent = displayType;
+        document.getElementById('dd-name').textContent = name;
+        document.getElementById('dd-email').textContent = email;
+
+        const badge = document.getElementById('dd-badge');
+        badge.textContent = displayType;
+        badge.className = 'dh-badge ' + type.toLowerCase();
+
+        if (type.toLowerCase() === 'worker') {
+          const postLink = document.getElementById('post-job-link');
+          const postLinkMobile = document.getElementById('post-job-link-mobile');
+          const postFooter = document.getElementById('post-job-link-footer');
+          if (postLink) postLink.style.display = 'none';
+          if (postLinkMobile) postLinkMobile.style.display = 'none';
+          if (postFooter) postFooter.style.display = 'none';
+        }
+
+        document.getElementById('profile-toggle').addEventListener('click', (e) => {
+          e.stopPropagation();
+          document.getElementById('profile-dropdown').classList.toggle('show');
+        });
+
+        document.addEventListener('click', () => {
+          document.getElementById('profile-dropdown').classList.remove('show');
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const btn = e.currentTarget;
+          const originalHtml = btn.innerHTML;
+          btn.innerHTML = "<i class='bx bx-loader-alt bx-spin'></i> Logging out...";
+          try {
+            await logoutUser();
+          } catch (err) {
+            console.error("Logout failed:", err);
+            btn.innerHTML = originalHtml;
+          }
+        });
+      } else {
+        loginBtnLink.style.display = '';
+        if (loginBtnLinkMobile) loginBtnLinkMobile.style.display = 'block';
+        profileArea.style.display = 'none';
+      }
+
+      await loadReviews();
+    })();
+
+    // Review Modal Logic
+    const modal = document.getElementById('reviewModal');
+    const openBtn = document.getElementById('openPopupBtn');
+    const closeBtn = document.getElementById('closeModalBtn');
+
+    openBtn.onclick = function() {
+      if (!currentUser) {
+        alert("Please login to leave a review.");
+        window.location.href = "login.html";
+        return;
+      }
+      modal.classList.add('show');
+    }
+
+    closeBtn.onclick = function() {
+      modal.classList.remove('show');
+    }
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.classList.remove('show');
+      }
+    }
+
+    // Submit Review Logic
+    document.getElementById('reviewForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!currentUser) return;
+
+      const rating = document.querySelector('input[name="rating"]:checked').value;
+      const text = document.getElementById('reviewText').value.trim();
+      const name = currentUserProfile?.full_name || currentUser.email.split('@')[0];
+      const btn = e.target.querySelector('button');
+      
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> Submitting...';
+      btn.disabled = true;
+
+      const { data, error } = await supabaseClient.from('reviews').insert([
+        {
+          user_id: currentUser.id,
+          reviewer_name: name,
+          rating: parseInt(rating),
+          review_text: text
+        }
+      ]);
+
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+
+      if (error) {
+        console.error(error);
+        alert("Failed to submit review. Please try again.");
+      } else {
+        modal.classList.remove('show');
+        document.getElementById('reviewForm').reset();
+        await loadReviews();
+      }
+    });
+
+    // Load and Display Reviews
+    async function loadReviews() {
+      const { data: reviews, error } = await supabaseClient.from('reviews').select('*').order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error("Error loading reviews:", error);
+        return;
+      }
+
+      const listEl = document.getElementById('reviews-list');
+      if (reviews.length === 0) {
+        listEl.innerHTML = '<div class="no-reviews">No reviews yet. Be the first to leave one!</div>';
+        return;
+      }
+
+      // Calculate stats
+      let totalRating = 0;
+      let ratingCounts = {5:0, 4:0, 3:0, 2:0, 1:0};
+      
+      let html = '';
+      reviews.forEach(r => {
+        totalRating += r.rating;
+        ratingCounts[r.rating]++;
+        
+        let starsHtml = '';
+        for(let i=1; i<=5; i++) {
+          starsHtml += i <= r.rating ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>';
+        }
+        
+        const date = new Date(r.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+        const initial = r.reviewer_name.charAt(0).toUpperCase();
+
+        html += `
+          <div class="review-card">
+            <div class="rc-header">
+              <div class="rc-avatar">${initial}</div>
+              <div class="rc-info">
+                <h4>${r.reviewer_name}</h4>
+                <div class="rc-date">${date}</div>
+              </div>
+              <div class="rc-stars">${starsHtml}</div>
+            </div>
+            <div class="rc-body">${r.review_text}</div>
+          </div>
+        `;
+      });
+
+      listEl.innerHTML = html;
+
+      listEl.innerHTML = html;
+    }
+  </script>
 </body>
-
 </html>

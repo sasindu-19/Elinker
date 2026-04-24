@@ -237,47 +237,11 @@
       <div class="section-badge">⭐ REVIEWS</div>
       <h2 class="section-title">What Our <span class="accent-text">Customers Say</span></h2>
 
-      <div class="testimonials-grid">
-        <div class="testimonial-card">
-          <div class="tcard-top">
-            <div class="tcard-avatar">T</div>
-            <div>
-              <h4 class="tcard-name">Tharusha</h4>
-              <div class="tcard-stars">★★★★★</div>
-            </div>
-            <div class="tcard-quote-icon"><i class="fa-solid fa-quote-right"></i></div>
-          </div>
-          <p class="tcard-text">"Found an amazing electrician within 2 hours of posting. The platform is incredibly easy
-            to use and the worker was professional and on time."</p>
-          <div class="tcard-tag">Homeowner</div>
-        </div>
-
-        <div class="testimonial-card tc-featured">
-          <div class="tcard-top">
-            <div class="tcard-avatar">S</div>
-            <div>
-              <h4 class="tcard-name">Sasindu</h4>
-              <div class="tcard-stars">★★★★☆</div>
-            </div>
-            <div class="tcard-quote-icon"><i class="fa-solid fa-quote-right"></i></div>
-          </div>
-          <p class="tcard-text">"As a freelancer, Elinker has changed my life. I get consistent work every week and the
-            payment system is completely secure and transparent."</p>
-          <div class="tcard-tag">Freelancer</div>
-        </div>
-
-        <div class="testimonial-card">
-          <div class="tcard-top">
-            <div class="tcard-avatar">A</div>
-            <div>
-              <h4 class="tcard-name">Ashen</h4>
-              <div class="tcard-stars">★★★★★</div>
-            </div>
-            <div class="tcard-quote-icon"><i class="fa-solid fa-quote-right"></i></div>
-          </div>
-          <p class="tcard-text">"Hired a plumber, a painter, and a web developer all through Elinker. Each one was
-            verified and delivered excellent quality work."</p>
-          <div class="tcard-tag">Business Owner</div>
+      <div class="testimonials-grid" id="testimonials-container">
+        <!-- Dynamic reviews will be injected here -->
+        <div class="loading-reviews" style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
+          <i class='bx bx-loader-alt bx-spin' style="font-size: 2rem; margin-bottom: 10px;"></i>
+          <p>Fetching latest reviews...</p>
         </div>
       </div>
     </div>
@@ -498,6 +462,60 @@
         };
         window.requestAnimationFrame(step);
       };
+
+      // Fetch and display dynamic reviews
+      const loadIndexReviews = async () => {
+        const container = document.getElementById('testimonials-container');
+        if (!container) return;
+
+        const { data: reviews, error } = await supabaseClient
+          .from('reviews')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(3);
+
+        if (error) {
+          console.error("Error loading reviews for index:", error);
+          return;
+        }
+
+        if (reviews.length === 0) {
+          container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No reviews yet. Be the first to leave one!</p>';
+          return;
+        }
+
+        let html = '';
+        reviews.forEach((r, index) => {
+          let starsHtml = '';
+          for (let i = 1; i <= 5; i++) {
+            starsHtml += i <= r.rating ? '★' : '☆';
+          }
+          const initial = r.reviewer_name.charAt(0).toUpperCase();
+          const isFeatured = index === 1 ? 'tc-featured' : '';
+
+          html += `
+            <div class="testimonial-card ${isFeatured}">
+              <div class="tcard-top">
+                <div class="tcard-avatar">${initial}</div>
+                <div>
+                  <h4 class="tcard-name">${r.reviewer_name}</h4>
+                  <div class="tcard-stars">${starsHtml}</div>
+                </div>
+                <div class="tcard-quote-icon"><i class="fa-solid fa-quote-right"></i></div>
+              </div>
+              <p class="tcard-text">"${r.review_text}"</p>
+              <div class="tcard-tag">Verified User</div>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+      };
+
+      // Load initially
+      loadIndexReviews();
+      
+      // Auto-update every 5 seconds for "live" feel
+      setInterval(loadIndexReviews, 5000);
 
       const statsSection = document.querySelector('.stats-section');
       if (statsSection) {
