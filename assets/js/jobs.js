@@ -39,6 +39,12 @@ let realtimeChannel = null;
   currentProfile = profile;
   document.getElementById('page-content').style.display = '';
 
+  // Hide Post a Job for workers
+  if (profile && profile.user_type && profile.user_type.toLowerCase() === 'worker') {
+    const postFooter = document.getElementById('post-job-link-footer');
+    if (postFooter) postFooter.style.display = 'none';
+  }
+
   // ── 3. Populate profile card ─────────────────────────────
   if (profile) {
     const nameParts = (profile.full_name || '').trim().split(/\s+/);

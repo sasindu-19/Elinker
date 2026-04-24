@@ -292,7 +292,7 @@
       <p class="cta-sub">Join thousands of Sri Lankans already using Elinker to find work and hire talent.</p>
       <div class="cta-btns">
         <a href="jobs.html" class="cta-btn-primary">Find Work <i class="fa-solid fa-arrow-right"></i></a>
-        <a href="post.html" class="cta-btn-secondary">Post a Job</a>
+        <a href="post.html" class="cta-btn-secondary" id="cta-post-job">Post a Job</a>
       </div>
     </div>
   </section>
@@ -317,7 +317,7 @@
         <ul class="footer-nav">
           <li><a href="about.html"><i class="fa-solid fa-chevron-right"></i> About</a></li>
           <li><a href="jobs.html"><i class="fa-solid fa-chevron-right"></i> Find Work</a></li>
-          <li><a href="post.html"><i class="fa-solid fa-chevron-right"></i> Post a Job</a></li>
+          <li id="post-job-link-footer"><a href="post.html"><i class="fa-solid fa-chevron-right"></i> Post a Job</a></li>
           <li><a href="reviews.html"><i class="fa-solid fa-chevron-right"></i> Reviews</a></li>
         </ul>
       </div>
@@ -396,8 +396,12 @@
           if (type.toLowerCase() === 'worker') {
             const postLink = document.getElementById('post-job-link');
             const postLinkMobile = document.getElementById('post-job-link-mobile');
+            const postFooter = document.getElementById('post-job-link-footer');
+            const ctaPostJob = document.getElementById('cta-post-job');
             if (postLink) postLink.style.display = 'none';
             if (postLinkMobile) postLinkMobile.style.display = 'none';
+            if (postFooter) postFooter.style.display = 'none';
+            if (ctaPostJob) ctaPostJob.style.display = 'none';
           }
 
           document.getElementById('profile-toggle').addEventListener('click', (e) => {
@@ -447,8 +451,16 @@
           supabaseClient.from('site_stats').select('view_count').eq('page_name', 'index').single()
         ]);
 
-        if (profilesRes.count !== null) memberCount = profilesRes.count;
-        if (jobsRes.count !== null) jobCount = jobsRes.count;
+        if (profilesRes.count !== null) {
+          memberCount = profilesRes.count;
+          const memberPlus = document.querySelector('#members + .stat-plus');
+          if (memberPlus) memberPlus.textContent = '';
+        }
+        if (jobsRes.count !== null) {
+          jobCount = jobsRes.count;
+          const jobPlus = document.querySelector('#comments + .stat-plus');
+          if (jobPlus) jobPlus.textContent = '';
+        }
 
         if (viewsRes.data) {
           const realViews = viewsRes.data.view_count;
@@ -461,7 +473,7 @@
           }
           // Update the K/plus sign visibility
           const viewPlus = document.querySelector('#views + .stat-plus');
-          if (viewPlus) viewPlus.textContent = hasK ? 'K' : '+';
+          if (viewPlus) viewPlus.textContent = hasK ? 'K' : '';
         }
       } catch (err) {
         console.error("Error fetching stats:", err);

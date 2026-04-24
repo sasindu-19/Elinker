@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Elinker</title>
   <link rel="stylesheet" href="assets/css/about.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <!-- Basic Icons -->
   <link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css" rel="stylesheet">
   <!-- Filled Icons -->
@@ -22,7 +23,7 @@
       <ul class="links">
         <li><a href="index.html">Home</a></li>
         <li><a href="jobs.html">Find Work</a></li>
-        <li><a href="post.html">Post a Job</a></li>
+        <li id="post-job-link"><a href="post.html">Post a Job</a></li>
         <li><a href="reviews.html">Reviews</a></li>
       </ul>
 
@@ -33,7 +34,7 @@
       <div class="dropdown_menu">
         <li><a href="index.html">Home</a></li>
         <li><a href="jobs.html">Find Work</a></li>
-        <li><a href="post.html">Post a Job</a></li>
+        <li id="post-job-link-mobile"><a href="post.html">Post a Job</a></li>
         <li><a href="reviews.html">Reviews</a></li>
       </div>
 
@@ -61,44 +62,51 @@
     </div>
   </section>
 
-  <footer class="footer">
-    <div class="footer-container">
-
-      <img src="assets/images/logo.webp" alt="" class="logo">
-
-      <!-- Logo / Brand -->
-      <div class="footer-brand">
-        <h2>Elinker</h2>
-        <p>Connecting skills to opportunities. Get things done faster.</p>
-      </div>
-
-      <!-- Links -->
-      <div class="footer-links">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="about.html">About</a></li>
-          <li><a href="jobs.html">Find Work</a></li>
-          <li><a href="post.html">Post a Job</a></li>
-          <li><a href="reviews.html">Reviews</a></li>
-        </ul>
-      </div>
-
-      <!-- Social -->
-      <div class="footer-social">
-        <h4>Follow Us</h4>
-        <div class="social-icons">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-whatsapp"></i></a>
-          <a href="#"><i class="fab fa-linkedin-in"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
+  <!-- ======== FOOTER ======== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand-col">
+        <div class="footer-logo"><span>E</span>linker</div>
+        <p class="footer-brand-desc">Connecting skills to opportunities across Sri Lanka. Get things done faster,
+          smarter, and safer.</p>
+        <div class="footer-socials">
+          <a href="#" class="fsocial-icon"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="fsocial-icon"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" class="fsocial-icon"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="fsocial-icon"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
 
+      <div class="footer-links-col">
+        <h5 class="footer-col-title">Quick Links</h5>
+        <ul class="footer-nav">
+          <li><a href="about.html"><i class="fa-solid fa-chevron-right"></i> About</a></li>
+          <li><a href="jobs.html"><i class="fa-solid fa-chevron-right"></i> Find Work</a></li>
+          <li id="post-job-link-footer"><a href="post.html"><i class="fa-solid fa-chevron-right"></i> Post a Job</a></li>
+          <li><a href="reviews.html"><i class="fa-solid fa-chevron-right"></i> Reviews</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h5 class="footer-col-title">Support</h5>
+        <ul class="footer-nav">
+          <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Help Center</a></li>
+          <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Privacy Policy</a></li>
+          <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Terms of Service</a></li>
+          <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Contact Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-contact-col">
+        <h5 class="footer-col-title">Contact</h5>
+        <div class="footer-contact-item"><i class="fa-solid fa-envelope"></i> info@elinker.lk</div>
+        <div class="footer-contact-item"><i class="fa-solid fa-phone"></i> +94 77 123 4567</div>
+        <div class="footer-contact-item"><i class="fa-solid fa-location-dot"></i> Colombo, Sri Lanka</div>
+      </div>
     </div>
 
-    <!-- Bottom -->
-    <div class="footer-bottom">
-      <p>© 2026 Elinker. All rights reserved.</p>
+    <div class="footer-bottom-bar">
+      <p>© 2026 <strong>Elinker</strong>. All rights reserved. Built with ❤️ in Sri Lanka.</p>
     </div>
   </footer>
 
@@ -115,6 +123,26 @@
     }
   </script>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-init.js"></script>
+  <script>
+    (async () => {
+      const user = await getCurrentUser();
+      if (user) {
+        const profile = await getUserProfile(user.id);
+        const type = profile?.user_type || 'User';
+        
+        if (type.toLowerCase() === 'worker') {
+          const postLink = document.getElementById('post-job-link');
+          const postLinkMobile = document.getElementById('post-job-link-mobile');
+          const postFooter = document.getElementById('post-job-link-footer');
+          if (postLink) postLink.style.display = 'none';
+          if (postLinkMobile) postLinkMobile.style.display = 'none';
+          if (postFooter) postFooter.style.display = 'none';
+        }
+      }
+    })();
+  </script>
 </body>
 
 </html>
