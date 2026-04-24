@@ -89,9 +89,8 @@
       <!-- Stats card removed as requested -->
 
 
-      <div class="reviews-list" id="reviews-list">
-        <div class="loading-reviews"><i class='bx bx-loader-alt bx-spin'></i> Loading reviews...</div>
-      </div>
+      <!-- Reviews list removed as requested -->
+
     </div>
   </section>
 
@@ -253,8 +252,42 @@
         profileArea.style.display = 'none';
       }
 
-      await loadReviews();
+      await loadReviewStats();
     })();
+
+    // Toast Functionality
+    function showToast(message, type = 'info') {
+      const toast = document.createElement('div');
+      toast.className = `toast-notification toast-${type}`;
+      
+      let icon = 'bx-info-circle';
+      if (type === 'success') icon = 'bx-check-circle';
+      if (type === 'error') icon = 'bx-x-circle';
+      if (type === 'warning') icon = 'bx-error';
+
+      toast.innerHTML = `
+        <i class='bx ${icon}'></i>
+        <span>${message}</span>
+        <i class='bx bx-x toast-close'></i>
+      `;
+
+      document.body.appendChild(toast);
+
+      // Trigger animation
+      setTimeout(() => toast.classList.add('toast-show'), 100);
+
+      // Auto remove
+      const timeout = setTimeout(() => {
+        toast.classList.remove('toast-show');
+        setTimeout(() => toast.remove(), 500);
+      }, 4000);
+
+      toast.querySelector('.toast-close').onclick = () => {
+        clearTimeout(timeout);
+        toast.classList.remove('toast-show');
+        setTimeout(() => toast.remove(), 500);
+      };
+    }
 
     // Review Modal Logic
     const modal = document.getElementById('reviewModal');
@@ -263,8 +296,10 @@
 
     openBtn.onclick = function() {
       if (!currentUser) {
-        alert("Please login to leave a review.");
-        window.location.href = "login.html";
+        showToast("Please login to leave a review.", "warning");
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 2000);
         return;
       }
       modal.classList.add('show');
@@ -308,64 +343,21 @@
 
       if (error) {
         console.error(error);
-        alert("Failed to submit review. Please try again.");
+        showToast("Failed to submit review. Please try again.", "error");
       } else {
         modal.classList.remove('show');
         document.getElementById('reviewForm').reset();
-        await loadReviews();
+        showToast("Thank you for your review!", "success");
+        // Optionally redirect to index to see it live
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 1500);
       }
     });
 
-    // Load and Display Reviews
-    async function loadReviews() {
-      const { data: reviews, error } = await supabaseClient.from('reviews').select('*').order('created_at', { ascending: false });
-      
-      if (error) {
-        console.error("Error loading reviews:", error);
-        return;
-      }
-
-      const listEl = document.getElementById('reviews-list');
-      if (reviews.length === 0) {
-        listEl.innerHTML = '<div class="no-reviews">No reviews yet. Be the first to leave one!</div>';
-        return;
-      }
-
-      // Calculate stats
-      let totalRating = 0;
-      let ratingCounts = {5:0, 4:0, 3:0, 2:0, 1:0};
-      
-      let html = '';
-      reviews.forEach(r => {
-        totalRating += r.rating;
-        ratingCounts[r.rating]++;
-        
-        let starsHtml = '';
-        for(let i=1; i<=5; i++) {
-          starsHtml += i <= r.rating ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>';
-        }
-        
-        const date = new Date(r.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-        const initial = r.reviewer_name.charAt(0).toUpperCase();
-
-        html += `
-          <div class="review-card">
-            <div class="rc-header">
-              <div class="rc-avatar">${initial}</div>
-              <div class="rc-info">
-                <h4>${r.reviewer_name}</h4>
-                <div class="rc-date">${date}</div>
-              </div>
-              <div class="rc-stars">${starsHtml}</div>
-            </div>
-            <div class="rc-body">${r.review_text}</div>
-          </div>
-        `;
-      });
-
-      listEl.innerHTML = html;
-
-      listEl.innerHTML = html;
+    // We still might want to load stats or check if reviews table is accessible
+    async function loadReviewStats() {
+      // Just a placeholder if we need it later
     }
   </script>
 </body>
