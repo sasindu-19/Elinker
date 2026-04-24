@@ -83,15 +83,6 @@
     </div>
   </section>
 
-  <!-- Main Reviews Section -->
-  <section class="reviews-main">
-    <div class="reviews-list-container" id="reviews-list">
-      <div class="loading-reviews" style="text-align: center; padding: 40px; color: var(--text-muted);">
-        <i class='bx bx-loader-alt bx-spin' style="font-size: 2rem; margin-bottom: 10px;"></i>
-        <p>Fetching reviews from Elinker community...</p>
-      </div>
-    </div>
-  </section>
 
   <!-- Review Modal -->
   <div class="modal-overlay" id="reviewModal">
@@ -251,8 +242,6 @@
         profileArea.style.display = 'none';
       }
 
-      await loadAllReviews();
-      setInterval(loadAllReviews, 30000);
     })();
 
     // Toast Functionality
@@ -348,71 +337,10 @@
         modal.classList.remove('show');
         document.getElementById('reviewForm').reset();
         showToast("Thank you for your review!", "success");
-        // Reload list
-        loadAllReviews();
       }
     });
 
-    async function loadAllReviews() {
-      const container = document.getElementById('reviews-list');
-      if (!container) return;
 
-      const { data: reviews, error } = await supabaseClient
-        .from('reviews')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error("Error loading reviews:", error);
-        return;
-      }
-
-      if (!reviews || reviews.length === 0) {
-        container.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 40px;">No reviews yet. Be the first to share your experience!</p>';
-        return;
-      }
-
-      let html = '';
-      reviews.forEach(r => {
-        let starsHtml = '';
-        for (let i = 1; i <= 5; i++) {
-          starsHtml += i <= r.rating ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>';
-        }
-        const initial = r.reviewer_name.charAt(0).toUpperCase();
-        const date = new Date(r.created_at).toLocaleDateString('en-US', { 
-          year: 'numeric', 
-          month: 'short', 
-          day: 'numeric' 
-        });
-
-        html += `
-          <div class="testimonial-card" style="margin-bottom: 1.5rem; opacity: 0; transform: translateY(10px); transition: opacity 0.5s ease, transform 0.5s ease;">
-            <div class="tcard-top">
-              <div class="tcard-avatar">${initial}</div>
-              <div>
-                <h4 class="tcard-name">${r.reviewer_name}</h4>
-                <div class="tcard-stars">${starsHtml}</div>
-              </div>
-              <div class="tcard-quote-icon" style="font-size: 0.8rem; color: var(--text-muted);">${date}</div>
-            </div>
-            <p class="tcard-text">"${r.review_text}"</p>
-            <div class="tcard-tag">Verified User</div>
-          </div>
-        `;
-      });
-      container.innerHTML = html;
-
-      // Trigger fade in
-      setTimeout(() => {
-        const cards = container.querySelectorAll('.testimonial-card');
-        cards.forEach((c, i) => {
-          setTimeout(() => {
-            c.style.opacity = '1';
-            c.style.transform = 'translateY(0)';
-          }, i * 50);
-        });
-      }, 50);
-    }
   </script>
 </body>
 </html>
