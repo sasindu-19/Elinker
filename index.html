@@ -463,6 +463,9 @@
         window.requestAnimationFrame(step);
       };
 
+      let allReviews = [];
+      let reviewIndex = 0;
+
       // Fetch and display dynamic reviews
       const loadIndexReviews = async () => {
         const container = document.getElementById('testimonials-container');
@@ -471,51 +474,92 @@
         const { data: reviews, error } = await supabaseClient
           .from('reviews')
           .select('*')
-          .order('created_at', { ascending: false })
-          .limit(3);
+          .order('created_at', { ascending: false });
 
         if (error) {
           console.error("Error loading reviews for index:", error);
           return;
         }
 
-        if (reviews.length === 0) {
+        if (!reviews || reviews.length === 0) {
           container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No reviews yet. Be the first to leave one!</p>';
           return;
         }
 
-        let html = '';
-        reviews.forEach((r, index) => {
-          let starsHtml = '';
-          for (let i = 1; i <= 5; i++) {
-            starsHtml += i <= r.rating ? '★' : '☆';
-          }
-          const initial = r.reviewer_name.charAt(0).toUpperCase();
-          const isFeatured = index === 1 ? 'tc-featured' : '';
+        allReviews = reviews;
+        // Only trigger update if we have data and it's the first load
+        if (container.querySelector('.loading-reviews')) {
+          updateReviewDisplay();
+        }
+      };
 
-          html += `
-            <div class="testimonial-card ${isFeatured}">
-              <div class="tcard-top">
-                <div class="tcard-avatar">${initial}</div>
-                <div>
-                  <h4 class="tcard-name">${r.reviewer_name}</h4>
-                  <div class="tcard-stars">${starsHtml}</div>
-                </div>
-                <div class="tcard-quote-icon"><i class="fa-solid fa-quote-right"></i></div>
-              </div>
-              <p class="tcard-text">"${r.review_text}"</p>
-              <div class="tcard-tag">Verified User</div>
-            </div>
-          `;
+      const updateReviewDisplay = () => {
+        const container = document.getElementById('testimonials-container');
+        if (!container || allReviews.length === 0) return;
+
+        const cards = container.querySelectorAll('.testimonial-card');
+        
+        // Phase 1: Fade Out
+        cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(10px)';
         });
-        container.innerHTML = html;
+
+        // Phase 2: Update content and Fade In
+        setTimeout(() => {
+          let html = '';
+          const displayCount = Math.min(3, allReviews.length);
+          
+          for (let i = 0; i < displayCount; i++) {
+            const r = allReviews[(reviewIndex + i) % allReviews.length];
+            let starsHtml = '';
+            for (let j = 1; j <= 5; j++) {
+              starsHtml += j <= r.rating ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>';
+            }
+            const initial = r.reviewer_name.charAt(0).toUpperCase();
+            const isFeatured = i === 1 ? 'tc-featured' : '';
+
+            html += `
+              <div class="testimonial-card ${isFeatured}" style="opacity: 0; transform: translateY(10px); transition: opacity 0.6s ease, transform 0.6s ease;">
+                <div class="tcard-top">
+                  <div class="tcard-avatar">${initial}</div>
+                  <div>
+                    <h4 class="tcard-name">${r.reviewer_name}</h4>
+                    <div class="tcard-stars">${starsHtml}</div>
+                  </div>
+                  <div class="tcard-quote-icon"><i class="fa-solid fa-quote-right"></i></div>
+                </div>
+                <p class="tcard-text">"${r.review_text}"</p>
+                <div class="tcard-tag">Verified User</div>
+              </div>
+            `;
+          }
+          container.innerHTML = html;
+
+          // Trigger browser reflow then fade in
+          setTimeout(() => {
+            const newCards = container.querySelectorAll('.testimonial-card');
+            newCards.forEach((card, idx) => {
+              setTimeout(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+              }, idx * 100); // Staggered entry
+            });
+          }, 50);
+
+          // Advance the index for the next cycle
+          reviewIndex = (reviewIndex + 1) % allReviews.length;
+        }, cards.length > 0 ? 600 : 0); // Skip wait if first time
       };
 
       // Load initially
       loadIndexReviews();
       
-      // Auto-update every 5 seconds for "live" feel
-      setInterval(loadIndexReviews, 5000);
+      // Auto-cycle reviews every 5 seconds
+      setInterval(updateReviewDisplay, 5000);
+
+      // Re-fetch from database every 30 seconds to catch new reviews
+      setInterval(loadIndexReviews, 30000);
 
       const statsSection = document.querySelector('.stats-section');
       if (statsSection) {
