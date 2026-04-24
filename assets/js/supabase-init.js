@@ -1,4 +1,17 @@
 // Supabase Init - Shared across all pages
+
+// Ensure session ends when browser closes, but persists across tabs
+if (!document.cookie.split('; ').find(row => row.startsWith('browser_session_active='))) {
+    // Browser was restarted (session cookie is gone), clear Supabase auth tokens
+    Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('sb-') && key.endsWith('-auth-token')) {
+            localStorage.removeItem(key);
+        }
+    });
+    // Set the session cookie for the current browser session
+    document.cookie = 'browser_session_active=true; path=/; SameSite=Lax';
+}
+
 const SUPABASE_URL = 'https://ijmbjtypajvecijbwvfx.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlqbWJqdHlwYWp2ZWNpamJ3dmZ4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1NDIwNjEsImV4cCI6MjA5MTExODA2MX0.1H2BtyB0RFcqzcUdXDMhqThO2WiyIO18kAuk6OQqBY4';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
