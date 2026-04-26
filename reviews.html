@@ -8,7 +8,8 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/reviews.css">
   <link rel="stylesheet" href="assets/css/toast.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
@@ -25,11 +26,11 @@
         <li><a href="reviews.html" class="active">Reviews</a></li>
       </ul>
 
-      <!-- Login Button -->
-      <a href="login.html" id="login-btn-link" class="action_btn">Login</a>
-
-      <!-- Nav Right: Profile + Toggle grouped together -->
+      <!-- Nav Right: Profile + Login + Toggle grouped together -->
       <div class="nav-right">
+        <!-- Login Button -->
+        <a href="login.html" id="login-btn-link" class="action_btn">Login</a>
+
         <!-- Profile Area -->
         <div class="profile-area" id="profile-area" style="display: none;">
           <div class="profile-btn" id="profile-toggle">
@@ -115,7 +116,8 @@
     <div class="footer-inner">
       <div class="footer-brand-col">
         <div class="footer-logo"><span>E</span>linker</div>
-        <p class="footer-brand-desc">Connecting skills to opportunities across Sri Lanka. Get things done faster, smarter, and safer.</p>
+        <p class="footer-brand-desc">Connecting skills to opportunities across Sri Lanka. Get things done faster,
+          smarter, and safer.</p>
         <div class="footer-socials">
           <a href="#" class="fsocial-icon"><i class="fab fa-facebook-f"></i></a>
           <a href="#" class="fsocial-icon"><i class="fab fa-whatsapp"></i></a>
@@ -129,7 +131,8 @@
         <ul class="footer-nav">
           <li><a href="about.html"><i class="fa-solid fa-chevron-right"></i> About</a></li>
           <li><a href="jobs.html"><i class="fa-solid fa-chevron-right"></i> Find Work</a></li>
-          <li id="post-job-link-footer"><a href="post.html"><i class="fa-solid fa-chevron-right"></i> Post a Job</a></li>
+          <li id="post-job-link-footer"><a href="post.html"><i class="fa-solid fa-chevron-right"></i> Post a Job</a>
+          </li>
           <li><a href="reviews.html"><i class="fa-solid fa-chevron-right"></i> Reviews</a></li>
         </ul>
       </div>
@@ -248,7 +251,7 @@
     function showToast(message, type = 'info') {
       const toast = document.createElement('div');
       toast.className = `toast-notification toast-${type}`;
-      
+
       let icon = 'bx-info-circle';
       if (type === 'success') icon = 'bx-check-circle';
       if (type === 'error') icon = 'bx-x-circle';
@@ -283,7 +286,7 @@
     const openBtn = document.getElementById('openPopupBtn');
     const closeBtn = document.getElementById('closeModalBtn');
 
-    openBtn.onclick = function() {
+    openBtn.onclick = function () {
       if (!currentUser) {
         showToast("Please login to leave a review.", "warning");
         setTimeout(() => {
@@ -294,11 +297,11 @@
       modal.classList.add('show');
     }
 
-    closeBtn.onclick = function() {
+    closeBtn.onclick = function () {
       modal.classList.remove('show');
     }
 
-    window.onclick = function(event) {
+    window.onclick = function (event) {
       if (event.target == modal) {
         modal.classList.remove('show');
       }
@@ -313,7 +316,7 @@
       const text = document.getElementById('reviewText').value.trim();
       const name = currentUserProfile?.full_name || currentUser.email.split('@')[0];
       const btn = e.target.querySelector('button');
-      
+
       const originalText = btn.innerHTML;
       btn.innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> Submitting...';
       btn.disabled = true;
@@ -343,4 +346,5 @@
 
   </script>
 </body>
+
 </html>
