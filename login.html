@@ -34,7 +34,7 @@
                 <div class="input-box animation" style="--i:2; --j:23;">
                     <input type="password" id="login-password" required>
                     <label>Password</label>
-                    <i class="bx bxs-lock-alt"></i>
+                    <i class="bx bx-hide password-toggle" style="cursor: pointer;"></i>
                 </div>
                 <div class="remember-forgot animation" style="--i:2.5; --j:23.5; text-align: right; margin-bottom: 15px; margin-top: -10px;">
                     <a href="#" id="forgot-password-link" style="color: #fff; font-size: 14px; text-decoration: none; transition: .3s;" onmouseover="this.style.color='#0ef'" onmouseout="this.style.color='#fff'">Forgot Password?</a>
@@ -76,12 +76,12 @@
                 <div class="input-box animation" style="--i:20; --j:3;">
                     <input type="password" id="reg-password" required minlength="6">
                     <label>Password</label>
-                    <i class="bx bxs-lock-alt"></i>
+                    <i class="bx bx-hide password-toggle" style="cursor: pointer;"></i>
                 </div>
                 <div class="input-box animation" style="--i:20.5; --j:3.5; margin-bottom: 35px;">
                     <input type="password" id="reg-confirm-password" required minlength="6">
                     <label>Confirm Password</label>
-                    <i class="bx bxs-lock-alt"></i>
+                    <i class="bx bx-hide password-toggle" style="cursor: pointer;"></i>
                     <div id="password-match-error" style="color: #ff4d4d; font-size: 12px; position: absolute; bottom: -20px; left: 0; display: none;">❌ Passwords do not match</div>
                 </div>
                 <button type="submit" class="btn animation" style="--i:21; --j:4;" class="signup-btn">Sign Up</button>
@@ -119,7 +119,7 @@
             <p>Enter your new password below.</p>
             <div class="input-box" style="margin: 20px 0; border-bottom: 2px solid #fff; position: relative;">
                 <input type="password" id="new-password" required style="width: 100%; height: 100%; background: transparent; border: none; outline: none; font-size: 16px; color: #fff; padding: 0 35px 0 5px;" placeholder="New Password" minlength="6">
-                <i class="bx bxs-lock-alt" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 20px;"></i>
+                <i class="bx bx-hide password-toggle" style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 20px; cursor: pointer;"></i>
             </div>
             <button class="confirm-btn" id="submit-new-password-btn" style="width: 100%;">
                 Update Password
