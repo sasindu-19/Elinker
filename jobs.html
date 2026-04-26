@@ -73,151 +73,153 @@
       <li><a href="reviews.html">Reviews</a></li>
     </div>
     <div class="content">
-      <h1>Find You  <span class="text600">Smart</span> Work</h1>
-      <h3>Find work the smart way with opportunities that match your skills and lifestyle. Skip the stress of traditional job searching and connect quickly with roles that fit you best. Work smarter, earn better, and build your future with ease.</p>
+      <h1>Find You <span class="text600">Smart</span> Work</h1>
+      <h3>Find work the smart way with opportunities that match your skills and lifestyle. Skip the stress of
+        traditional job searching and connect quickly with roles that fit you best. Work smarter, earn better, and build
+        your future with ease.</p>
       </h3>
-</div>
+    </div>
   </section>
 
-<section class="maine">
-  <div id="page-content" style="display:none;">
-    <!-- ── Main content ──────────────────────────────────────── -->
-    <div class="jobs-container">
+  <section class="maine">
+    <div id="page-content" style="display:none;">
+      <!-- ── Main content ──────────────────────────────────────── -->
+      <div class="jobs-container">
 
-      <!-- User profile card -->
-      <div class="profile-card">
-        <div class="profile-card-left">
-          <div class="profile-avatar-lg" id="profile-initials">--</div>
-          <div class="profile-card-info">
-            <h3 id="profile-name">Loading…</h3>
-            <p id="profile-meta">—</p>
-          </div>
-        </div>
-        <div class="profile-card-badges">
-          <span class="badge badge-gender" id="badge-gender">—</span>
-          <span class="badge badge-age" id="badge-age">—</span>
-        </div>
-      </div>
-
-      <!-- Filter bar -->
-      <div class="filter-bar">
-        <span class="filter-label">Filter:</span>
-
-        <select class="filter-select" id="filter-district" aria-label="Filter by district">
-          <option value="">All Districts</option>
-        </select>
-
-        <select class="filter-select" id="filter-difficulty" aria-label="Filter by difficulty">
-          <option value="">All Difficulty</option>
-          <option value="easy">Easy</option>
-          <option value="medium">Medium</option>
-          <option value="hard">Hard</option>
-        </select>
-
-        <select class="filter-select" id="filter-gender" aria-label="Filter by gender">
-          <option value="">All Gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-        </select>
-
-        <input type="search" class="filter-search" id="filter-search" placeholder="Search jobs…"
-          aria-label="Search jobs">
-
-        <span class="filter-count" id="jobs-count">
-          <span>0</span> jobs found
-        </span>
-      </div>
-
-      <!-- Jobs grid -->
-      <div class="jobs-grid" id="jobs-grid">
-        <!-- Skeleton placeholders while loading -->
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card"></div>
-      </div>
-
-    </div><!-- /.jobs-container -->
-
-    <!-- ── Job Detail Modal ──────────────────────────────────── -->
-    <div class="job-modal-overlay" id="job-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="jm-title">
-      <div class="job-modal" id="job-modal">
-
-        <!-- Header -->
-        <div class="jm-header">
-          <div class="jm-header-left">
-            <div class="jm-title" id="jm-title">Job Title</div>
-            <div class="jm-meta">
-              <span id="jm-poster-badge" class="poster-badge individual">Individual</span>
-              <span id="jm-location-meta" class="job-location" style="margin:0;font-size:0.72rem;">
-                <i class='bx bxs-map-pin'></i> <span id="jm-location-text">—</span>
-              </span>
+        <!-- User profile card -->
+        <div class="profile-card">
+          <div class="profile-card-left">
+            <div class="profile-avatar-lg" id="profile-initials">--</div>
+            <div class="profile-card-info">
+              <h3 id="profile-name">Loading…</h3>
+              <p id="profile-meta">—</p>
             </div>
           </div>
-          <button class="jm-close" id="jm-close-btn" aria-label="Close"><i class='bx bx-x'></i></button>
-        </div>
-
-        <!-- Body -->
-        <div class="jm-body">
-
-          <!-- Quick info grid -->
-          <div class="jm-info-grid">
-            <div class="jm-info-item">
-              <div class="jm-info-label">Daily Pay</div>
-              <div class="jm-info-value accent" id="jm-pay">Rs. —</div>
-            </div>
-            <div class="jm-info-item">
-              <div class="jm-info-label">Category</div>
-              <div class="jm-info-value" id="jm-category">—</div>
-            </div>
-            <div class="jm-info-item">
-              <div class="jm-info-label">Workers Needed</div>
-              <div class="jm-info-value green" id="jm-workers">—</div>
-            </div>
-            <div class="jm-info-item">
-              <div class="jm-info-label">Posted</div>
-              <div class="jm-info-value" id="jm-date">—</div>
-            </div>
-          </div>
-
-          <!-- Tags -->
-          <div class="jm-tags" id="jm-tags"></div>
-
-          <!-- Ineligible banner (shown only if not eligible) -->
-          <div class="jm-ineligible-banner" id="jm-ineligible-banner" style="display:none;"></div>
-
-          <!-- Description -->
-          <div class="jm-section-label">Job Description</div>
-          <div class="jm-description" id="jm-description">No description provided.</div>
-
-        </div><!-- /.jm-body -->
-
-        <!-- Footer: Contact actions -->
-        <div class="jm-footer">
-          <div class="jm-footer-label">Contact the Poster</div>
-          <div id="jm-contact-area">
-            <div class="jm-loading" id="jm-contact-loading">
-              <i class='bx bx-loader-alt bx-spin'></i> Loading contact info…
-            </div>
-            <div class="jm-actions" id="jm-action-btns" style="display:none;"></div>
-            <div class="jm-no-contact" id="jm-no-contact" style="display:none;">
-              Contact info not available for this job.
-            </div>
+          <div class="profile-card-badges">
+            <span class="badge badge-gender" id="badge-gender">—</span>
+            <span class="badge badge-age" id="badge-age">—</span>
           </div>
         </div>
 
-      </div><!-- /.job-modal -->
-    </div><!-- /.job-modal-overlay -->
+        <!-- Filter bar -->
+        <div class="filter-bar">
+          <span class="filter-label">Filter:</span>
 
-  </div><!-- /#page-content -->
+          <select class="filter-select" id="filter-district" aria-label="Filter by district">
+            <option value="">All Districts</option>
+          </select>
 
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="assets/js/supabase-init.js"></script>
-  <script src="assets/js/jobs.js"></script>
-</section>
+          <select class="filter-select" id="filter-difficulty" aria-label="Filter by difficulty">
+            <option value="">All Difficulty</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+
+          <select class="filter-select" id="filter-gender" aria-label="Filter by gender">
+            <option value="">All Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+
+          <input type="search" class="filter-search" id="filter-search" placeholder="Search jobs…"
+            aria-label="Search jobs">
+
+          <span class="filter-count" id="jobs-count">
+            <span>0</span> jobs found
+          </span>
+        </div>
+
+        <!-- Jobs grid -->
+        <div class="jobs-grid" id="jobs-grid">
+          <!-- Skeleton placeholders while loading -->
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+          <div class="skeleton-card"></div>
+        </div>
+
+      </div><!-- /.jobs-container -->
+
+      <!-- ── Job Detail Modal ──────────────────────────────────── -->
+      <div class="job-modal-overlay" id="job-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="jm-title">
+        <div class="job-modal" id="job-modal">
+
+          <!-- Header -->
+          <div class="jm-header">
+            <div class="jm-header-left">
+              <div class="jm-title" id="jm-title">Job Title</div>
+              <div class="jm-meta">
+                <span id="jm-poster-badge" class="poster-badge individual">Individual</span>
+                <span id="jm-location-meta" class="job-location" style="margin:0;font-size:0.72rem;">
+                  <i class='bx bxs-map-pin'></i> <span id="jm-location-text">—</span>
+                </span>
+              </div>
+            </div>
+            <button class="jm-close" id="jm-close-btn" aria-label="Close"><i class='bx bx-x'></i></button>
+          </div>
+
+          <!-- Body -->
+          <div class="jm-body">
+
+            <!-- Quick info grid -->
+            <div class="jm-info-grid">
+              <div class="jm-info-item">
+                <div class="jm-info-label">Daily Pay</div>
+                <div class="jm-info-value accent" id="jm-pay">Rs. —</div>
+              </div>
+              <div class="jm-info-item">
+                <div class="jm-info-label">Category</div>
+                <div class="jm-info-value" id="jm-category">—</div>
+              </div>
+              <div class="jm-info-item">
+                <div class="jm-info-label">Workers Needed</div>
+                <div class="jm-info-value green" id="jm-workers">—</div>
+              </div>
+              <div class="jm-info-item">
+                <div class="jm-info-label">Posted</div>
+                <div class="jm-info-value" id="jm-date">—</div>
+              </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="jm-tags" id="jm-tags"></div>
+
+            <!-- Ineligible banner (shown only if not eligible) -->
+            <div class="jm-ineligible-banner" id="jm-ineligible-banner" style="display:none;"></div>
+
+            <!-- Description -->
+            <div class="jm-section-label">Job Description</div>
+            <div class="jm-description" id="jm-description">No description provided.</div>
+
+          </div><!-- /.jm-body -->
+
+          <!-- Footer: Contact actions -->
+          <div class="jm-footer">
+            <div class="jm-footer-label">Contact the Poster</div>
+            <div id="jm-contact-area">
+              <div class="jm-loading" id="jm-contact-loading">
+                <i class='bx bx-loader-alt bx-spin'></i> Loading contact info…
+              </div>
+              <div class="jm-actions" id="jm-action-btns" style="display:none;"></div>
+              <div class="jm-no-contact" id="jm-no-contact" style="display:none;">
+                Contact info not available for this job.
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /.job-modal -->
+      </div><!-- /.job-modal-overlay -->
+
+    </div><!-- /#page-content -->
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-init.js"></script>
+    <script src="assets/js/jobs.js"></script>
+  </section>
 
   <!-- ======== FOOTER ======== -->
   <footer class="site-footer">
@@ -239,7 +241,8 @@
         <ul class="footer-nav">
           <li><a href="about.html"><i class="fa-solid fa-chevron-right"></i> About</a></li>
           <li><a href="jobs.html"><i class="fa-solid fa-chevron-right"></i> Find Work</a></li>
-          <li id="post-job-link-footer"><a href="post.html"><i class="fa-solid fa-chevron-right"></i> Post a Job</a></li>
+          <li id="post-job-link-footer"><a href="post.html"><i class="fa-solid fa-chevron-right"></i> Post a Job</a>
+          </li>
           <li><a href="reviews.html"><i class="fa-solid fa-chevron-right"></i> Reviews</a></li>
         </ul>
       </div>
