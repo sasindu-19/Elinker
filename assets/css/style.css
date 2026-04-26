@@ -1597,3 +1597,266 @@ blockquote {
     font-size: 0.95rem;
   }
 }
+
+
+
+
+
+/* ===== Chat toggle button ===== */
+.chat-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 9999px;
+  border: none;
+  background: linear-gradient(#227ff873 40%, #7c6bff 100%);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 25px rgba(9, 25, 238, 0.884);
+  transition: transform 0.15s ease;
+  z-index: 50;
+}
+
+.chat-toggle:hover {
+  transform: scale(1.05);
+}
+
+.chat-toggle:active {
+  transform: scale(0.95);
+}
+
+.chat-toggle .icon {
+  width: 24px;
+  height: 24px;
+}
+
+.chat-toggle .icon-close {
+  display: none;
+}
+
+.chat-toggle.open .icon-open {
+  display: none;
+}
+
+.chat-toggle.open .icon-close {
+  display: block;
+}
+
+/* Chat panel */
+.chat-panel {
+  position: fixed;
+  bottom: 96px;
+  right: 24px;
+  width: 352px;
+  max-width: calc(100vw - 48px);
+  height: 448px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 50;
+  animation: chat-in 0.2s ease-out;
+}
+
+.chat-panel[hidden] {
+  display: none;
+}
+
+@keyframes chat-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: linear-gradient(#2803cac9 40%, #7c6bff 100%);
+  color: #fff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.chat-header .avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-header .title {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.chat-header .status {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  background: #93c0ee77;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.message {
+  display: flex;
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.message.bot {
+  justify-content: flex-start;
+}
+
+.bubble {
+  max-width: 80%;
+  padding: 8px 12px;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.message.user .bubble {
+  background: #326fffa1;
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.message.bot .bubble {
+  background: #fff;
+  color: #070707;
+  border: 1px solid #e2e8f0;
+  border-bottom-left-radius: 4px;
+}
+
+.chat-input {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid #e2e8f0;
+  background: #93c0ee77;
+}
+
+.chat-input input {
+  flex: 1;
+  border: 1px solid #4b09ff42;
+  background: transparent;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  outline: none;
+}
+
+.chat-input input:focus {
+  border-color: #0f172a;
+  box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.15);
+}
+
+.chat-input button {
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  border: none;
+  background: #0f172a;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.15s ease;
+}
+
+.chat-input button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.chat-input button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+.online-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 1px 10px;
+  background: transparent;
+  color: #0cff40;
+  border: none;
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+/* Hover effect */
+.online-btn:hover {
+  background: #16a34a;
+  transform: translateY(-2px);
+}
+
+/* Status dot */
+.status-dot {
+  width: 10px;
+  height: 10px;
+  background: #0cff20;
+  border-radius: 50%;
+  position: relative;
+}
+
+/* Pulse animation */
+.status-dot::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  animation: pulse 1.5s infinite;
+}
+
+/* Animation keyframes */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+
+  70% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}

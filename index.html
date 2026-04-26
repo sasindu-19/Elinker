@@ -239,7 +239,8 @@
 
       <div class="testimonials-grid" id="testimonials-container">
         <!-- Dynamic reviews will be injected here -->
-        <div class="loading-reviews" style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
+        <div class="loading-reviews"
+          style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
           <i class='bx bx-loader-alt bx-spin' style="font-size: 2rem; margin-bottom: 10px;"></i>
           <p>Fetching latest reviews...</p>
         </div>
@@ -261,6 +262,53 @@
     </div>
   </section>
 
+
+  <!-- Floating side button -->
+  <button id="chat-toggle" class="chat-toggle" aria-label="Open chat">
+    <svg class="icon icon-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+    </svg>
+    <svg class="icon icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  </button>
+
+  <!-- Popup chat panel -->
+  <div id="chat-panel" class="chat-panel" hidden>
+    <div class="chat-header">
+      <div class="avatar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+      </div>
+      <div>
+        <p class="title">Chat Support</p>
+        <button class="online-btn">
+          <span class="status-dot"></span>
+          <span class="status">Online</span>
+        </button>
+        <!--<p class="status">Online now</p>-->
+      </div>
+    </div>
+
+    <div id="chat-messages" class="chat-messages"></div>
+
+    <div class="chat-input">
+      <input id="chat-input" type="text" placeholder="Type a message..." autocomplete="off" />
+      <button id="chat-send" aria-label="Send message">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13" />
+          <polygon points="22 2 15 22 11 13 2 9 22 2" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
   <!-- ======== FOOTER ======== -->
   <footer class="site-footer">
     <div class="footer-inner">
@@ -281,7 +329,8 @@
         <ul class="footer-nav">
           <li><a href="about.html"><i class="fa-solid fa-chevron-right"></i> About</a></li>
           <li><a href="jobs.html"><i class="fa-solid fa-chevron-right"></i> Find Work</a></li>
-          <li id="post-job-link-footer"><a href="post.html"><i class="fa-solid fa-chevron-right"></i> Post a Job</a></li>
+          <li id="post-job-link-footer"><a href="post.html"><i class="fa-solid fa-chevron-right"></i> Post a Job</a>
+          </li>
           <li><a href="reviews.html"><i class="fa-solid fa-chevron-right"></i> Reviews</a></li>
         </ul>
       </div>
@@ -498,18 +547,18 @@
         if (!container || allReviews.length === 0) return;
 
         const cards = container.querySelectorAll('.testimonial-card');
-        
+
         // Phase 1: Fade Out
         cards.forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(10px)';
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(10px)';
         });
 
         // Phase 2: Update content and Fade In
         setTimeout(() => {
           let html = '';
           const displayCount = Math.min(3, allReviews.length);
-          
+
           for (let i = 0; i < displayCount; i++) {
             const r = allReviews[(reviewIndex + i) % allReviews.length];
             let starsHtml = '';
@@ -554,7 +603,7 @@
 
       // Load initially
       loadIndexReviews();
-      
+
       // Auto-cycle reviews every 5 seconds
       setInterval(updateReviewDisplay, 5000);
 
@@ -582,7 +631,7 @@
       }
     })();
   </script>
-
+  <script src="assets/js/chatbot.js"></script>
 </body>
 
 </html>
