@@ -27,8 +27,38 @@
       <ul class="links">
         <li><a href="index.html">Home</a></li>
         <li><a href="about.html">About</a></li>
+        <li id="post-job-link"><a href="post.html">Post a Job</a></li>
         <li><a href="reviews.html">Reviews</a></li>
       </ul>
+
+      <!-- Nav Right: Profile + Toggle grouped together -->
+      <div class="nav-right">
+        <!-- Profile Area -->
+        <div class="profile-area" id="profile-area" style="display: none;">
+          <div class="profile-btn" id="profile-toggle">
+            <div class="profile-avatar" id="profile-avatar">?</div>
+            <div>
+              <div class="profile-name" id="profile-display-name">Loading...</div>
+              <div class="profile-type" id="profile-display-type">—</div>
+            </div>
+            <i class='bx bx-chevron-down' style="color: rgba(255,255,255,0.5); font-size: 18px;"></i>
+          </div>
+          <div class="profile-dropdown" id="profile-dropdown">
+            <div class="dropdown-header">
+              <div class="dh-name" id="dd-name"></div>
+              <div class="dh-email" id="dd-email"></div>
+              <span class="dh-badge" id="dd-badge"></span>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="profile.html">
+              <i class='bx bxs-user'></i> My Profile
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item logout" id="logout-btn">
+              <i class='bx bx-log-out'></i> Logout
+            </a>
+          </div>
+        </div>
 
         <div class="toggle_btn">
           <i class="fa-solid fa-bars"></i>
@@ -39,8 +69,8 @@
     <div class="dropdown_menu">
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
+      <li id="post-job-link-mobile"><a href="post.html">Post a Job</a></li>
       <li><a href="reviews.html">Reviews</a></li>
-      </li>
     </div>
     <div class="content">
       <h1>Find You  <span class="text600">Smart</span> Work</h1>

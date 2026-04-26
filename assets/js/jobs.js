@@ -43,6 +43,10 @@ let realtimeChannel = null;
   if (profile && profile.user_type && profile.user_type.toLowerCase() === 'worker') {
     const postFooter = document.getElementById('post-job-link-footer');
     if (postFooter) postFooter.style.display = 'none';
+    const postNav = document.getElementById('post-job-link');
+    if (postNav) postNav.style.display = 'none';
+    const postNavMobile = document.getElementById('post-job-link-mobile');
+    if (postNavMobile) postNavMobile.style.display = 'none';
   }
 
   // ── 3. Populate profile card ─────────────────────────────
