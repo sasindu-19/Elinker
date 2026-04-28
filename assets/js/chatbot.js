@@ -1,25 +1,3 @@
-/* === Show chat button only after scrolling down === */
-(function () {
-  const btn = document.getElementById('chat-toggle');
-  if (!btn) return;
-
-  const SCROLL_THRESHOLD = 300; // px from top
-
-  function handleScroll() {
-    if (window.scrollY >= SCROLL_THRESHOLD) {
-      btn.classList.add('scroll-visible');
-    } else {
-      // If chat panel is open, keep button visible so user can close it
-      if (!btn.classList.contains('open')) {
-        btn.classList.remove('scroll-visible');
-      }
-    }
-  }
-
-  window.addEventListener('scroll', handleScroll, { passive: true });
-  handleScroll(); // run once on load in case page is already scrolled
-})();
-
 (function () {
   const toggleBtn = document.getElementById("chat-toggle");
   const panel = document.getElementById("chat-panel");
