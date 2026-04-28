@@ -88,9 +88,9 @@ const RULES = {
     { test: v => +v >= 100, message: 'Minimum pay rate is Rs. 100.' },
     { test: v => +v <= 500000, message: 'Pay rate seems too high. Max Rs. 500,000.' },
   ],
-  bizReg: [
-    { test: v => v.length > 0, message: 'Business registration number is required.' },
-    { test: v => v.length >= 4, message: 'Please enter a valid registration number.' },
+  businessName: [
+    { test: v => v.length > 0, message: 'Business name is required.' },
+    { test: v => v.length >= 2, message: 'Please enter a valid business name.' },
   ],
 };
 
@@ -198,20 +198,20 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ── Posting As (Individual / Business) ───────────────────
-  const bizRegBox = document.getElementById('bizRegBox');
+  const bizNameBox = document.getElementById('bizNameBox');
   setupGroup('postingGroup', val => {
     const isBiz = val === 'Business';
-    bizRegBox.style.display = isBiz ? 'block' : 'none';
+    bizNameBox.style.display = isBiz ? 'block' : 'none';
     prevBiz.style.display = isBiz ? 'inline-block' : 'none';
     if (isBiz) {
-      attachRealtimeValidation('bizReg', RULES.bizReg);
+      attachRealtimeValidation('businessName', RULES.businessName);
     } else {
-      setValid('bizReg');
+      setValid('businessName');
     }
   });
 
   // Default: Individual selected — hide biz box
-  bizRegBox.style.display = 'none';
+  bizNameBox.style.display = 'none';
   prevBiz.style.display = 'none';
   // Make "Individual" active by default
   const postingGroup = document.getElementById('postingGroup');
@@ -305,8 +305,7 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
   // posting type
   const postingLabel = document.querySelector('#postingGroup .active')?.dataset.value || 'Individual';
   const isBusiness = postingLabel === 'Business';
-  const bizReg = isBusiness ? sanitizeInput(document.getElementById('bizReg')?.value.trim() || '') : '';
-  const businessName = isBusiness ? bizReg : null;
+  const businessName = isBusiness ? sanitizeInput(document.getElementById('businessName')?.value.trim() || '') : null;
 
   // min age: stored as integer
   const minAgeRaw = document.getElementById('minAge').value;
@@ -323,7 +322,7 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
     validateField('jobTitle', RULES.jobTitle),
     validateField('description', RULES.description),
     validateField('payRate', RULES.payRate),
-    ...(isBusiness ? [validateField('bizReg', RULES.bizReg)] : []),
+    ...(isBusiness ? [validateField('businessName', RULES.businessName)] : []),
   ];
 
   // Location check
@@ -377,7 +376,7 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
       difficulty: difficulty,
       target_gender: targetGender,
       posting_type: postingLabel,
-      biz_reg: bizReg || null,
+      biz_reg: null,
       business_name: businessName,
       min_age: String(minAge),
       min_age_int: minAge,
