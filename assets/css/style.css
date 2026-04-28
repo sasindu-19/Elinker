@@ -1618,16 +1618,28 @@ blockquote {
   align-items: center;
   justify-content: center;
   box-shadow: 0 10px 25px rgba(9, 25, 238, 0.884);
-  transition: transform 0.15s ease;
   z-index: 50;
+
+  /* Hidden by default — appears after scroll */
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px) scale(0.85);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+/* Shown after user scrolls down */
+.chat-toggle.scroll-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
 }
 
 .chat-toggle:hover {
-  transform: scale(1.05);
+  transform: translateY(0) scale(1.08);
 }
 
 .chat-toggle:active {
-  transform: scale(0.95);
+  transform: translateY(0) scale(0.95);
 }
 
 .chat-toggle .icon {
