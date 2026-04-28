@@ -1,9 +1,9 @@
 (function () {
-  const toggleBtn   = document.getElementById("chat-toggle");
-  const panel       = document.getElementById("chat-panel");
-  const messagesEl  = document.getElementById("chat-messages");
-  const inputEl     = document.getElementById("chat-input");
-  const sendBtn     = document.getElementById("chat-send");
+  const toggleBtn = document.getElementById("chat-toggle");
+  const panel = document.getElementById("chat-panel");
+  const messagesEl = document.getElementById("chat-messages");
+  const inputEl = document.getElementById("chat-input");
+  const sendBtn = document.getElementById("chat-send");
 
   /* ---------------------------------------------------------------
      Q & A knowledge base
@@ -15,38 +15,38 @@
   const qa = [
     {
       keywords: ["hi", "hello", "hey", "hola"],
-      reply: "Hello ! 👋 How can I help you today?"
+      reply: "Hello ! How can I help you today?"
     },
     {
-      keywords: ["price", "pricing", "cost", "how much"],
-      reply: "Our pricing starts at $9/month. Visit our pricing page for full details."
+      keywords: ["post pricing", "pricing", "cost", "how much", "price", "how do i contact the employer", "can i chat with the employer", "will i get their phone number"],
+      reply: "Apply for the post and contact the client to ask for more details"
     },
     {
       keywords: ["hours", "open", "timing", "time"],
-      reply: "We're available Monday–Friday, 9 AM to 6 PM."
+      reply: "We're available you freetimes"
     },
     {
-      keywords: ["contact", "email", "phone", "support"],
-      reply: "You can reach us at Elinker@example.com or call +1 555-123-4567."
+      keywords: ["contact", "email", "phone", "support", "phone"],
+      reply: "click the Contact Us and submit me  ."
     },
     {
-      keywords: ["location", "address", "where"],
-      reply: "We're based in SriLankan serve customers 🌍"
+      keywords: ["login", "regiter", "how to register", "job ekk one"],
+      reply: "click the login button > signup > give the details correctly and choose what about you & submit"
     },
     {
-      keywords: ["shipping", "delivery"],
-      reply: "Standard shipping takes 3–5 business days. Express options are available at checkout."
+      keywords: ["when", "location"],
+      reply: "We're based in SriLankan all province serve customers 🌍"
     },
     {
       keywords: ["refund", "return", "cancel"],
-      reply: "We offer a 30-day money-back guarantee. Email support@example.com to start a return."
+      reply: "We offer a 30-day money-back guarantee. Email support@Elinker.com to start a return."
     },
     {
       keywords: ["payment", "pay", "card", "upi"],
-      reply: "We accept all major credit/debit cards, UPI, and PayPal."
+      reply: "We accept all major cbank transfer,cash on location ."
     },
     {
-      keywords: ["thanks", "thank you", "thx"],
+      keywords: ["understand", "thanks", "thank you", "thx"],
       reply: "You're welcome! 😊 Anything else I can help with?"
     },
     {
@@ -55,16 +55,32 @@
     },
     {
       keywords: ["help", "support", "assist"],
-      reply: "Sure! Tell me what you need help with — pricing, orders, returns, or something else?"
+      reply: "Sure! Tell me what you need help with how to - find jobs, login/regiter, contact info, or website using issues or something else?"
     },
     {
       keywords: ["name", "website Name", "you name"],
       reply: "This Website Name Elinker "
+    },
+    {
+      keywords: ["apply", "apply job", "how to apply job"],
+      reply: "Post a job > give job form details > click submite & check you post > Find work"
+    },
+    {
+      keywords: ["urgent job available", "pictures", "numbers", "more"],
+      reply: "No...Sorry any other something else"
+    },
+    {
+      keywords: ["I don't no use this website", "how to use", "what is this", "what about", "use"],
+      reply: "They do Find your like more parttime jobs or if you need workers for your work, Post job & contacts us now go & click the login button and sigup"
+    },
+    {
+      keywords: [, "what about", "use"],
+      reply: "They do Find your like more parttime jobs or if you need workers for your work, Post job & contacts us now go & click the login button and sigup"
     }
   ];
 
   const fallbackReply =
-    "I'm not sure about that yet. Try asking about pricing, hours, shipping, refunds, or contact info.";
+    " Sorry Ask me about how to find jobs, login/register, contact info, or website using issues/ other somthig else....";
 
   function getBotReply(userText) {
     const text = userText.toLowerCase();
@@ -79,7 +95,7 @@
   /* ---------------- UI logic ---------------- */
 
   // Initial bot greeting
-  addMessage("Hi I am Elinkert! 👋 Ask me about pricing, hours, shipping, or contact info.", "bot");
+  addMessage("Hi I am Elinker! 👋 Ask me about  how to - find jobs, login/regiter, contact info, or website using issues/ more.....", "bot");
 
   function updateSendDisabled() {
     sendBtn.disabled = inputEl.value.trim().length === 0;

@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
 </head>
 
 <body>
@@ -18,12 +19,20 @@
   <section class="header">
 
     <div class="navbar">
-      <div class="logo"><a href="#"><span>E</span>linker</a></div>
+      <div class="logo"><a href="index.html"><span>E</span>linker</a></div>
       <ul class="links">
-        <li><a href="about.html">About</a></li>
-        <li id="find-work-link"><a href="jobs.html">Find Work</a></li>
-        <li id="post-job-link"><a href="post.html">Post a Job</a></li>
-        <li><a href="reviews.html">Reviews</a></li>
+        <li>
+          <a data-aos="fade-down" data-aos-duration="1500" href="about.html">About</a>
+        </li>
+        <li id="find-work-link">
+          <a data-aos="fade-down" data-aos-duration="2000" href="jobs.html">Find Work</a>
+        </li>
+        <li id="post-job-link">
+          <a data-aos="fade-down" data-aos-duration="2500" href="post.html">Post a Job</a>
+        </li>
+        <li>
+          <a data-aos="fade-down" data-aos-duration="3000" href="reviews.html">Reviews</a>
+        </li>
       </ul>
 
       <!-- Login Button -->
@@ -94,7 +103,7 @@
   </section>
   <!-- ======== HOW IT WORKS ======== -->
   <section class="how-it-works" id="how-it-works">
-    <div class="hiw-container">
+    <div data-aos="flip-up" data-aos-duration="1500" class="hiw-container">
       <div class="section-badge">⚙ HOW IT WORKS</div>
       <h2 class="section-title">Get Started in <span class="accent-text">3 Simple Steps</span></h2>
       <p class="section-sub">Whether you're hiring or looking for work, Elinker makes the process seamless and fast.</p>
@@ -159,7 +168,8 @@
     <div class="features-inner">
       <div class="features-text">
         <div class="section-badge">🇱🇰 SRI LANKA WIDE</div>
-        <h2 class="section-title">Find <span class="accent-text">&amp;</span> Post Jobs<br>Across Sri Lanka</h2>
+        <h2 data-aos="fade-right" data-aos-offset="300" data-aos-easing="ease-in-sine" data-aos-duration="1500"
+          class="section-title">Find <span class="accent-text">&amp;</span> Post Jobs<br>Across Sri Lanka</h2>
         <p class="features-desc">Our services are available island-wide. No matter where you are, we're here to support
           you with fast and reliable connections.</p>
         <div class="feat-accent-line"></div>
@@ -214,7 +224,8 @@
     <div class="quote-inner">
       <div class="quote-visual">
         <div class="quote-img-wrap">
-          <img src="assets/images/stew.webp" alt="Inspiration" class="quote-img">
+          <img data-aos="flip-up" data-aos-duration="1500" src="assets/images/stew.webp" alt="Inspiration"
+            class="quote-img">
           <div class="quote-img-glow"></div>
         </div>
       </div>
@@ -253,7 +264,7 @@
     <div class="cta-inner">
       <div class="cta-glow cta-glow-left"></div>
       <div class="cta-glow cta-glow-right"></div>
-      <h2 class="cta-title">Ready to Get Started?</h2>
+      <h2 data-aos="flip-left" data-aos-duration="1500" class="cta-title">Ready to Get Started?</h2>
       <p class="cta-sub">Join thousands of Sri Lankans already using Elinker to find work and hire talent.</p>
       <div class="cta-btns">
         <a href="jobs.html" class="cta-btn-primary">Find Work <i class="fa-solid fa-arrow-right"></i></a>
@@ -630,6 +641,12 @@
         observer.observe(statsSection);
       }
     })();
+  </script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+
+    AOS.init();
+
   </script>
   <script src="assets/js/chatbot.js"></script>
 </body>

@@ -16,6 +16,7 @@
   <!-- Styles -->
   <link rel="stylesheet" href="assets/css/jobs.css">
   <link rel="stylesheet" href="assets/css/toast.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
 </head>
 
 <body>
@@ -25,10 +26,18 @@
     <div class="navbar">
       <div class="logo"><a href="index.html"><span>E</span>linker</a></div>
       <ul class="links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li id="post-job-link"><a href="post.html">Post a Job</a></li>
-        <li><a href="reviews.html">Reviews</a></li>
+        <li>
+          <a data-aos="fade-down" data-aos-duration="1500" href="index.html">Home</a>
+        </li>
+        <li>
+          <a data-aos="fade-down" data-aos-duration="2000" href="about.html">About</a>
+        </li>
+        <li id="post-job-link">
+          <a data-aos="fade-down" data-aos-duration="2500" href="post.html">Post a Job</a>
+        </li>
+        <li>
+          <a data-aos="fade-down" data-aos-duration="3000" href="reviews.html">Reviews</a>
+        </li>
       </ul>
 
       <!-- Nav Right: Profile + Toggle grouped together -->
@@ -73,8 +82,9 @@
       <li><a href="reviews.html">Reviews</a></li>
     </div>
     <div class="content">
-      <h1>Find You <span class="text600">Smart</span> Work</h1>
-      <h3>Find work the smart way with opportunities that match your skills and lifestyle. Skip the stress of
+      <h1 data-aos="fade-down" data-aos-duration="3000">Find You <span class="text600">Smart</span> Work</h1>
+      <h3 data-aos="zoom-in" data-aos-duration="3000">Find work the smart way with opportunities that match your skills
+        and lifestyle. Skip the stress of
         traditional job searching and connect quickly with roles that fit you best. Work smarter, earn better, and build
         your future with ease.</p>
       </h3>
@@ -280,6 +290,13 @@
       const isOpen = dropDownMenu.classList.contains('open')
       toggleBtnIcon.classList = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'
     }
+  </script>
+  </script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+
+    AOS.init();
+
   </script>
 </body>
 

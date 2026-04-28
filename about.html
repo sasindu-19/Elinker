@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Elinker</title>
   <link rel="stylesheet" href="assets/css/about.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <!-- Basic Icons -->
   <link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css" rel="stylesheet">
   <!-- Filled Icons -->
@@ -13,6 +14,7 @@
   <!-- Brand Icons -->
   <link href="https://cdn.boxicons.com/3.0.8/fonts/brands/boxicons-brands.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
 </head>
 
 <body>
@@ -73,14 +75,15 @@
 
   <section class="about-wrapper">
     <div class="content">
-      <h1>About <span class="text600">Us</span></h1>
-      <p class="about-desc">
+      <h1 data-aos="flip-up" data-aos-duration="3000">About <span class="text600">Us</span></h1>
+      <p data-aos="flip-down" data-aos-duration="3000" class="about-desc">
         We started Elinker to bridge the gap between local talent and immediate needs. Our mission is to provide
         a transparent, safe, and fast environment for the gig economy.
       </p>
 
-      <h1 class="why-choose-heading">Why Choose <span class="text600">Elinker?</span></h1>
-      <p class="about-desc">
+      <h1 data-aos="flip-up" data-aos-duration="3000" class="why-choose-heading">Why Choose <span
+          class="text600">Elinker?</span></h1>
+      <p data-aos="flip-down" data-aos-duration="3000" class="about-desc">
         We started Elinker to bridge the gap between local talent and immediate community needs. The old way of
         finding help was slow, unsafe, and unreliable.
       </p>
@@ -113,7 +116,8 @@
         <ul class="footer-nav">
           <li><a href="about.html"><i class="fa-solid fa-chevron-right"></i> About</a></li>
           <li><a href="jobs.html"><i class="fa-solid fa-chevron-right"></i> Find Work</a></li>
-          <li id="post-job-link-footer"><a href="post.html"><i class="fa-solid fa-chevron-right"></i> Post a Job</a></li>
+          <li id="post-job-link-footer"><a href="post.html"><i class="fa-solid fa-chevron-right"></i> Post a Job</a>
+          </li>
           <li><a href="reviews.html"><i class="fa-solid fa-chevron-right"></i> Reviews</a></li>
         </ul>
       </div>
@@ -157,22 +161,28 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/supabase-init.js"></script>
   <script>
-    (async () => {
-      const user = await getCurrentUser();
-      if (user) {
-        const profile = await getUserProfile(user.id);
-        const type = profile?.user_type || 'User';
-        
-        if (type.toLowerCase() === 'worker') {
-          const postLink = document.getElementById('post-job-link');
-          const postLinkMobile = document.getElementById('post-job-link-mobile');
-          const postFooter = document.getElementById('post-job-link-footer');
-          if (postLink) postLink.style.display = 'none';
-          if (postLinkMobile) postLinkMobile.style.display = 'none';
-          if (postFooter) postFooter.style.display = 'none';
+      (async () => {
+        const user = await getCurrentUser();
+        if (user) {
+          const profile = await getUserProfile(user.id);
+          const type = profile?.user_type || 'User';
+
+          if (type.toLowerCase() === 'worker') {
+            const postLink = document.getElementById('post-job-link');
+            const postLinkMobile = document.getElementById('post-job-link-mobile');
+            const postFooter = document.getElementById('post-job-link-footer');
+            if (postLink) postLink.style.display = 'none';
+            if (postLinkMobile) postLinkMobile.style.display = 'none';
+            if (postFooter) postFooter.style.display = 'none';
+          }
         }
-      }
-    })();
+      })();
+  </script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+
+    AOS.init();
+
   </script>
 </body>
 
