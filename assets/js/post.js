@@ -210,6 +210,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // ── Work Mode (Physical / Online) ───────────────────
+  const locationCard = document.getElementById('locationCard');
+  setupGroup('workModeGroup', val => {
+    const isOnline = val === 'Online';
+    if (locationCard) {
+      locationCard.style.display = isOnline ? 'none' : 'block';
+    }
+    if (isOnline) {
+      prevLocation.textContent = 'Online / Remote';
+    } else {
+      const province = document.getElementById('province').value;
+      const district = document.getElementById('district').value;
+      const city = document.getElementById('city').value;
+      const parts = [city, district].filter(Boolean);
+      prevLocation.textContent = parts.length ? parts.join(', ') : '—';
+    }
+  });
+
   // Default: Individual selected — hide biz box
   bizNameBox.style.display = 'none';
   prevBiz.style.display = 'none';
@@ -297,6 +315,10 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
   const diffValue = document.querySelector('.diff-card.active')?.dataset.value || 'Easy';
   const difficulty = diffValue.toLowerCase();
 
+  // work mode
+  const workModeLabel = document.querySelector('#workModeGroup .active')?.dataset.value || 'Physical';
+  const workMode = workModeLabel === 'Online' ? 'online' : 'physical';
+
   // gender: stored as 'any' | 'male' | 'female'
   const genderLabel = document.querySelector('#genderGroup .active')?.dataset.value || 'Any Gender';
   const genderMap = { 'Any Gender': 'any', 'Male Only': 'male', 'Female Only': 'female' };
@@ -327,9 +349,11 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
 
   // Location check
   const missingLocations = [];
-  if (!province) missingLocations.push('Province');
-  if (!district) missingLocations.push('District');
-  if (!city) missingLocations.push('City / Area');
+  if (workMode !== 'online') {
+    if (!province) missingLocations.push('Province');
+    if (!district) missingLocations.push('District');
+    if (!city) missingLocations.push('City / Area');
+  }
 
   if (missingLocations.length) {
     showToast(`Please select: ${missingLocations.join(', ')}.`, 'warning');
@@ -370,9 +394,9 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
       category: category,
       daily_pay: dailyPay,
       budget: String(dailyPay),   // keep old column in sync
-      province: province,
-      district: district,
-      city: city,
+      province: workMode === 'online' ? null : province,
+      district: workMode === 'online' ? null : district,
+      city: workMode === 'online' ? null : city,
       difficulty: difficulty,
       target_gender: targetGender,
       posting_type: postingLabel,
@@ -383,6 +407,7 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
       workers_needed: String(workersNeeded),
       workers_needed_int: workersNeeded,
       status: 'open',
+      work_mode: workMode
     };
 
     const { data, error } = await supabaseClient

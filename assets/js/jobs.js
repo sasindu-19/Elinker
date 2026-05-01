@@ -77,7 +77,7 @@ let realtimeChannel = null;
   await fetchAndRender();
 
   // ── 5. Filter listeners ───────────────────────────────────
-  ['filter-district', 'filter-difficulty', 'filter-gender'].forEach(id => {
+  ['filter-district', 'filter-difficulty', 'filter-gender', 'filter-workmode'].forEach(id => {
     document.getElementById(id)?.addEventListener('change', applyFilters);
   });
   document.getElementById('filter-search')?.addEventListener('input', applyFilters);
@@ -213,11 +213,13 @@ function applyFilters() {
   const district   = document.getElementById('filter-district')?.value  || '';
   const difficulty = document.getElementById('filter-difficulty')?.value || '';
   const gender     = document.getElementById('filter-gender')?.value     || '';
+  const workMode   = document.getElementById('filter-workmode')?.value   || '';
   const search     = (document.getElementById('filter-search')?.value || '').trim().toLowerCase();
 
   const filtered = allJobs.filter(job => {
     if (district   && job.district   !== district)   return false;
     if (difficulty && job.difficulty !== difficulty)  return false;
+    if (workMode   && job.work_mode  !== workMode)    return false;
     if (gender) {
       const jg = (job.target_gender || '').toLowerCase();
       if (jg !== 'any' && jg !== gender)             return false;
@@ -309,7 +311,8 @@ function buildJobCard(job, profile) {
   const needed = job.workers_needed_int ?? parseInt(job.workers_needed) ?? 1;
 
   // Location & pay
-  const locationStr = [job.city, job.district].filter(Boolean).join(', ');
+  const isOnline    = (job.work_mode === 'online');
+  const locationStr = isOnline ? 'Online / Remote' : [job.city, job.district].filter(Boolean).join(', ');
   const payNum      = parseFloat(job.daily_pay || job.budget || 0);
   const payStr      = payNum > 0 ? payNum.toLocaleString('si-LK', { maximumFractionDigits: 0 }) : '—';
 
@@ -408,7 +411,8 @@ function openJobModal(jobId) {
   }
 
   // Location
-  const loc = [job.city, job.district, job.province].filter(Boolean).join(', ');
+  const isOnline = (job.work_mode === 'online');
+  const loc = isOnline ? 'Online / Remote' : [job.city, job.district, job.province].filter(Boolean).join(', ');
   document.getElementById('jm-location-text').textContent = loc || 'Location not set';
 
   // ── Populate body ─────────────────────────────────────────

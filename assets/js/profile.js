@@ -272,7 +272,7 @@ async function fetchMyJobs() {
                     <div class="mj-title">${sanitizeHtml(job.title)}</div>
                     <div class="mj-status ${job.status}">${job.status === 'open' ? 'Open' : 'Closed'}</div>
                 </div>
-                <div class="mj-info"><i class='bx bx-map'></i> ${sanitizeHtml(job.city || '')}, ${sanitizeHtml(job.district || '')}</div>
+                <div class="mj-info"><i class='bx bx-map'></i> ${job.work_mode === 'online' ? 'Online / Remote' : `${sanitizeHtml(job.city || '')}, ${sanitizeHtml(job.district || '')}`}</div>
                 <div class="mj-info"><i class='bx bx-money'></i> Rs. ${job.daily_pay || job.budget || 0} / day</div>
                 <div class="mj-info"><i class='bx bx-time'></i> ${new Date(job.created_at).toLocaleDateString()}</div>
                 <div class="mj-footer">
