@@ -115,58 +115,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/srilanka-locations.js"></script>
   <script src="assets/js/supabase-init.js"></script>
-  <script>
-    (async () => {
-      // Handle Supabase error hashes (e.g. expired OTP) or query params (e.g. Google OAuth errors)
-      const hash = window.location.hash;
-      const search = window.location.search;
-      
-      let errDesc = null;
-      if (hash && hash.includes('error=')) {
-          errDesc = new URLSearchParams(hash.substring(1)).get('error_description');
-      } else if (search && search.includes('error=')) {
-          errDesc = new URLSearchParams(search).get('error_description');
-      }
 
-      if (errDesc) {
-          const msg = errDesc.replace(/\+/g, ' ');
-          showAccessDenied(
-              'Authentication Error',
-              msg + '. Please login again or request a new link.',
-              'bxs-error-circle',
-              [ { text: 'Go to Login', href: 'login.html', cls: 'primary' } ]
-          );
-          // Clean up the URL
-          window.history.replaceState(null, document.title, window.location.pathname);
-          return;
-      }
-
-      const user = await getCurrentUser();
-      
-      if (!user) {
-        showAccessDenied(
-          'Login Required',
-          'You need to login first to set up your profile. Create an account or login to continue.',
-          'bxs-lock-alt',
-          [
-            { text: 'Login Now', href: 'login.html', cls: 'primary' },
-            { text: 'Go Home', href: 'index.html', cls: 'secondary' }
-          ]
-        );
-        return;
-      }
-
-      // Check if profile is already configured
-      const profile = await getUserProfile(user.id);
-      if (profile && profile.full_name && profile.phone_number) {
-          // User has already onboarded. Redirect to homepage.
-          window.location.replace('index.html');
-          return;
-      }
-      
-      document.getElementById('page-content').style.display = '';
-    })();
-  </script>
   <script src="assets/js/signup.js"></script>
 
 </body>

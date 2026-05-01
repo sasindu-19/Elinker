@@ -4,47 +4,97 @@
  */
 const SL_LOCATIONS = {
   "Western": {
-    "Colombo": ["Colombo 1", "Colombo 2", "Colombo 3", "Colombo 4", "Colombo 5", "Colombo 6", "Colombo 7", "Dehiwala", "Mount Lavinia", "Maharagama", "Nugegoda", "Boralesgamuwa", "Homagama", "Kaduwela", "Kolonnawa", "Kesbewa", "Sri Jayawardenepura Kotte", "Moratuwa", "Ratmalana", "Piliyandala", "Hendala", "Wattala", "Kelaniya", "Peliyagoda"],
-    "Gampaha": ["Gampaha", "Negombo", "Ja-Ela", "Wattala", "Ragama", "Kandana", "Kelaniya", "Minuwangoda", "Divulapitiya", "Veyangoda", "Mirigama", "Nittambuwa", "Ganemulla", "Kiribathgoda", "Kadawatha", "Ekala"],
-    "Kalutara": ["Kalutara", "Panadura", "Beruwala", "Aluthgama", "Bandaragama", "Horana", "Ingiriya", "Bulathsinhala", "Agalawatta", "Matugama", "Wadduwa", "Payagala", "Katukurunda", "Dodangoda"]
+    "Colombo": [
+      "Athurugiriya", "Avissawella", "Battaramulla", "Boralesgamuwa", "Colombo 01", "Colombo 02", "Colombo 03", "Colombo 04", "Colombo 05", "Colombo 06", "Colombo 07", "Colombo 08", "Colombo 09", "Colombo 10", "Colombo 11", "Colombo 12", "Colombo 13", "Colombo 14", "Colombo 15", "Dehiwala", "Hanwella", "Hokandara", "Homagama", "Kaduwela", "Kesbewa", "Kohuwala", "Kolonnawa", "Kosgama", "Kottawa", "Maharagama", "Makumbura", "Malabe", "Moratuwa", "Mount Lavinia", "Nawala", "Nugegoda", "Padukka", "Pannipitiya", "Piliyandala", "Rajagiriya", "Ratmalana", "Sri Jayawardenepura Kotte"
+    ],
+    "Gampaha": [
+      "Biyagama", "Delgoda", "Divulapitiya", "Dompe", "Ekala", "Gampaha", "Ganemulla", "Hendala", "Ja-Ela", "Kadawatha", "Kandana", "Katunayake", "Kelaniya", "Kiribathgoda", "Mahara", "Minuwangoda", "Mirigama", "Negombo", "Nittambuwa", "Peliyagoda", "Ragama", "Seeduwa", "Thihariya", "Udugampola", "Veyangoda", "Wattala", "Yakkala"
+    ],
+    "Kalutara": [
+      "Agalawatta", "Aluthgama", "Bandaragama", "Beruwala", "Bulathsinhala", "Dodangoda", "Horana", "Ingiriya", "Kalutara", "Katukurunda", "Maggona", "Matugama", "Panadura", "Payagala", "Wadduwa", "Walallawita"
+    ]
   },
   "Central": {
-    "Kandy": ["Kandy", "Peradeniya", "Katugastota", "Gampola", "Nawalapitiya", "Pilimathalawa", "Kundasale", "Wattegama", "Teldeniya", "Hasalaka", "Kadugannawa", "Gelioya", "Akurana", "Digana", "Weligalla"],
-    "Matale": ["Matale", "Dambulla", "Sigiriya", "Rattota", "Ukuwela", "Laggala", "Pallepola", "Yatawatta", "Ambanganga Korale", "Naula", "Galewela"],
-    "Nuwara Eliya": ["Nuwara Eliya", "Hatton", "Talawakele", "Ginigathhena", "Kotagala", "Maskeliya", "Norwood", "Ragala", "Walapane", "Ambagamuwa", "Kotmale"]
+    "Kandy": [
+      "Akurana", "Alawatugoda", "Digana", "Galagedara", "Gampola", "Gelioya", "Hasalaka", "Kadugannawa", "Kandy", "Katugastota", "Kundasale", "Madawala", "Menikhinna", "Nawalapitiya", "Peradeniya", "Pilimathalawa", "Poojapitiya", "Teldeniya", "Ukuwela", "Wattegama", "Weligalla"
+    ],
+    "Matale": [
+      "Dambulla", "Galewela", "Laggala", "Matale", "Naula", "Palapathwela", "Pallepola", "Rattota", "Sigiriya", "Ukuwela", "Yatawatta"
+    ],
+    "Nuwara Eliya": [
+      "Agarapathana", "Ambagamuwa", "Bogawantalawa", "Dickoya", "Ginigathhena", "Hanguranketha", "Hatton", "Kotagala", "Kotmale", "Maskeliya", "Nallathanniya", "Nanu Oya", "Norwood", "Nuwara Eliya", "Pundaluoya", "Ragala", "Rikillagaskada", "Talawakele", "Walapane"
+    ]
   },
   "Southern": {
-    "Galle": ["Galle", "Hikkaduwa", "Ambalangoda", "Elpitiya", "Baddegama", "Karandeniya", "Yakkalamulla", "Neluwa", "Imaduwa", "Nagoda", "Habaraduwa", "Unawatuna", "Bentota"],
-    "Matara": ["Matara", "Weligama", "Akuressa", "Dickwella", "Hakmana", "Mulatiyana", "Devinuwara", "Kamburupitiya", "Kotapola", "Pasgoda", "Thihagoda", "Mirissa", "Gandara", "Makandura"],
-    "Hambantota": ["Hambantota", "Tangalle", "Tissamaharama", "Beliatta", "Weeraketiya", "Angunakolapelessa", "Ambalantota", "Middeniya", "Suriyawewa", "Sooriyawewa", "Lunugamvehera", "Kataragama"]
+    "Galle": [
+      "Ahangama", "Ambalangoda", "Baddegama", "Batapola", "Bentota", "Boossa", "Elpitiya", "Galle", "Habaraduwa", "Hikkaduwa", "Imaduwa", "Karandeniya", "Karapitiya", "Koggala", "Nagoda", "Neluwa", "Pitigala", "Thawalama", "Unawatuna", "Uragasmanhandiya", "Wanduramba", "Yakkalamulla"
+    ],
+    "Matara": [
+      "Akuressa", "Deniyaya", "Devinuwara", "Dickwella", "Gandara", "Hakmana", "Kamburupitiya", "Kotapola", "Makandura", "Matara", "Mirissa", "Morawaka", "Mulatiyana", "Pasgoda", "Pitabeddara", "Thihagoda", "Urubokka", "Weligama"
+    ],
+    "Hambantota": [
+      "Ambalantota", "Angunakolapelessa", "Beliatta", "Hambantota", "Hungama", "Kataragama", "Lunugamvehera", "Middeniya", "Ranna", "Sooriyawewa", "Tangalle", "Tissamaharama", "Walasmulla", "Weeraketiya"
+    ]
   },
   "Northern": {
-    "Jaffna": ["Jaffna", "Nallur", "Chavakachcheri", "Point Pedro", "Kopay", "Tellippalai", "Karaveddy", "Manipay", "Kayts", "Chunnakam", "Kilinochchi (near)", "Alaveddy"],
-    "Kilinochchi": ["Kilinochchi", "Paranthan", "Pallai", "Pooneryn", "Kandavalai", "Karachchi"],
-    "Mannar": ["Mannar", "Madhu", "Nanattan", "Musali", "Murunkan", "Adampan"],
-    "Mullaitivu": ["Mullaitivu", "Puthukkudiyiruppu", "Oddusuddan", "Manthai East", "Thunukkai", "Maritimepattu"],
-    "Vavuniya": ["Vavuniya", "Cheddikulam", "Vavuniya South", "Vengalacheddikulam", "Padaviya"]
+    "Jaffna": [
+      "Alaveddy", "Chavakachcheri", "Chunnakam", "Inuvil", "Jaffna", "Karainagar", "Karaveddy", "Kayts", "Kokuvil", "Kondavil", "Kopay", "Manipay", "Nallur", "Point Pedro", "Tellippalai", "Vaddukoddai", "Valvettithurai", "Velanai"
+    ],
+    "Kilinochchi": [
+      "Akkarayankulam", "Dharmapuram", "Kandavalai", "Karachchi", "Kilinochchi", "Pallai", "Paranthan", "Pooneryn"
+    ],
+    "Mannar": [
+      "Adampan", "Madhu", "Mannar", "Murunkan", "Musali", "Nanattan", "Pesalai", "Silavathurai", "Talaimannar"
+    ],
+    "Mullaitivu": [
+      "Mallavi", "Mankulam", "Manthai East", "Maritimepattu", "Mullaitivu", "Oddusuddan", "Puthukkudiyiruppu", "Thunukkai", "Welioya"
+    ],
+    "Vavuniya": [
+      "Cheddikulam", "Nedunkeni", "Omanthai", "Padaviya", "Pampaimadu", "Vavuniya", "Vavuniya South", "Vengalacheddikulam"
+    ]
   },
   "Eastern": {
-    "Trincomalee": ["Trincomalee", "Kantale", "Mutur", "Kinniya", "Seruvila", "Thambalagamuwa", "Kuchchaveli", "Morawewa", "Gomarankadawala"],
-    "Batticaloa": ["Batticaloa", "Kalmunai", "Valaichchenai", "Eravur", "Kattankudy", "Paddippalai", "Manmunai North", "Manmunai South"],
-    "Ampara": ["Ampara", "Kalmunai", "Sainthamaruthu", "Akkaraipattu", "Pottuvil", "Uhana", "Samanthurai", "Damana", "Lahugala", "Dehiattakandiya"]
+    "Trincomalee": [
+      "Gomarankadawala", "Kantale", "Kinniya", "Kuchchaveli", "Morawewa", "Mutur", "Nilaveli", "Serunuwara", "Seruvila", "Thambalagamuwa", "Trincomalee", "Uppuveli"
+    ],
+    "Batticaloa": [
+      "Batticaloa", "Chenkalady", "Eravur", "Kalkudah", "Kalmunai", "Kaluwanchikudy", "Kattankudy", "Kiran", "Kokkadichcholai", "Manmunai North", "Manmunai South", "Oddamavadi", "Paddippalai", "Pasikudah", "Valaichchenai"
+    ],
+    "Ampara": [
+      "Addalaichenai", "Akkaraipattu", "Ampara", "Arugam Bay", "Damana", "Dehiattakandiya", "Kalmunai", "Lahugala", "Maha Oya", "Nintavur", "Panama", "Pottuvil", "Sainthamaruthu", "Samanthurai", "Uhana"
+    ]
   },
   "North Western": {
-    "Kurunegala": ["Kurunegala", "Kuliyapitiya", "Nikaweratiya", "Mawathagama", "Galgamuwa", "Polpithigama", "Narammala", "Ibbagamuwa", "Dambadeniya", "Pannala", "Wariyapola", "Hettipola", "Alawwa"],
-    "Puttalam": ["Puttalam", "Chilaw", "Wennappuwa", "Marawila", "Nattandiya", "Dankotuwa", "Navakkuli", "Mundel", "Anamaduwa", "Mahawewa", "Kalpitiya"]
+    "Kurunegala": [
+      "Alawwa", "Bingiriya", "Dambadeniya", "Dodangaslanda", "Galgamuwa", "Giriulla", "Hettipola", "Ibbagamuwa", "Kuliyapitiya", "Kurunegala", "Maho", "Mawathagama", "Melsiripura", "Narammala", "Nikaweratiya", "Pannala", "Polgahawela", "Polpithigama", "Wariyapola"
+    ],
+    "Puttalam": [
+      "Anamaduwa", "Arachchikattuwa", "Chilaw", "Dankotuwa", "Kalpitiya", "Madampe", "Mahawewa", "Marawila", "Mundel", "Nattandiya", "Navakkuli", "Norochcholai", "Puttalam", "Wennappuwa"
+    ]
   },
   "North Central": {
-    "Anuradhapura": ["Anuradhapura", "Kekirawa", "Medawachchiya", "Tambuttegama", "Eppawala", "Mihintale", "Nochchiyagama", "Galnewa", "Kahatagasdigiliya", "Padaviya", "Horowpothana"],
-    "Polonnaruwa": ["Polonnaruwa", "Kaduruwela", "Medirigiriya", "Hingurakgoda", "Manampitiya", "Dimbulagala", "Thamankaduwa", "Welikanda", "Lankapura"]
+    "Anuradhapura": [
+      "Anuradhapura", "Eppawala", "Galnewa", "Horowpothana", "Kahatagasdigiliya", "Kebithigollewa", "Kekirawa", "Medawachchiya", "Mihintale", "Nochchiyagama", "Padaviya", "Rajanganaya", "Talawa", "Tambuttegama"
+    ],
+    "Polonnaruwa": [
+      "Aralaganwila", "Bakamuna", "Dimbulagala", "Giritale", "Hingurakgoda", "Kaduruwela", "Lankapura", "Manampitiya", "Medirigiriya", "Minneriya", "Polonnaruwa", "Thamankaduwa", "Welikanda"
+    ]
   },
   "Uva": {
-    "Badulla": ["Badulla", "Bandarawela", "Haputale", "Ella", "Welimada", "Passara", "Mahiyanganaya", "Lunugala", "Kandaketiya", "Hali-Ela", "Uva-Paranagama"],
-    "Monaragala": ["Monaragala", "Wellawaya", "Bibile", "Medagama", "Buttala", "Siyambalanduwa", "Katharagama", "Madulla", "Sevanagala"]
+    "Badulla": [
+      "Badulla", "Bandarawela", "Diyatalawa", "Ella", "Haldummulla", "Hali-Ela", "Haputale", "Kandaketiya", "Lunugala", "Mahiyanganaya", "Meegahakivula", "Passara", "Rideemaliyadda", "Uva-Paranagama", "Welimada"
+    ],
+    "Monaragala": [
+      "Bibile", "Buttala", "Katharagama", "Madulla", "Medagama", "Monaragala", "Okkampitiya", "Sevanagala", "Siyambalanduwa", "Thanamalwila", "Wellawaya"
+    ]
   },
   "Sabaragamuwa": {
-    "Ratnapura": ["Ratnapura", "Embilipitiya", "Balangoda", "Kahawatta", "Pelmadulla", "Kuruvita", "Eheliyagoda", "Ayagama", "Godakawela", "Imbulpe", "Kiriella", "Nivithigala"],
-    "Kegalle": ["Kegalle", "Mawanella", "Ruwanwella", "Warakapola", "Rambukkana", "Aranayake", "Galigamuwa", "Bulathkohupitiya", "Deraniyagala", "Dehiowita", "Yatiyanthota"]
+    "Ratnapura": [
+      "Ayagama", "Balangoda", "Eheliyagoda", "Embilipitiya", "Godakawela", "Imbulpe", "Kahawatta", "Kalawana", "Kiriella", "Kuruvita", "Nivithigala", "Opanayake", "Pelmadulla", "Rakwana", "Ratnapura"
+    ],
+    "Kegalle": [
+      "Aranayake", "Bulathkohupitiya", "Dehiowita", "Deraniyagala", "Galigamuwa", "Kegalle", "Mawanella", "Rambukkana", "Ruwanwella", "Warakapola", "Yatiyanthota"
+    ]
   }
 };
 
@@ -69,16 +119,16 @@ function populateSelect(selectEl, options, placeholder = 'Select...') {
 function initLocationDropdowns(provinceId, districtId, cityId, onLocationChange) {
   const provinceEl = document.getElementById(provinceId);
   const districtEl = document.getElementById(districtId);
-  const cityEl     = document.getElementById(cityId);
+  const cityEl = document.getElementById(cityId);
 
   if (!provinceEl || !districtEl || !cityEl) return;
 
   // Populate provinces
   populateSelect(provinceEl, Object.keys(SL_LOCATIONS), 'Select Province');
   populateSelect(districtEl, [], 'Select District');
-  populateSelect(cityEl,     [], 'Select City / Area');
+  populateSelect(cityEl, [], 'Select City / Area');
   districtEl.disabled = true;
-  cityEl.disabled     = true;
+  cityEl.disabled = true;
 
   provinceEl.addEventListener('change', () => {
     const districts = Object.keys(SL_LOCATIONS[provinceEl.value] || {});

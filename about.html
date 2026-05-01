@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Elinker</title>
   <link rel="icon" type="image/png" href="assets/images/favico.png">
+  <link rel="stylesheet" href="assets/css/toast.css">
   <link rel="stylesheet" href="assets/css/about.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
@@ -147,44 +148,10 @@
   </footer>
 
 
-  <script>
-    const toggleBtn = document.querySelector('.toggle_btn')
-    const toggleBtnIcon = document.querySelector('.toggle_btn i')
-    const dropDownMenu = document.querySelector('.dropdown_menu')
-
-    toggleBtn.onclick = function () {
-      dropDownMenu.classList.toggle('open')
-      const isOpen = dropDownMenu.classList.contains('open')
-      toggleBtnIcon.classList = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'
-    }
-  </script>
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="assets/js/supabase-init.js"></script>
-  <script>
-      (async () => {
-        const user = await getCurrentUser();
-        if (user) {
-          const profile = await getUserProfile(user.id);
-          const type = profile?.user_type || 'User';
-
-          if (type.toLowerCase() === 'worker') {
-            const postLink = document.getElementById('post-job-link');
-            const postLinkMobile = document.getElementById('post-job-link-mobile');
-            const postFooter = document.getElementById('post-job-link-footer');
-            if (postLink) postLink.style.display = 'none';
-            if (postLinkMobile) postLinkMobile.style.display = 'none';
-            if (postFooter) postFooter.style.display = 'none';
-          }
-        }
-      })();
-  </script>
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-  <script>
-
-    AOS.init();
-
-  </script>
+  <script src="assets/js/script.js"></script>
 </body>
 
 </html>
