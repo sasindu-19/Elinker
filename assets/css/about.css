@@ -117,6 +117,13 @@ header {
     scale: 0.95;
 }
 
+/* Nav-right */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
 /* DROPDOWN MENU */
 .dropdown_menu {
     display: none;
@@ -464,18 +471,7 @@ button:hover {
         display: flex;
     }
 
-    /* Hide profile text on smaller screens */
-    .profile-name,
-    .profile-type,
-    .bx-chevron-down {
-        display: none;
-    }
 
-    .profile-btn {
-        padding: 0.3rem;
-        background: transparent;
-        border-color: transparent;
-    }
 
     .features {
         margin-left: auto;
@@ -590,7 +586,11 @@ button:hover {
     }
 
     .navbar .logo a {
-        font-size: 1.6rem;
+        font-size: 1.7rem;
+    }
+
+    .navbar .logo span {
+        font-size: 2rem;
     }
 
     .dropdown_menu {

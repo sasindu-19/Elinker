@@ -1425,17 +1425,7 @@ blockquote {
     display: flex;
   }
 
-  .profile-name,
-  .profile-type,
-  .bx-chevron-down {
-    display: none;
-  }
 
-  .profile-btn {
-    padding: 0.3rem;
-    background: transparent;
-    border-color: transparent;
-  }
 
   .steps-grid {
     grid-template-columns: 1fr 1fr;
