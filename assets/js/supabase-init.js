@@ -114,7 +114,20 @@ function showAccessDenied(title, message, icon, buttons) {
 // Global utility for input sanitization to prevent XSS
 function sanitizeInput(str) {
     if (typeof str !== 'string') return str;
+    // Decode first to prevent double-encoding
+    const txt = document.createElement('textarea');
+    txt.innerHTML = str;
+    const decoded = txt.value;
+    // Encode to ensure safety
     const div = document.createElement('div');
-    div.textContent = str;
+    div.textContent = decoded;
     return div.innerHTML;
+}
+
+// Global utility to decode HTML entities
+function decodeHtml(html) {
+    if (typeof html !== 'string') return html;
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
 }

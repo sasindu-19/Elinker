@@ -398,12 +398,12 @@ function openJobModal(jobId) {
   const overlay = document.getElementById('job-modal-overlay');
 
   // ── Populate header ───────────────────────────────────────
-  document.getElementById('jm-title').textContent = sanitizeInput(job.title || 'Untitled Job');
+  document.getElementById('jm-title').innerHTML = sanitizeInput(job.title || 'Untitled Job');
 
   // Poster badge
   const posterEl = document.getElementById('jm-poster-badge');
   if (job.business_name) {
-    posterEl.textContent = `✓ ${sanitizeInput(job.business_name)}`;
+    posterEl.innerHTML = `✓ ${sanitizeInput(job.business_name)}`;
     posterEl.className   = 'poster-badge';
   } else {
     posterEl.textContent = 'Individual';
@@ -423,7 +423,7 @@ function openJobModal(jobId) {
     : 'Rs. —';
 
   // Category, workers, date
-  document.getElementById('jm-category').textContent = sanitizeInput(job.category || '—');
+  document.getElementById('jm-category').innerHTML = sanitizeInput(job.category || '—');
 
   const needed = job.workers_needed_int ?? parseInt(job.workers_needed) ?? 1;
   document.getElementById('jm-workers').textContent = `${needed} worker${needed !== 1 ? 's' : ''}`;
@@ -465,8 +465,9 @@ function openJobModal(jobId) {
   }
 
   // Description
-  document.getElementById('jm-description').textContent =
-    sanitizeInput(job.description || 'No description provided.');
+  // To preserve line breaks while rendering innerHTML
+  const safeDesc = sanitizeInput(job.description || 'No description provided.');
+  document.getElementById('jm-description').innerHTML = safeDesc.replace(/\n/g, '<br>');
 
   // ── Reset contact area to loading state ───────────────────
   document.getElementById('jm-contact-loading').style.display = 'flex';
