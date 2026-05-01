@@ -482,3 +482,21 @@
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
+
+/* ============================================
+   Responsive Profile Button (Global)
+   ============================================ */
+@media (max-width: 992px) {
+    .profile-name,
+    .profile-type,
+    .profile-btn .bx-chevron-down {
+        display: none !important;
+    }
+
+    .profile-btn {
+        padding: 0.3rem !important;
+        background: transparent !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
+    }
+}
