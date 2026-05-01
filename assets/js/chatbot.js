@@ -34,6 +34,14 @@
       reply: "click the login button > signup > give the details correctly and choose what about you & submit"
     },
     {
+      keywords: ["how to login", "login", "when login", "i want to login"],
+      reply: "click the menu bar and they have login button click & login"
+    },
+    {
+      keywords: ["පිවිසෙන්නේ කෙසේද", "පිවිසෙන්නේ කෙසේද", "පිවිසෙන විට", "මට පුරනය වීමට අවශ්‍යයි", "පුරනය වන්නේ කෙසේද"],
+      reply: "මෙනු තීරුව ක්ලික් කරන්න, එවිට ඔවුන්ට පිවිසුම් බොත්තමක් ඇත ක්ලික් කර පිවිසෙන්න."
+    },
+    {
       keywords: ["when", "location"],
       reply: "We're based in SriLankan all province serve customers 🌍"
     },
@@ -50,7 +58,7 @@
       reply: "You're welcome! 😊 Anything else I can help with?"
     },
     {
-      keywords: ["bye", "goodbye", "see you"],
+      keywords: ["bye", "goodbye", "see you", "ok"],
       reply: "Goodbye! Have a great day. 👋"
     },
     {
@@ -58,8 +66,8 @@
       reply: "Sure! Tell me what you need help with how to - find jobs, login/regiter, contact info, or website using issues or something else?"
     },
     {
-      keywords: ["name", "website Name", "you name"],
-      reply: "This Website Name Elinker "
+      keywords: ["name", "website Name", "you name", ],
+      reply: "This Website Name Elinker, click 'about' button & see more details.... "
     },
     {
       keywords: ["apply", "apply job", "how to apply job"],
@@ -74,12 +82,28 @@
       reply: "They do Find your like more parttime jobs or if you need workers for your work, Post job & contacts us now go & click the login button and sigup"
     },
     {
-      keywords: [, "what about", "use"],
+      keywords: ["what about", "use"],
       reply: "They do Find your like more parttime jobs or if you need workers for your work, Post job & contacts us now go & click the login button and sigup"
     },
     {
-      keywords: [, "how to remove my post", "how to delete my post", "remove", "Delete"],
+      keywords: ["how to remove my post", "how to delete my post", "remove", "Delete"],
       reply: "Click > My profile & delte you post"
+    },
+    {
+      keywords: ["how to find jobs", "find jobs", "jobs", "i want to jobs", "how to find job"],
+      reply: "go to Find work & see you job apply"
+    },
+    {
+      keywords: [, "How do I post a job?", "post a job", "job post", "i post to jobs"],
+      reply: "click the 'post a job' button & post you job and find employers "
+    },
+    {
+      keywords: ["මම රැකියාවක් පළ කරන්නේ කෙසේද?", "රැකියාවක් පළ කරන්න", "රැකියා සටහන", "මම රැකියා සඳහා පළ කරමි"],
+      reply: "'රැකියාවක් පළ කරන්න' බොත්තම ක්ලික් කර ඔබේ රැකියාව පළ කර සේවායෝජකයින් සොයා ගන්න."
+    },
+    {
+      keywords: ["රැකියා සොයා ගන්නේ කෙසේද", "රැකියා සොයා ගන්න", "රැකියා", "මට රැකියා අවශ්‍යයි", "රැකියාවක් සොයා ගන්නේ කෙසේද", "රැකියාවක්"],
+      reply: "'රැකියාව සොයන්න' බොත්තම ක්ලික් කර ඔබේ රැකියාව අයදුම් කරන ආකාරය බලන්න."
     },
     {
       keywords: ["හායි", "හෙලෝ", "හේයි", "හෙලෝ"],
@@ -94,11 +118,11 @@
       reply: "අපි ඔබට නොමිලේ වේලාවන් ලබා ගත හැකිය"
     },
     {
-      keywords: ["සම්බන්ධතා", "ඊමේල්", "දුරකථන", "සහාය", "දුරකථන"],
+      keywords: ["සම්බන්ධතා", "ඊමේල්", "දුරකථන", "සහාය", "දුරකථනය" , "සම්බන්ධතා තොරතුරු"],
       reply: "අප අමතන්න ක්ලික් කර මට ඉදිරිපත් කරන්න."
     },
     {
-      keywords: ["පිවිසුම", "ලියාපදිංචි වන්න", "ලියාපදිංචි වන්නේ කෙසේද", "රැකියාව එකක්"],
+      keywords: ["පිවිසුම", "ලියාපදිංචි වන්න", "ලියාපදිංචි වන්නේ කෙසේද", "රැකියාවක්"],
       reply: "login බොත්තම ක්ලික් කරන්න > signup > විස්තර නිවැරදිව ලබා දී ඔබ ගැන කුමක් දැයි තෝරාගෙන ඉදිරිපත් කරන්න"
     },
     {
@@ -126,8 +150,8 @@
       reply: "ඇත්තෙන්ම! රැකියා සොයා ගැනීම, පිවිසුම/ලියාපදිංචි වීම, සම්බන්ධතා තොරතුරු හෝ වෙබ් අඩවිය භාවිතා කර ගැටළු හෝ වෙනත් දෙයක් කරන්නේ කෙසේද යන්න පිළිබඳව ඔබට අවශ්‍ය උදව් මොනවාදැයි මට කියන්න?"
     },
     {
-      keywords: ["නම", "වෙබ් අඩවියේ නම", "ඔබේ නම"],
-      reply: "මෙම වෙබ් අඩවියේ නම එලින්කර්"
+      keywords: ["නම", "වෙබ් අඩවියේ නම", "ඔබේ නම" , "වෙබ් අඩවිය ගැන"],
+      reply: "මෙම වෙබ් අඩවියේ නම එලින්කර් , 'about' බොත්තම ක්ලික් කර වැඩි විස්තර බලන්න...."
     },
     {
       keywords: ["අයදුම් කරන්න", "රැකියාව අයදුම් කරන්නේ කෙසේද", "රැකියාව අයදුම් කරන්නේ කෙසේද"],
@@ -200,6 +224,10 @@
     {
       keywords: [, "எதைப் பற்றி", "பயன்படுத்து"],
       reply: "அவர்கள் உங்களுக்குப் பிடித்தமான மேலும் பல வேலைகளைக் கண்டறிவார்கள் பகுதி நேர வேலைகளுக்கு அல்லது உங்கள் பணிக்கு ஆட்கள் தேவைப்பட்டால், வேலையை இடுகையிட்டு எங்களைத் தொடர்புகொள்ளுங்கள். இப்போதே சென்று உள்நுழைவு பொத்தானைக் கிளிக் செய்து பதிவு செய்யவும்."
+    },
+    {
+      keywords: ["உள்நுழைவது எப்படி", "உள்நுழைவது எப்படி", "உள்நுழையும்போது", "நான் உள்நுழைய விரும்புகிறேன்", "உள்நுழைவது எப்படி"],
+      reply: "மெனு பட்டியைச் சொடுக்கவும், அங்கு ஒரு உள்நுழைவுப் பொத்தான் தோன்றும், அதைச் சொடுக்கி உள்நுழையவும்."
     }
   ];
 
