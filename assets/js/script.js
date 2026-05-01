@@ -23,10 +23,10 @@ function goToSignup() {
 const passwordToggles = document.querySelectorAll('.password-toggle');
 if (passwordToggles.length > 0) {
     passwordToggles.forEach(toggle => {
-        toggle.addEventListener('click', function() {
+        toggle.addEventListener('click', function () {
             const parent = this.parentElement;
             const passwordInput = parent.querySelector('input');
-            
+
             if (passwordInput && passwordInput.type === 'password') {
                 passwordInput.type = 'text';
                 this.classList.remove('bx-hide');
@@ -47,9 +47,9 @@ const dropDownMenu = document.querySelector('.dropdown_menu')
 
 if (toggleBtn && toggleBtnIcon && dropDownMenu) {
     toggleBtn.onclick = function () {
-      dropDownMenu.classList.toggle('open')
-      const isOpen = dropDownMenu.classList.contains('open')
-      toggleBtnIcon.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'
+        dropDownMenu.classList.toggle('open')
+        const isOpen = dropDownMenu.classList.contains('open')
+        toggleBtnIcon.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'
     }
 }
 
@@ -81,16 +81,16 @@ if (typeof getCurrentUser !== 'undefined') {
 
                 const profileAvatar = document.getElementById('profile-avatar');
                 if (profileAvatar) profileAvatar.textContent = initials;
-                
+
                 const profileDisplayName = document.getElementById('profile-display-name');
                 if (profileDisplayName) profileDisplayName.textContent = name;
-                
+
                 const profileDisplayType = document.getElementById('profile-display-type');
                 if (profileDisplayType) profileDisplayType.textContent = displayType;
-                
+
                 const ddName = document.getElementById('dd-name');
                 if (ddName) ddName.textContent = name;
-                
+
                 const ddEmail = document.getElementById('dd-email');
                 if (ddEmail) ddEmail.textContent = email;
 
@@ -347,4 +347,89 @@ if (typeof AOS !== 'undefined') {
     } else {
         AOS.init();
     }
+
 }
+// --- Scroll to Top Button (index & jobs only) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const page = window.location.pathname;
+    const allowedPages = ['/', '/index.html', '/jobs.html'];
+    const isAllowed = allowedPages.some(p => page === p || page.endsWith(p));
+    if (!isAllowed) return;
+
+    // Inject CSS dynamically
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 90px; /* 24px gap + 56px chatbot height + 10px gap */
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 9999px;
+            border: none;
+            background: linear-gradient(#227ff873 40%, #7c6bff 100%);
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(9, 25, 238, 0.884);
+            font-size: 26px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
+            z-index: 999999;
+        }
+
+        .scroll-top-btn.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-top-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .scroll-top-btn:active {
+            transform: scale(0.95);
+        }
+    `;
+    document.head.appendChild(style);
+
+    const scrollBtn = document.createElement('button');
+    scrollBtn.innerHTML = "<i class='bx bx-up-arrow-alt'></i>";
+    scrollBtn.className = "scroll-top-btn";
+    document.body.appendChild(scrollBtn);
+
+    // Track scroll visibility separately from chatbot state
+    let scrolledDown = false;
+
+    window.addEventListener('scroll', () => {
+        scrolledDown = window.scrollY > 300;
+        updateScrollBtnVisibility();
+    });
+
+    scrollBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Hide scroll-to-top when chatbot is open
+    function updateScrollBtnVisibility() {
+        const chatToggle = document.querySelector('.chat-toggle');
+        const isChatOpen = chatToggle && chatToggle.classList.contains('open');
+        if (scrolledDown && !isChatOpen) {
+            scrollBtn.classList.add('show');
+        } else {
+            scrollBtn.classList.remove('show');
+        }
+    }
+
+    // Watch for chatbot open/close using MutationObserver
+    const observer = new MutationObserver(() => updateScrollBtnVisibility());
+    const chatToggleTarget = document.querySelector('.chat-toggle');
+    if (chatToggleTarget) {
+        observer.observe(chatToggleTarget, { attributes: true, attributeFilter: ['class'] });
+    }
+});

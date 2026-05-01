@@ -500,3 +500,50 @@
         box-shadow: none !important;
     }
 }
+
+/* ============================================
+   Scroll to Top Button
+   ============================================ */
+.scroll-top-btn {
+    position: fixed;
+    bottom: 96px; /* Above chatbot toggle globally */
+    right: 24px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #227ff873 40%, #7c6bff 100%);
+    color: #fff;
+    border: none;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 9999;
+}
+
+.scroll-top-btn.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(124, 107, 255, 0.4);
+}
+
+@media (max-width: 768px) {
+    .scroll-top-btn {
+        bottom: 96px;
+        right: 24px;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+}
