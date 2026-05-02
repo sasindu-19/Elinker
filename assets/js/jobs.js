@@ -561,3 +561,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape') closeJobModal();
   });
 });
+
+const workMode = document.getElementById("filter-workmode");
+const district = document.getElementById("filter-district");
+
+workMode.addEventListener("change", function () {
+    if (this.value === "online") {
+        district.style.display = "none";
+    } else {
+        district.style.display = "inline-block"; // or "block" depending on your layout
+    }
+});
