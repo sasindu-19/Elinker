@@ -232,13 +232,36 @@ header {
     font-size: 45px;
     color: #fff;
     margin-bottom: 1.5rem;
-    transition: transform 0.3s ease, text-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(-50px);
+    animation: fadeDown 1s ease forwards;
 }
 
-.content h1:hover {
-    text-shadow: 0 0 50px rgba(150, 150, 245, 0.5);
-    transform: scale(1.05);
+.content h4{
+    font-family:sans-serif;
+    font-weight: 100;
+    color: rgba(255, 255, 255, 0.548);
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fadeUp 1.5s ease forwards;
+    animation-delay: 0.5s;
 }
+
+    /* Animations */
+    @keyframes fadeDown {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 
 .why-choose-heading {
     margin-top: 4rem;
