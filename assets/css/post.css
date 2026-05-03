@@ -648,3 +648,14 @@ textarea {
   h1 { font-size: 1.4rem; }
   .diff-grid { gap: 6px; }
 }
+
+
+
+
+ /* White date & time picker icons */
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) brightness(2);
+    cursor: pointer;
+    opacity: 0.9;
+  }
