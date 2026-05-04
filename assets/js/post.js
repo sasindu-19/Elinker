@@ -319,6 +319,12 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
   const workModeLabel = document.querySelector('#workModeGroup .active')?.dataset.value || 'Physical';
   const workMode = workModeLabel === 'Online' ? 'online' : 'physical';
 
+  // schedule
+  const startDate = document.getElementById('startDate').value;
+  const startTime = document.getElementById('startTime').value;
+  const endDate = document.getElementById('endDate').value;
+  const endTime = document.getElementById('endTime').value;
+
   // gender: stored as 'any' | 'male' | 'female'
   const genderLabel = document.querySelector('#genderGroup .active')?.dataset.value || 'Any Gender';
   const genderMap = { 'Any Gender': 'any', 'Male Only': 'male', 'Female Only': 'female' };
@@ -358,6 +364,25 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
   if (missingLocations.length) {
     showToast(`Please select: ${missingLocations.join(', ')}.`, 'warning');
     checks.push(false);
+  }
+
+  // Schedule check
+  const missingSchedule = [];
+  if (!startDate) missingSchedule.push('Start Date');
+  if (!startTime) missingSchedule.push('Start Time');
+  if (!endDate) missingSchedule.push('End Date');
+  if (!endTime) missingSchedule.push('End Time');
+
+  if (missingSchedule.length) {
+    showToast(`Please fill: ${missingSchedule.join(', ')}.`, 'warning');
+    checks.push(false);
+  } else {
+    const startObj = new Date(`${startDate}T${startTime}`);
+    const endObj = new Date(`${endDate}T${endTime}`);
+    if (endObj <= startObj) {
+      showToast('End date/time must be after start date/time.', 'warning');
+      checks.push(false);
+    }
   }
 
   if (checks.includes(false)) {
@@ -407,7 +432,11 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
       workers_needed: String(workersNeeded),
       workers_needed_int: workersNeeded,
       status: 'open',
-      work_mode: workMode
+      work_mode: workMode,
+      start_date: startDate,
+      start_time: startTime,
+      end_date: endDate,
+      end_time: endTime
     };
 
     const { data, error } = await supabaseClient

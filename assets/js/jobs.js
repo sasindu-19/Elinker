@@ -320,6 +320,16 @@ function buildJobCard(job, profile) {
   const noticesHtml = eligible ? '' : reasons.map(r =>
     `<div class="ineligible-notice"><i class='bx bxs-error'></i>${sanitizeInput(r)}</div>`
   ).join('');
+  
+  // Status badge
+  const isClosed = reasons.some(r => r.includes('time has passed'));
+  const isUpcoming = reasons.some(r => r.includes('has not started yet'));
+  let statusBadgeHtml = `<span class="job-tag tag-easy">Open</span>`;
+  if (isClosed) {
+    statusBadgeHtml = `<span class="job-tag tag-hard">Closed</span>`;
+  } else if (isUpcoming) {
+    statusBadgeHtml = `<span class="job-tag tag-medium" style="background: rgba(234, 179, 8, 0.15); color: #eab308; border-color: rgba(234, 179, 8, 0.3);">Upcoming</span>`;
+  }
 
   // Action button — clicking opens the detail modal
   const actionHtml = eligible
@@ -337,6 +347,7 @@ function buildJobCard(job, profile) {
         ${sanitizeInput(locationStr || 'Location not set')}
       </div>
       <div class="job-tags">
+        ${statusBadgeHtml}
         <span class="job-tag ${diffClass}">${diffLabel}</span>
         <span class="job-tag ${genderClass}">${genderLabel}</span>
         <span class="job-tag tag-age">${minAge}+</span>
@@ -359,6 +370,21 @@ function buildJobCard(job, profile) {
 // ============================================================
 function getIneligibilityReasons(job, profile) {
   const reasons = [];
+  
+  if (job.end_date && job.end_time) {
+    const endObj = new Date(`${job.end_date}T${job.end_time}`);
+    if (new Date() > endObj) {
+      reasons.push('⚠ This job is closed (time has passed)');
+    }
+  }
+
+  if (job.start_date && job.start_time) {
+    const startObj = new Date(`${job.start_date}T${job.start_time}`);
+    if (new Date() < startObj) {
+      reasons.push('⚠ This job has not started yet');
+    }
+  }
+
   if (!profile) {
     reasons.push('Complete your profile to check eligibility');
     return reasons;
@@ -444,7 +470,18 @@ function openJobModal(jobId) {
 
   const minAge = job.min_age_int ?? parseInt(job.min_age) ?? 18;
 
+  const isClosed = (job.end_date && job.end_time && new Date() > new Date(`${job.end_date}T${job.end_time}`));
+  const isUpcoming = (job.start_date && job.start_time && new Date() < new Date(`${job.start_date}T${job.start_time}`));
+  
+  let statusHtml = `<span class="job-tag tag-easy">Open</span>`;
+  if (isClosed) {
+    statusHtml = `<span class="job-tag tag-hard">Closed</span>`;
+  } else if (isUpcoming) {
+    statusHtml = `<span class="job-tag tag-medium" style="background: rgba(234, 179, 8, 0.15); color: #eab308; border-color: rgba(234, 179, 8, 0.3);">Upcoming</span>`;
+  }
+
   document.getElementById('jm-tags').innerHTML = `
+    ${statusHtml}
     <span class="job-tag ${diffClass}">${diffLabel}</span>
     <span class="job-tag ${genderClass}">${genderLabel}</span>
     <span class="job-tag tag-age">${minAge}+</span>
@@ -464,10 +501,19 @@ function openJobModal(jobId) {
     bannerEl.innerHTML = '';
   }
 
+  // Schedule
+  const scheduleHtml = (job.start_date && job.start_time && job.end_date && job.end_time)
+    ? `<div class="jm-section-label">Work Schedule</div>
+       <div class="jm-description">
+         <strong>Start:</strong> ${job.start_date} at ${job.start_time} <br>
+         <strong>End:</strong> ${job.end_date} at ${job.end_time}
+       </div>`
+    : '';
+
   // Description
   // To preserve line breaks while rendering innerHTML
   const safeDesc = sanitizeInput(job.description || 'No description provided.');
-  document.getElementById('jm-description').innerHTML = safeDesc.replace(/\n/g, '<br>');
+  document.getElementById('jm-description').innerHTML = scheduleHtml + '<div class="jm-section-label">Job Description</div>' + safeDesc.replace(/\n/g, '<br>');
 
   // ── Reset contact area to loading state ───────────────────
   document.getElementById('jm-contact-loading').style.display = 'flex';
@@ -479,7 +525,14 @@ function openJobModal(jobId) {
   document.body.style.overflow = 'hidden';
 
   // ── Fetch poster phone async ──────────────────────────────
-  fetchPosterContact(job.user_id, job);
+  if (reasons.length === 0) {
+    fetchPosterContact(job.user_id, job);
+  } else {
+    document.getElementById('jm-contact-loading').style.display = 'none';
+    const noContactEl = document.getElementById('jm-no-contact');
+    noContactEl.style.display = 'block';
+    noContactEl.innerHTML = '<i class="bx bx-lock-alt"></i> Contact info hidden (Not Eligible)';
+  }
 }
 
 // ── Fetch poster profile → build contact buttons ─────────────
