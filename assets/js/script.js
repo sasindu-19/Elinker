@@ -188,7 +188,7 @@ if (document.querySelector('.stats-section') || document.getElementById('testimo
                 if (viewsRes.data) {
                     const realViews = viewsRes.data.view_count;
                     if (realViews >= 1000) {
-                        viewCount = Math.floor(realViews / 1000);
+                        viewCount = Math.floor(realViews / 100) / 10;
                         hasK = true;
                     } else {
                         viewCount = realViews;
@@ -203,18 +203,19 @@ if (document.querySelector('.stats-section') || document.getElementById('testimo
         }
 
         const statsToAnimate = [
-            { id: 'members', target: memberCount },
-            { id: 'comments', target: jobCount },
-            { id: 'views', target: viewCount }
+            { id: 'members', target: memberCount, isFloat: false },
+            { id: 'comments', target: jobCount, isFloat: false },
+            { id: 'views', target: viewCount, isFloat: hasK && (viewCount % 1 !== 0) }
         ];
 
-        const animateValue = (obj, start, end, duration) => {
+        const animateValue = (obj, start, end, duration, isFloat = false) => {
             let startTimestamp = null;
             const step = (timestamp) => {
                 if (!startTimestamp) startTimestamp = timestamp;
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
                 const easeProgress = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-                obj.innerHTML = Math.floor(easeProgress * (end - start) + start);
+                const val = easeProgress * (end - start) + start;
+                obj.innerHTML = isFloat ? val.toFixed(1) : Math.floor(val);
                 if (progress < 1) {
                     window.requestAnimationFrame(step);
                 }
@@ -229,7 +230,7 @@ if (document.querySelector('.stats-section') || document.getElementById('testimo
                     statsToAnimate.forEach(stat => {
                         const el = document.getElementById(stat.id);
                         if (el) {
-                            animateValue(el, 0, stat.target, 2500);
+                            animateValue(el, 0, stat.target, 2500, stat.isFloat);
                         }
                     });
                     const satRateEl = document.querySelector('.stat-item:last-child .stat-number');
