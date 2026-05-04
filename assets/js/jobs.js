@@ -524,6 +524,10 @@ function openJobModal(jobId) {
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
 
+  // Hide scroll-to-top button
+  const scrollBtn = document.querySelector('.scroll-top-btn');
+  if (scrollBtn) scrollBtn.style.display = 'none';
+
   // ── Fetch poster phone async ──────────────────────────────
   if (reasons.length === 0) {
     fetchPosterContact(job.user_id, job);
@@ -597,6 +601,10 @@ function closeJobModal() {
   const overlay = document.getElementById('job-modal-overlay');
   overlay.classList.remove('open');
   document.body.style.overflow = '';
+
+  // Show scroll-to-top button
+  const scrollBtn = document.querySelector('.scroll-top-btn');
+  if (scrollBtn) scrollBtn.style.display = '';
 }
 
 // ── Wire up close button and overlay click ────────────────────
