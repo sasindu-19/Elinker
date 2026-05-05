@@ -467,6 +467,20 @@ a:hover {
   color: #ef4444;
 }
 
+.job-schedule {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  margin-bottom: 12px;
+}
+
+.job-schedule i {
+  font-size: 0.75rem;
+  color: var(--accent);
+}
+
 /* Tags Row */
 .job-tags {
   display: flex;

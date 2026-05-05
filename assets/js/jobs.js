@@ -316,19 +316,21 @@ function buildJobCard(job, profile) {
   const payNum      = parseFloat(job.daily_pay || job.budget || 0);
   const payStr      = payNum > 0 ? payNum.toLocaleString('si-LK', { maximumFractionDigits: 0 }) : '—';
 
+  // Schedule
+  const scheduleStr = (job.start_date && job.start_time)
+    ? `${job.start_date} at ${job.start_time}`
+    : 'Not scheduled';
+
   // Ineligible notices
   const noticesHtml = eligible ? '' : reasons.map(r =>
     `<div class="ineligible-notice"><i class='bx bxs-error'></i>${sanitizeInput(r)}</div>`
   ).join('');
   
   // Status badge
-  const isClosed = reasons.some(r => r.includes('time has passed'));
-  const isUpcoming = reasons.some(r => r.includes('has not started yet'));
+  const isClosed = reasons.some(r => r.includes('deadline') || r.includes('passed'));
   let statusBadgeHtml = `<span class="job-tag tag-easy">Open</span>`;
   if (isClosed) {
     statusBadgeHtml = `<span class="job-tag tag-hard">Closed</span>`;
-  } else if (isUpcoming) {
-    statusBadgeHtml = `<span class="job-tag tag-medium" style="background: rgba(234, 179, 8, 0.15); color: #eab308; border-color: rgba(234, 179, 8, 0.3);">Upcoming</span>`;
   }
 
   // Action button — clicking opens the detail modal
@@ -345,6 +347,10 @@ function buildJobCard(job, profile) {
       <div class="job-location">
         <i class='bx bxs-map-pin'></i>
         ${sanitizeInput(locationStr || 'Location not set')}
+      </div>
+      <div class="job-schedule" title="Application Deadline">
+        <i class='bx bx-calendar'></i>
+        Deadline: ${sanitizeInput(scheduleStr)}
       </div>
       <div class="job-tags">
         ${statusBadgeHtml}
@@ -371,17 +377,10 @@ function buildJobCard(job, profile) {
 function getIneligibilityReasons(job, profile) {
   const reasons = [];
   
-  if (job.end_date && job.end_time) {
-    const endObj = new Date(`${job.end_date}T${job.end_time}`);
-    if (new Date() > endObj) {
-      reasons.push('⚠ This job is closed (time has passed)');
-    }
-  }
-
   if (job.start_date && job.start_time) {
     const startObj = new Date(`${job.start_date}T${job.start_time}`);
-    if (new Date() < startObj) {
-      reasons.push('⚠ This job has not started yet');
+    if (new Date() >= startObj) {
+      reasons.push('⚠ Application deadline passed (Job started)');
     }
   }
 
@@ -470,14 +469,11 @@ function openJobModal(jobId) {
 
   const minAge = job.min_age_int ?? parseInt(job.min_age) ?? 18;
 
-  const isClosed = (job.end_date && job.end_time && new Date() > new Date(`${job.end_date}T${job.end_time}`));
-  const isUpcoming = (job.start_date && job.start_time && new Date() < new Date(`${job.start_date}T${job.start_time}`));
+  const isClosed = (job.start_date && job.start_time && new Date() >= new Date(`${job.start_date}T${job.start_time}`));
   
   let statusHtml = `<span class="job-tag tag-easy">Open</span>`;
   if (isClosed) {
     statusHtml = `<span class="job-tag tag-hard">Closed</span>`;
-  } else if (isUpcoming) {
-    statusHtml = `<span class="job-tag tag-medium" style="background: rgba(234, 179, 8, 0.15); color: #eab308; border-color: rgba(234, 179, 8, 0.3);">Upcoming</span>`;
   }
 
   document.getElementById('jm-tags').innerHTML = `

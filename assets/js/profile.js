@@ -266,25 +266,38 @@ async function fetchMyJobs() {
             return;
         }
         
-        container.innerHTML = jobs.map(job => `
-            <div class="my-job-card" id="mj-${job.id}">
+        container.innerHTML = jobs.map(job => {
+            const isExpired = job.start_date && job.start_time && (new Date() >= new Date(`${job.start_date}T${job.start_time}`));
+            const statusLabel = isExpired ? 'Expired' : (job.status === 'open' ? 'Open' : 'Closed');
+            const statusClass = isExpired ? 'expired' : job.status;
+            const canToggle = !isExpired;
+
+            return `
+            <div class="my-job-card ${isExpired ? 'expired' : ''}" id="mj-${job.id}">
                 <div class="mj-header">
                     <div class="mj-title">${sanitizeHtml(job.title)}</div>
-                    <div class="mj-status ${job.status}">${job.status === 'open' ? 'Open' : 'Closed'}</div>
+                    <div class="mj-status ${statusClass}">${statusLabel}</div>
                 </div>
                 <div class="mj-info"><i class='bx bx-map'></i> ${job.work_mode === 'online' ? 'Online / Remote' : `${sanitizeHtml(job.city || '')}, ${sanitizeHtml(job.district || '')}`}</div>
                 <div class="mj-info"><i class='bx bx-money'></i> Rs. ${job.daily_pay || job.budget || 0} / day</div>
                 <div class="mj-info"><i class='bx bx-time'></i> ${new Date(job.created_at).toLocaleDateString()}</div>
                 <div class="mj-footer">
+                    ${canToggle ? `
                     <button class="mj-btn mj-btn-toggle" onclick="toggleJobStatus('${job.id}', '${job.status}')">
                         <i class='bx ${job.status === 'open' ? 'bx-lock-alt' : 'bx-lock-open-alt'}'></i> ${job.status === 'open' ? 'Close Job' : 'Open Job'}
                     </button>
+                    ` : `
+                    <button class="mj-btn mj-btn-toggle" disabled style="opacity: 0.5; cursor: not-allowed;">
+                        <i class='bx bx-time-five'></i> Expired
+                    </button>
+                    `}
                     <button class="mj-btn mj-btn-delete" onclick="confirmDeleteJob('${job.id}')">
                         <i class='bx bx-trash'></i> Delete
                     </button>
                 </div>
             </div>
-        `).join('');
+            `;
+        }).join('');
         
     } catch (err) {
         console.error('Fetch jobs error:', err);

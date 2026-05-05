@@ -367,20 +367,27 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
   }
 
   // Schedule check
+  ['startDate', 'startTime', 'endDate', 'endTime'].forEach(setValid);
   const missingSchedule = [];
-  if (!startDate) missingSchedule.push('Start Date');
-  if (!startTime) missingSchedule.push('Start Time');
-  if (!endDate) missingSchedule.push('End Date');
-  if (!endTime) missingSchedule.push('End Time');
+  if (!startDate) { setError('startDate', 'Required'); missingSchedule.push('Start Date'); }
+  if (!startTime) { setError('startTime', 'Required'); missingSchedule.push('Start Time'); }
+  if (!endDate) { setError('endDate', 'Required'); missingSchedule.push('End Date'); }
+  if (!endTime) { setError('endTime', 'Required'); missingSchedule.push('End Time'); }
 
   if (missingSchedule.length) {
-    showToast(`Please fill: ${missingSchedule.join(', ')}.`, 'warning');
     checks.push(false);
   } else {
     const startObj = new Date(`${startDate}T${startTime}`);
     const endObj = new Date(`${endDate}T${endTime}`);
-    if (endObj <= startObj) {
-      showToast('End date/time must be after start date/time.', 'warning');
+    const now = new Date();
+
+    if (startObj < now) {
+      setError('startDate', 'Date/time cannot be in the past');
+      setError('startTime', 'Date/time cannot be in the past');
+      checks.push(false);
+    } else if (endObj <= startObj) {
+      setError('endDate', 'End must be after start');
+      setError('endTime', 'End must be after start');
       checks.push(false);
     }
   }
