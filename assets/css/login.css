@@ -1,28 +1,315 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+/* ===== RESET ===== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Segoe UI', sans-serif;
 }
 
 body {
+    background: #0f0c29;
+    background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);
+    background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+    color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: url(../images/login.webp);
-    background-size: cover;
+}
+
+.nav-back-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    color: var(--text);
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.nav-back-btn:hover {
+    background: var(--accent-light);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.home-sci {
+    position: absolute;
+    top: 5px;
+    left: 0px;
+    z-index: 1000;
+}
+
+.home-sci i {
+    color: #0ef;
+    font-size: 30px;
+    margin: 2px;
+    font-weight: bold;
+}
+
+/* ===== WRAPPER ===== */
+.wrapper {
+    position: relative;
+    width: 900px;
+    height: 550px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    /*box-shadow: 0 0 40px rgba(17, 0, 255, 0.842);*/
+    box-shadow: 0 0 80px #1a2980 ;
+    overflow: hidden;
+    display: flex;
+}
+
+/* ===== FORM BOX ===== */
+.form-box {
+    width: 50%;
+    padding: 40px;
+}
+
+.form-box h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #00eeff;
+}
+
+/* ===== INPUT BOX ===== */
+.input-box {
+    position: relative;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #444;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 10px 35px 10px 5px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 16px;
+}
+
+.input-box label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    color: #aaa;
+    pointer-events: none;
+    transition: 0.3s;
+}
+
+/* floating label */
+.input-box input:focus ~ label,
+.input-box input:valid ~ label {
+    top: -8px;
+    font-size: 12px;
+    color: #00eeff;
+}
+
+/* ICON */
+.input-box i {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #00eeff;
+    cursor: pointer;
+}
+
+/* ===== BUTTON ===== */
+.btn {
+    width: 100%;
+    padding: 12px;
+    background: #1a2980; 
+    background: -webkit-linear-gradient(to right, #26d0ce, #1a2980); 
+    background: linear-gradient(to right,#1a2980, #26d0ce );
+    position: relative;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    color: #f7f7f7e0;
+    font-size: 15px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+.btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%; 
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg,transparent,#1a2980,transparent);
+    transition: 1.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+
+
+/* ===== GOOGLE BUTTON ===== */
+.btn-google {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: 1px solid #00eeff;
+    border-radius: 8px;
+    color: #fff;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-google:hover {
+    background: #00eeff;
+    color: #000;
+}
+
+/* ===== LINKS ===== */
+.logreg-link {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.logreg-link a {
+    color: #00eeff;
+    text-decoration: none;
+}
+
+.logreg-link a:hover {
+    text-decoration: underline;
+}
+
+/* ===== INFO SIDE ===== */
+.info-text {
+    width: 50%;
+    background: linear-gradient(135deg, #00eeff33, #007bff22);
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px;
+}
+
+.info-text h2 {
+    font-size: 42px;
+    color: #00eeff;
+}
+
+.info-text p {
+    margin-top: 15px;
+    color: #ccc;
+}
+
+/* ===== MODAL OVERLAY ===== */
+.confirm-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+/* ===== MODAL BOX ===== */
+.confirm-modal {
+    background: #111827;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 0 25px rgba(0,238,255,0.3);
+}
+
+.confirm-modal h2 {
+    margin-bottom: 10px;
+    color: #00eeff;
+}
+
+.confirm-modal p {
+    font-size: 14px;
+    color: #aaa;
+}
+
+/* ===== MODAL BUTTON ===== */
+.confirm-btn {
+    margin-top: 15px;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 6px;
+    background: #00eeff;
+    color: #000;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.confirm-btn:hover {
+    background: #00c3cc;
+}
+
+/* ===== ERROR TEXT ===== */
+#email-exists-error,
+#password-match-error {
+    color: #ff4d4d;
+    font-size: 12px;
+}
+
+/* ========================================= */
+/* Google Sign-In Button */
+/* ========================================= */
+.btn-google {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 14.5px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    color: #fff;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+.btn-google:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
+}
+
+.btn-google:active {
+    transform: translateY(0);
 }
 
 .wrapper {
     position: relative;
-    width: 750px;
-    height: 450px;
-    background: transparent;
-    border: 2px solid #0ef;
-    box-shadow: 0 0 25px #0ef;
     overflow: hidden;
     transition: height 0.6s ease;
 }
@@ -96,119 +383,6 @@ body {
     transition-delay: calc(.1s * var(--i));
 }
 
-.form-box h2 {
-    font-size: 32px;
-    color: #fff;
-    text-align: center;
-}
-
-.form-box .input-box {
-    position: relative;
-    width: 100%;
-    height: 50px;
-    margin: 25px 0;
-}
-
-.input-box input {
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    border: none;
-    outline: none;
-    border-bottom: 2px solid #fff;
-    padding-right: 23px;
-    font-size: 16px;
-    color: #fff;
-    font-weight: 500;
-    transition: .5s;
-}
-
-.input-box input:focus,
-.input-box input:valid {
-    border-bottom-color: #0ef;
-}
-
-.input-box label {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    font-size: 16px;
-    color: #fff;
-    pointer-events: none;
-    transition: .5s;
-}
-
-.input-box input:focus~label,
-.input-box input:valid~label {
-    top: -5px;
-    color: #0ef;
-}
-
-.input-box i {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    font-size: 18px;
-    color: #fff;
-    transition: .5s;
-}
-
-.input-box input:focus~i,
-.input-box input:valid~i {
-    color: #0ef;
-}
-
-.btn {
-    position: relative;
-    width: 100%;
-    height: 45px;
-    background: transparent;
-    border: 2px solid #0ef;
-    outline: none;
-    border-radius: 40px;
-    cursor: pointer;
-    font-size: 16px;
-    color: #fff;
-    font-weight: 600;
-    z-index: 1;
-    overflow: hidden;
-}
-
-.btn::before {
-    content: '';
-    position: absolute;
-    top: -100;
-    left: 0;
-    width: 100%;
-    height: 300%;
-    background: linear-gradient(#081b29, #0ef, #081b29, #0ef);
-    z-index: -1;
-    transition: .5s;
-}
-
-.btn:hover::before {
-    top: 0;
-}
-
-.form-box .logreg-link {
-    font-size: 14.5px;
-    color: #fff;
-    text-align: center;
-    margin: 20px 0 10px;
-}
-
-.logreg-link p a {
-    color: #0ef;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.logreg-link p a:hover {
-    text-decoration: underline;
-}
-
 .wrapper .info-text {
     position: absolute;
     top: 0;
@@ -267,70 +441,6 @@ body {
     transition-delay: calc(.1s * var(--i));
 }
 
-.info-text h2 {
-    font-size: 36px;
-    color: #fff;
-    line-height: 1.3;
-    text-transform: uppercase;
-}
-
-.info-text p {
-    font-size: 16px;
-    color: #fff;
-}
-
-.wrapper .bg-animate {
-    position: absolute;
-    top: -4px;
-    right: 0;
-    width: 850px;
-    height: 100%;
-    background: linear-gradient(45deg, #081b29, #0ef);
-    border-bottom: 3px solid #0ef;
-    transform: rotate(10deg) skewY(40deg);
-    transform-origin: bottom right;
-    transition: 1.5s ease;
-    transition-delay: 1.6s;
-}
-
-.wrapper.active .bg-animate {
-    transform: rotate(0) skewY(0);
-    transition-delay: .5s;
-}
-
-.wrapper .bg-animate2 {
-    position: absolute;
-    top: 100%;
-    left: 250px;
-    width: 850px;
-    height: 700px;
-    background: #081b29;
-    border-top: 3px solid #0ef;
-    transform: rotate(0) skewY(0);
-    transform-origin: bottom left;
-    transition: 1.5s ease;
-    transition-delay: .5s;
-}
-
-.wrapper.active .bg-animate2 {
-    transform: rotate(-11deg) skewY(-41deg);
-    transition-delay: 1.2s;
-}
-
-.home-sci {
-    position: absolute;
-    top: 5px;
-    left: 20px;
-    z-index: 1000;
-}
-
-.home-sci i {
-    color: #0ef;
-    font-size: 30px;
-    margin: 10px;
-    font-weight: bold;
-}
-
 /* ========================================= */
 /* Divider */
 /* ========================================= */
@@ -350,47 +460,6 @@ body {
     flex: 1;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
-
-/* ========================================= */
-/* Google Sign-In Button */
-/* ========================================= */
-.btn-google {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    height: 45px;
-    background: rgba(255, 255, 255, 0.07);
-    border: 1.5px solid rgba(255, 255, 255, 0.25);
-    border-radius: 40px;
-    cursor: pointer;
-    font-size: 14.5px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    color: #fff;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(4px);
-    overflow: hidden;
-    margin-bottom: 4px;
-}
-
-.btn-google:hover {
-    background: rgba(255, 255, 255, 0.14);
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    transform: translateY(-1px);
-}
-
-.btn-google:active {
-    transform: translateY(0);
-}
-
-.btn-google svg {
-    flex-shrink: 0;
-}
-
 /* ========================================= */
 /* Mobile Responsiveness */
 /* ========================================= */
@@ -461,5 +530,45 @@ body {
     body {
         background-position: center;
         background-size: cover;
+    }
+
+    /* ===== BUTTON ===== */
+    .btn {
+        width: 100%;
+        padding: 12px;
+        background: #1a2980; /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #26d0ce, #1a2980); /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right,#1a2980, #26d0ce ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        position: relative;
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        color: #f7f7f7e0;
+        font-size: 15px;
+        cursor: pointer;
+        overflow: hidden;
+        transition: 0.3s;
+        font-weight: 500;
+    }
+
+    .btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            120deg,
+            transparent,
+            #1a2980,
+            transparent
+        );
+        transition: 1.5s;
+    }
+
+    .btn:hover::before {
+        left: 100%;
     }
 }
