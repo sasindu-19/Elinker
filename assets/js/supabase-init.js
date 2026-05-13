@@ -88,7 +88,7 @@ async function logoutUser() {
         localStorage.clear();
         sessionStorage.clear();
     }
-    window.location.href = 'login.html';
+    window.location.href = 'login';
 }
 
 // Global Access Denied Modal

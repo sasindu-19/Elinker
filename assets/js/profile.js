@@ -489,7 +489,7 @@ async function sendInviteEmail(workerEmail, workerName, jobTitle) {
     const response = await fetch(EMAIL_SERVER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ to: workerEmail, subject: `Job Opportunity: ${jobTitle}`, workerName, jobTitle, inviteLink: `${window.location.origin}/jobs.html` })
+      body: JSON.stringify({ to: workerEmail, subject: `Job Opportunity: ${jobTitle}`, workerName, jobTitle, inviteLink: `${window.location.origin}/jobs` })
     });
     return response.ok;
   } catch (err) { return false; }

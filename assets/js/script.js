@@ -16,7 +16,7 @@ if (loginlink) {
 }
 
 function goToSignup() {
-    window.location.href = "signup.html";
+    window.location.href = "signup";
 }
 
 // --- Toggle Password Visibility ---
@@ -69,8 +69,8 @@ if (typeof getCurrentUser !== 'undefined') {
 
                 const profile = await getUserProfile(user.id);
                 // Redirect if missing gender or dob and NOT on signup page
-                if (profile && (!profile.gender || !profile.dob) && !window.location.pathname.includes('signup.html')) {
-                    window.location.href = 'signup.html';
+                if (profile && (!profile.gender || !profile.dob) && !window.location.pathname.includes('signup')) {
+                    window.location.href = 'signup';
                     return;
                 }
                 const name = profile?.full_name || user.email.split('@')[0];
@@ -336,7 +336,7 @@ if (document.querySelector('.stats-section') || document.getElementById('testimo
 if (typeof AOS !== 'undefined') {
     // If there is an AOS settings script inline, we will let that run instead or apply default here.
     // Assuming mostly default
-    if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+    if (window.location.pathname.endsWith('index') || window.location.pathname === '/') {
         AOS.init({
             duration: 800,
             once: true,
@@ -353,7 +353,7 @@ if (typeof AOS !== 'undefined') {
 // --- Scroll to Top Button (index & jobs only) ---
 document.addEventListener('DOMContentLoaded', () => {
     const page = window.location.pathname;
-    const allowedPages = ['/', '/index.html', '/jobs.html'];
+    const allowedPages = ['/', '/index', '/jobs'];
     const isAllowed = allowedPages.some(p => page === p || page.endsWith(p));
     if (!isAllowed) return;
 

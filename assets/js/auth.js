@@ -115,7 +115,7 @@ if (loginForm) {
         } else {
             showToast('Login successful! Redirecting...', 'success');
             setTimeout(() => {
-                window.location.href = 'index.html';
+                window.location.href = '/';
             }, 1200);
         }
     });
@@ -202,7 +202,7 @@ if (registerForm) {
             email: email,
             password: password,
             options: {
-                emailRedirectTo: window.location.origin + '/signup.html'
+                emailRedirectTo: window.location.origin + '/signup'
             }
         });
 
@@ -222,7 +222,7 @@ if (registerForm) {
             // Email confirmation is OFF — user is auto-logged in
             showToast('Account created successfully! Redirecting...', 'success');
             setTimeout(() => {
-                window.location.href = 'signup.html';
+                window.location.href = 'signup';
             }, 1200);
         } else {
             // Email confirmation is ON — show check-email modal
@@ -334,7 +334,7 @@ async function signInWithGoogle() {
     const { data, error } = await supabaseClient.auth.signInWithOAuth({
         provider: 'google',
         options: {
-            redirectTo: window.location.origin + '/signup.html'
+            redirectTo: window.location.origin + '/signup'
         }
     });
 

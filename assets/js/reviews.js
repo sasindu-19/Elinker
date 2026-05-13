@@ -43,7 +43,7 @@ if (openBtn) {
         if (!currentUser) {
             showToast("Please login to leave a review.", "warning");
             setTimeout(() => {
-                window.location.href = "login.html";
+                window.location.href = "login";
             }, 2000);
             return;
         }

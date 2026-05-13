@@ -42,7 +42,7 @@ function showToast(message, type = 'info', duration = 4000) {
             'Authentication Error',
             msg + '. Please login again or request a new link.',
             'bxs-error-circle',
-            [ { text: 'Go to Login', href: 'login.html', cls: 'primary' } ]
+            [ { text: 'Go to Login', href: 'login', cls: 'primary' } ]
         );
         // Clean up the URL
         window.history.replaceState(null, document.title, window.location.pathname);
@@ -57,8 +57,8 @@ function showToast(message, type = 'info', duration = 4000) {
         'You need to login first to set up your profile. Create an account or login to continue.',
         'bxs-lock-alt',
         [
-          { text: 'Login Now', href: 'login.html', cls: 'primary' },
-          { text: 'Go Home', href: 'index.html', cls: 'secondary' }
+          { text: 'Login Now', href: 'login', cls: 'primary' },
+          { text: 'Go Home', href: '/', cls: 'secondary' }
         ]
       );
       return;
@@ -68,7 +68,7 @@ function showToast(message, type = 'info', duration = 4000) {
     const profile = await getUserProfile(user.id);
     if (profile && profile.full_name && profile.phone_number) {
         // User has already onboarded. Redirect to homepage.
-        window.location.replace('index.html');
+        window.location.replace('/');
         return;
     }
     
@@ -322,7 +322,7 @@ button.addEventListener('click', async (e) => {
   } else {
     showToast('Profile setup complete! Redirecting...', 'success');
     setTimeout(() => {
-      window.location.href = 'index.html';
+      window.location.href = '/';
     }, 1500);
   }
 });

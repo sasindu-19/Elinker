@@ -265,8 +265,8 @@ document.addEventListener('DOMContentLoaded', () => {
       'You need to login first to post a job.',
       'bxs-lock-alt',
       [
-        { text: 'Login Now', href: 'login.html', cls: 'primary' },
-        { text: 'Go Home', href: 'index.html', cls: 'secondary' }
+        { text: 'Login Now', href: 'login', cls: 'primary' },
+        { text: 'Go Home', href: '/', cls: 'secondary' }
       ]
     );
     return;
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const profile = await getUserProfile(user.id);
 
   if (profile && (!profile.gender || !profile.dob)) {
-    window.location.href = 'signup.html';
+    window.location.href = 'signup';
     return;
   }
 
@@ -285,8 +285,8 @@ document.addEventListener('DOMContentLoaded', () => {
       'Only clients can post jobs. As a worker, you can browse and apply for available jobs.',
       'bxs-shield-x',
       [
-        { text: 'Find Work', href: 'jobs.html', cls: 'primary' },
-        { text: 'Go Home', href: 'index.html', cls: 'secondary' }
+        { text: 'Find Work', href: 'jobs', cls: 'primary' },
+        { text: 'Go Home', href: '/', cls: 'secondary' }
       ]
     );
     return;
@@ -463,7 +463,7 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
       showSuggestionsModal(workers, { id: data.id, title: title });
     } else {
       // No suggestions? Just redirect
-      setTimeout(() => { window.location.href = 'jobs.html'; }, 1000);
+      setTimeout(() => { window.location.href = 'jobs'; }, 1000);
     }
 
   } catch (err) {
@@ -535,8 +535,8 @@ function showSuggestionsModal(workers, jobData) {
       document.getElementById('suggestionsOverlay').classList.remove('active');
       document.body.style.overflow = '';
       // If we are in the post flow, redirect to jobs
-      if (window.location.pathname.includes('post.html')) {
-        window.location.href = 'jobs.html';
+      if (window.location.pathname.includes('post')) {
+        window.location.href = 'jobs';
       }
     };
   }
@@ -627,7 +627,7 @@ async function sendInviteEmail(workerEmail, workerName, jobTitle) {
         subject: `New Job Opportunity: ${jobTitle}`,
         workerName: workerName,
         jobTitle: jobTitle,
-        inviteLink: `${window.location.origin}/jobs.html`
+        inviteLink: `${window.location.origin}/jobs`
       })
     });
 

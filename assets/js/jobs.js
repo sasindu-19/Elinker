@@ -22,8 +22,8 @@ let realtimeChannel = null;
       'You need to login first to find work. Create an account or login to continue.',
       'bxs-lock-alt',
       [
-        { text: 'Login Now', href: 'login.html', cls: 'primary' },
-        { text: 'Go Home',   href: 'index.html', cls: 'secondary' }
+        { text: 'Login Now', href: 'login', cls: 'primary' },
+        { text: 'Go Home',   href: '/', cls: 'secondary' }
       ]
     );
     return;
@@ -32,7 +32,7 @@ let realtimeChannel = null;
   // ── 2. Profile completeness check ────────────────────────
   const profile = await getUserProfile(user.id);
   if (profile && (!profile.gender || !profile.dob)) {
-    window.location.href = 'signup.html';
+    window.location.href = 'signup';
     return;
   }
 
