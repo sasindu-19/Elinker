@@ -504,10 +504,10 @@ async function fetchSuggestedWorkers(province, district, category, workMode, tar
     const { data, error } = await supabaseClient.rpc('get_or_create_job_suggestions', {
       p_job_id: jobId,
       p_province: province || '',
-      p_district: district || '',
+      p_district: (district && district !== 'null' && district !== 'undefined') ? district : '',
       p_category: category,
       p_work_mode: workMode,
-      p_target_gender: targetGender || 'any'
+      p_target_gender: (targetGender && targetGender !== 'null' && targetGender !== 'undefined') ? targetGender : 'any'
     });
 
     if (error) throw error;
