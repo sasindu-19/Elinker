@@ -458,7 +458,7 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
     showToast('Job posted successfully!', 'success', 2000);
     
     // Fetch and show suggestions
-    const workers = await fetchSuggestedWorkers(province, district, category, workMode, gender, data.id);
+    const workers = await fetchSuggestedWorkers(province, district, category, workMode, targetGender, data.id);
     if (workers && workers.length > 0) {
       showSuggestionsModal(workers, { id: data.id, title: title });
     } else {
