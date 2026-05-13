@@ -458,7 +458,7 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
     showToast('Job posted successfully!', 'success', 2000);
     
     // Fetch and show suggestions
-    const workers = await fetchSuggestedWorkers(province, district, category, workMode, data.id);
+    const workers = await fetchSuggestedWorkers(province, district, category, workMode, gender, data.id);
     if (workers && workers.length > 0) {
       showSuggestionsModal(workers, { id: data.id, title: title });
     } else {
@@ -498,15 +498,16 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
 /**
  * Fetch up to 5 workers matching the province and skills
  */
-async function fetchSuggestedWorkers(province, district, category, workMode, jobId) {
-  console.log('Fetching persistent suggestions for:', { province, district, category, workMode, jobId });
+async function fetchSuggestedWorkers(province, district, category, workMode, targetGender, jobId) {
+  console.log('Fetching persistent suggestions for:', { province, district, category, workMode, targetGender, jobId });
   try {
     const { data, error } = await supabaseClient.rpc('get_or_create_job_suggestions', {
       p_job_id: jobId,
       p_province: province || '',
       p_district: district || '',
       p_category: category,
-      p_work_mode: workMode
+      p_work_mode: workMode,
+      p_target_gender: targetGender || 'any'
     });
 
     if (error) throw error;

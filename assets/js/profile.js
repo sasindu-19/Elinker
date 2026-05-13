@@ -287,7 +287,7 @@ async function fetchMyJobs() {
                         <i class='bx ${job.status === 'open' ? 'bx-lock-alt' : 'bx-lock-open-alt'}'></i> ${job.status === 'open' ? 'Close' : 'Open'}
                     </button>
                     <button class="mj-btn" style="background:rgba(0, 209, 209, 0.1); color:#0ef; border:1px solid rgba(0, 209, 209, 0.2);" 
-                            onclick="showSuggestionsForJob('${job.id}', '${sanitizeHtml(job.title)}', '${job.province}', '${job.district}', '${job.category}', '${job.work_mode}')">
+                            onclick="showSuggestionsForJob('${job.id}', '${sanitizeHtml(job.title)}', '${job.province}', '${job.district}', '${job.category}', '${job.work_mode}', '${job.target_gender}')">
                         <i class='bx bxs-zap'></i> Invite Workers
                     </button>
                     ` : `
@@ -383,7 +383,7 @@ function sanitizeInput(str) {
 
 // ─── SUGGESTED WORKERS LOGIC ───
 
-async function showSuggestionsForJob(id, title, province, district, category, workMode) {
+async function showSuggestionsForJob(id, title, province, district, category, workMode, targetGender) {
     const overlay = document.getElementById('suggestionsOverlay');
     const list = document.getElementById('workerList');
     if (!overlay || !list) return;
@@ -392,18 +392,19 @@ async function showSuggestionsForJob(id, title, province, district, category, wo
     list.innerHTML = `<div style="text-align:center; padding: 20px;"><i class='bx bx-loader-alt bx-spin' style="font-size: 2rem; color: var(--accent);"></i><p>Finding the best workers...</p></div>`;
     document.body.style.overflow = 'hidden';
 
-    const workers = await fetchSuggestedWorkers(province, district, category, workMode, id);
+    const workers = await fetchSuggestedWorkers(province, district, category, workMode, targetGender, id);
     showSuggestionsModal(workers, { id, title });
 }
 
-async function fetchSuggestedWorkers(province, district, category, workMode, jobId) {
+async function fetchSuggestedWorkers(province, district, category, workMode, targetGender, jobId) {
   try {
     const { data, error } = await supabaseClient.rpc('get_or_create_job_suggestions', {
       p_job_id: jobId,
       p_province: province || '',
       p_district: district || '',
       p_category: category,
-      p_work_mode: workMode
+      p_work_mode: workMode,
+      p_target_gender: targetGender || 'any'
     });
 
     if (error) throw error;
