@@ -423,6 +423,14 @@ function showSuggestionsModal(workers, jobData) {
   const list = document.getElementById('workerList');
   if (!list) return;
 
+  const closeBtn = document.getElementById('closeSuggestions');
+  if (closeBtn) {
+    closeBtn.onclick = () => {
+      document.getElementById('suggestionsOverlay').classList.remove('active');
+      document.body.style.overflow = '';
+    };
+  }
+
   if (workers.length === 0) {
       list.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--muted);">No matching workers found in this area.</div>`;
       return;

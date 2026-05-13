@@ -528,9 +528,25 @@ async function fetchSuggestedWorkers(province, district, category, workMode, tar
 function showSuggestionsModal(workers, jobData) {
   const overlay = document.getElementById('suggestionsOverlay');
   const list = document.getElementById('workerList');
-  const skipBtn = document.getElementById('skipSuggestions');
+  
+  const closeBtn = document.getElementById('skipSuggestions') || document.getElementById('closeSuggestions');
+  if (closeBtn) {
+    closeBtn.onclick = () => {
+      document.getElementById('suggestionsOverlay').classList.remove('active');
+      document.body.style.overflow = '';
+      // If we are in the post flow, redirect to jobs
+      if (window.location.pathname.includes('post.html')) {
+        window.location.href = 'jobs.html';
+      }
+    };
+  }
 
   if (!overlay || !list) return;
+
+  if (workers.length === 0) {
+    list.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-dim);">No matching workers found in this area.</div>`;
+    return;
+  }
 
   list.innerHTML = '';
   workers.forEach(worker => {
@@ -565,12 +581,6 @@ function showSuggestionsModal(workers, jobData) {
 
   overlay.classList.add('active');
   document.body.style.overflow = 'hidden';
-
-  skipBtn.onclick = () => {
-    overlay.classList.remove('active');
-    document.body.style.overflow = '';
-    window.location.href = 'jobs.html';
-  };
 }
 
 /**
