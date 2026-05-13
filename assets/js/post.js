@@ -458,7 +458,7 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
     showToast('Job posted successfully!', 'success', 2000);
     
     // Fetch and show suggestions
-    const workers = await fetchSuggestedWorkers(province, category, workMode, data.id);
+    const workers = await fetchSuggestedWorkers(province, district, category, workMode, data.id);
     if (workers && workers.length > 0) {
       showSuggestionsModal(workers, { id: data.id, title: title });
     } else {
@@ -498,19 +498,19 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
 /**
  * Fetch up to 5 workers matching the province and skills
  */
-async function fetchSuggestedWorkers(province, category, workMode, jobId) {
-  console.log('Fetching persistent suggestions for:', { province, category, workMode, jobId });
+async function fetchSuggestedWorkers(province, district, category, workMode, jobId) {
+  console.log('Fetching persistent suggestions for:', { province, district, category, workMode, jobId });
   try {
     const { data, error } = await supabaseClient.rpc('get_or_create_job_suggestions', {
       p_job_id: jobId,
       p_province: province || '',
+      p_district: district || '',
       p_category: category,
       p_work_mode: workMode
     });
 
     if (error) throw error;
     
-    // Transform RPC result to match the expected worker object format
     return (data || []).map(w => ({
       ...w,
       alreadyInvited: w.already_invited
@@ -544,32 +544,17 @@ function showSuggestionsModal(workers, jobData) {
         <div class="worker-details">
           <h4>${sanitizeInput(worker.full_name)}</h4>
           <div class="worker-meta">
-            <span>📍 ${sanitizeInput(worker.province || 'Sri Lanka')}</span>
+            <span>📍 ${sanitizeInput(worker.district || worker.province || 'Sri Lanka')}</span>
             <span class="worker-skills">✨ ${sanitizeInput(skills)}</span>
           </div>
         </div>
       </div>
-      <div class="worker-actions" style="display:flex; gap:8px;">
-        <button class="invite-btn whatsapp" title="WhatsApp">
-          <i class='bx bxl-whatsapp'></i>
+      <div class="worker-actions">
+        <button class="invite-btn whatsapp primary-wa">
+          <i class='bx bxl-whatsapp'></i> WhatsApp
         </button>
-        ${worker.alreadyInvited ? `
-          <button class="invite-btn email invited" disabled>
-            <i class='bx bx-check'></i> Invited
-          </button>
-        ` : `
-          <button class="invite-btn email" title="Send Email Invite">
-            <i class='bx bx-paper-plane'></i> Invite
-          </button>
-        `}
       </div>
     `;
-    
-    // Add invite listener
-    const emailBtn = item.querySelector('.invite-btn.email');
-    if (emailBtn && !worker.alreadyInvited) {
-      emailBtn.addEventListener('click', () => handleInvite(emailBtn, worker, jobData));
-    }
     
     const waBtn = item.querySelector('.invite-btn.whatsapp');
     waBtn.addEventListener('click', () => handleWhatsApp(worker, jobData));
@@ -590,36 +575,7 @@ function showSuggestionsModal(workers, jobData) {
 /**
  * Handle the invite button click
  */
-async function handleInvite(btn, worker, jobData) {
-  if (btn.classList.contains('invited')) return;
-
-  const originalHtml = btn.innerHTML;
-  btn.innerHTML = "<i class='bx bx-loader-alt bx-spin'></i>";
-  btn.disabled = true;
-
-  try {
-    // 1. Send the email via custom server
-    const success = await sendInviteEmail(worker.email, worker.full_name, jobData.title);
-
-    if (success) {
-      // 2. Track the invitation in database
-      await supabaseClient
-        .from('invitations')
-        .insert([{ job_id: jobData.id, worker_id: worker.id }]);
-
-      btn.innerHTML = "<i class='bx bx-check'></i> Invited";
-      btn.classList.add('invited');
-      showToast(`Invitation sent to ${worker.full_name}!`, 'success');
-    } else {
-      throw new Error('Email failed');
-    }
-  } catch (err) {
-    console.error('Invite error:', err);
-    btn.innerHTML = originalHtml;
-    btn.disabled = false;
-    showToast('Failed to send invitation. Please try again.', 'error');
-  }
-}
+// handleInvite removed as requested
 
 /**
  * Handle WhatsApp click

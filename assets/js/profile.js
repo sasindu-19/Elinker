@@ -287,7 +287,7 @@ async function fetchMyJobs() {
                         <i class='bx ${job.status === 'open' ? 'bx-lock-alt' : 'bx-lock-open-alt'}'></i> ${job.status === 'open' ? 'Close' : 'Open'}
                     </button>
                     <button class="mj-btn" style="background:rgba(0, 209, 209, 0.1); color:#0ef; border:1px solid rgba(0, 209, 209, 0.2);" 
-                            onclick="showSuggestionsForJob('${job.id}', '${sanitizeHtml(job.title)}', '${job.province}', '${job.category}', '${job.work_mode}')">
+                            onclick="showSuggestionsForJob('${job.id}', '${sanitizeHtml(job.title)}', '${job.province}', '${job.district}', '${job.category}', '${job.work_mode}')">
                         <i class='bx bxs-zap'></i> Invite Workers
                     </button>
                     ` : `
@@ -383,7 +383,7 @@ function sanitizeInput(str) {
 
 // ─── SUGGESTED WORKERS LOGIC ───
 
-async function showSuggestionsForJob(id, title, province, category, workMode) {
+async function showSuggestionsForJob(id, title, province, district, category, workMode) {
     const overlay = document.getElementById('suggestionsOverlay');
     const list = document.getElementById('workerList');
     if (!overlay || !list) return;
@@ -392,15 +392,16 @@ async function showSuggestionsForJob(id, title, province, category, workMode) {
     list.innerHTML = `<div style="text-align:center; padding: 20px;"><i class='bx bx-loader-alt bx-spin' style="font-size: 2rem; color: var(--accent);"></i><p>Finding the best workers...</p></div>`;
     document.body.style.overflow = 'hidden';
 
-    const workers = await fetchSuggestedWorkers(province, category, workMode, id);
+    const workers = await fetchSuggestedWorkers(province, district, category, workMode, id);
     showSuggestionsModal(workers, { id, title });
 }
 
-async function fetchSuggestedWorkers(province, category, workMode, jobId) {
+async function fetchSuggestedWorkers(province, district, category, workMode, jobId) {
   try {
     const { data, error } = await supabaseClient.rpc('get_or_create_job_suggestions', {
       p_job_id: jobId,
       p_province: province || '',
+      p_district: district || '',
       p_category: category,
       p_work_mode: workMode
     });
@@ -439,31 +440,18 @@ function showSuggestionsModal(workers, jobData) {
         <div class="worker-details">
           <h4>${sanitizeInput(worker.full_name)}</h4>
           <div class="worker-meta">
-            <span>📍 ${sanitizeInput(worker.province || 'Sri Lanka')}</span>
+            <span>📍 ${sanitizeInput(worker.district || worker.province || 'Sri Lanka')}</span>
             <span class="worker-skills">✨ ${sanitizeInput(skills)}</span>
           </div>
         </div>
       </div>
-      <div class="worker-actions" style="display:flex; gap:8px;">
-        <button class="invite-btn whatsapp" title="WhatsApp">
-          <i class='bx bxl-whatsapp'></i>
+      <div class="worker-actions">
+        <button class="invite-btn whatsapp primary-wa">
+          <i class='bx bxl-whatsapp'></i> WhatsApp
         </button>
-        ${worker.alreadyInvited ? `
-          <button class="invite-btn email invited" disabled>
-            <i class='bx bx-check'></i> Invited
-          </button>
-        ` : `
-          <button class="invite-btn email" title="Send Email Invite">
-            <i class='bx bx-paper-plane'></i> Invite
-          </button>
-        `}
       </div>
     `;
     
-    const emailBtn = item.querySelector('.invite-btn.email');
-    if (emailBtn && !worker.alreadyInvited) {
-      emailBtn.addEventListener('click', () => handleInvite(emailBtn, worker, jobData));
-    }
     const waBtn = item.querySelector('.invite-btn.whatsapp');
     waBtn.addEventListener('click', () => handleWhatsApp(worker, jobData));
     list.appendChild(item);
@@ -475,25 +463,7 @@ function showSuggestionsModal(workers, jobData) {
   };
 }
 
-async function handleInvite(btn, worker, jobData) {
-  if (btn.classList.contains('invited')) return;
-  const originalHtml = btn.innerHTML;
-  btn.innerHTML = "<i class='bx bx-loader-alt bx-spin'></i>";
-  btn.disabled = true;
-
-  try {
-    const success = await sendInviteEmail(worker.email, worker.full_name, jobData.title);
-    if (success) {
-      await supabaseClient.from('invitations').insert([{ job_id: jobData.id, worker_id: worker.id }]);
-      btn.innerHTML = "<i class='bx bx-check'></i> Invited";
-      btn.classList.add('invited');
-      showToast(`Invitation sent to ${worker.full_name}!`, 'success');
-    } else { throw new Error('Email failed'); }
-  } catch (err) {
-    btn.innerHTML = originalHtml; btn.disabled = false;
-    showToast('Failed to send invitation.', 'error');
-  }
-}
+// handleInvite removed
 
 function handleWhatsApp(worker, jobData) {
   if (!worker.phone_number) { showToast('No phone number.', 'warning'); return; }

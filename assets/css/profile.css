@@ -966,3 +966,17 @@ header {
     justify-content: flex-end;
   }
 }
+
+.invite-btn.whatsapp.primary-wa {
+  flex: 1;
+  justify-content: center;
+  padding: 10px 20px;
+  background: #25d366;
+  color: #fff;
+  border: none;
+}
+
+.invite-btn.whatsapp.primary-wa:hover {
+  background: #128c7e;
+  box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+}
