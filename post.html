@@ -46,11 +46,11 @@
               <div class="form-group">
                 <label>Category</label>
                 <select id="category">
-                  <option>ICT Based skills</option>
-                  <option>Academic/Educational skills</option>
+                  <option>ICT Based Skills</option>
+                  <option>Academic/Educational Skills</option>
                   <option>Manpower Based Skills</option>
-                  <option>Technical Based Skills</option>
-                  <option>Other</option>
+                  <option>Technical based skills</option>
+                  <option>Others</option>
                 </select>
 
               </div>
@@ -209,13 +209,34 @@
       </div>
     </form>
 
+    <!-- SUGGESTED WORKERS MODAL -->
+    <div class="suggestions-overlay" id="suggestionsOverlay">
+      <div class="suggestions-modal">
+        <div class="suggestions-header">
+          <i class='bx bxs-zap'></i>
+          <h2>Boost Your Job Post!</h2>
+          <p>We found some skilled workers in your province who might be a great fit.</p>
+        </div>
+        
+        <div class="worker-list" id="workerList">
+          <!-- Suggested workers will be injected here -->
+          <div style="text-align:center; padding: 20px;">
+            <i class='bx bx-loader-alt bx-spin' style="font-size: 2rem; color: var(--accent);"></i>
+            <p>Finding the best workers...</p>
+          </div>
+        </div>
+        
+        <div class="suggestions-footer">
+          <button class="skip-btn" id="skipSuggestions">I'll wait for applicants</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Scripts: supabase first, then init, then locations, then page logic -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/supabase-init.js"></script>
     <script src="assets/js/srilanka-locations.js"></script>
     <script src="assets/js/post.js"></script>
-    </script>
-
 </body>
 
 </html>

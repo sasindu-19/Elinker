@@ -281,18 +281,22 @@ async function fetchMyJobs() {
                 <div class="mj-info"><i class='bx bx-map'></i> ${job.work_mode === 'online' ? 'Online / Remote' : `${sanitizeHtml(job.city || '')}, ${sanitizeHtml(job.district || '')}`}</div>
                 <div class="mj-info"><i class='bx bx-money'></i> Rs. ${job.daily_pay || job.budget || 0} / day</div>
                 <div class="mj-info"><i class='bx bx-time'></i> ${new Date(job.created_at).toLocaleDateString()}</div>
-                <div class="mj-footer">
+                <div class="mj-footer" style="flex-wrap:wrap;">
                     ${canToggle ? `
                     <button class="mj-btn mj-btn-toggle" onclick="toggleJobStatus('${job.id}', '${job.status}')">
-                        <i class='bx ${job.status === 'open' ? 'bx-lock-alt' : 'bx-lock-open-alt'}'></i> ${job.status === 'open' ? 'Close Job' : 'Open Job'}
+                        <i class='bx ${job.status === 'open' ? 'bx-lock-alt' : 'bx-lock-open-alt'}'></i> ${job.status === 'open' ? 'Close' : 'Open'}
+                    </button>
+                    <button class="mj-btn" style="background:rgba(0, 209, 209, 0.1); color:#0ef; border:1px solid rgba(0, 209, 209, 0.2);" 
+                            onclick="showSuggestionsForJob('${job.id}', '${sanitizeHtml(job.title)}', '${job.province}', '${job.category}', '${job.work_mode}')">
+                        <i class='bx bxs-zap'></i> Invite Workers
                     </button>
                     ` : `
-                    <button class="mj-btn mj-btn-toggle" disabled style="opacity: 0.5; cursor: not-allowed;">
+                    <button class="mj-btn mj-btn-toggle" disabled style="opacity: 0.5; cursor: not-allowed; flex:1;">
                         <i class='bx bx-time-five'></i> Expired
                     </button>
                     `}
-                    <button class="mj-btn mj-btn-delete" onclick="confirmDeleteJob('${job.id}')">
-                        <i class='bx bx-trash'></i> Delete
+                    <button class="mj-btn mj-btn-delete" style="flex:none; width:45px;" onclick="confirmDeleteJob('${job.id}')" title="Delete Job">
+                        <i class='bx bx-trash'></i>
                     </button>
                 </div>
             </div>
@@ -371,6 +375,145 @@ function sanitizeHtml(str) {
     const temp = document.createElement('div');
     temp.textContent = str;
     return temp.innerHTML;
+}
+
+function sanitizeInput(str) {
+  return sanitizeHtml(str);
+}
+
+// ─── SUGGESTED WORKERS LOGIC ───
+
+async function showSuggestionsForJob(id, title, province, category, workMode) {
+    const overlay = document.getElementById('suggestionsOverlay');
+    const list = document.getElementById('workerList');
+    if (!overlay || !list) return;
+
+    overlay.classList.add('active');
+    list.innerHTML = `<div style="text-align:center; padding: 20px;"><i class='bx bx-loader-alt bx-spin' style="font-size: 2rem; color: var(--accent);"></i><p>Finding the best workers...</p></div>`;
+    document.body.style.overflow = 'hidden';
+
+    const workers = await fetchSuggestedWorkers(province, category, workMode, id);
+    showSuggestionsModal(workers, { id, title });
+}
+
+async function fetchSuggestedWorkers(province, category, workMode, jobId) {
+  try {
+    const { data, error } = await supabaseClient.rpc('get_or_create_job_suggestions', {
+      p_job_id: jobId,
+      p_province: province || '',
+      p_category: category,
+      p_work_mode: workMode
+    });
+
+    if (error) throw error;
+    
+    return (data || []).map(w => ({
+      ...w,
+      alreadyInvited: w.already_invited
+    }));
+  } catch (err) {
+    console.error('Error fetching workers via RPC:', err);
+    return [];
+  }
+}
+
+function showSuggestionsModal(workers, jobData) {
+  const list = document.getElementById('workerList');
+  if (!list) return;
+
+  if (workers.length === 0) {
+      list.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--muted);">No matching workers found in this area.</div>`;
+      return;
+  }
+
+  list.innerHTML = '';
+  workers.forEach(worker => {
+    const initials = (worker.full_name || 'W').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    const skills = (worker.skills || []).slice(0, 2).join(', ');
+    
+    const item = document.createElement('div');
+    item.className = 'worker-item';
+    item.innerHTML = `
+      <div class="worker-info">
+        <div class="worker-avatar">${initials}</div>
+        <div class="worker-details">
+          <h4>${sanitizeInput(worker.full_name)}</h4>
+          <div class="worker-meta">
+            <span>📍 ${sanitizeInput(worker.province || 'Sri Lanka')}</span>
+            <span class="worker-skills">✨ ${sanitizeInput(skills)}</span>
+          </div>
+        </div>
+      </div>
+      <div class="worker-actions" style="display:flex; gap:8px;">
+        <button class="invite-btn whatsapp" title="WhatsApp">
+          <i class='bx bxl-whatsapp'></i>
+        </button>
+        ${worker.alreadyInvited ? `
+          <button class="invite-btn email invited" disabled>
+            <i class='bx bx-check'></i> Invited
+          </button>
+        ` : `
+          <button class="invite-btn email" title="Send Email Invite">
+            <i class='bx bx-paper-plane'></i> Invite
+          </button>
+        `}
+      </div>
+    `;
+    
+    const emailBtn = item.querySelector('.invite-btn.email');
+    if (emailBtn && !worker.alreadyInvited) {
+      emailBtn.addEventListener('click', () => handleInvite(emailBtn, worker, jobData));
+    }
+    const waBtn = item.querySelector('.invite-btn.whatsapp');
+    waBtn.addEventListener('click', () => handleWhatsApp(worker, jobData));
+    list.appendChild(item);
+  });
+
+  document.getElementById('closeSuggestions').onclick = () => {
+    document.getElementById('suggestionsOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  };
+}
+
+async function handleInvite(btn, worker, jobData) {
+  if (btn.classList.contains('invited')) return;
+  const originalHtml = btn.innerHTML;
+  btn.innerHTML = "<i class='bx bx-loader-alt bx-spin'></i>";
+  btn.disabled = true;
+
+  try {
+    const success = await sendInviteEmail(worker.email, worker.full_name, jobData.title);
+    if (success) {
+      await supabaseClient.from('invitations').insert([{ job_id: jobData.id, worker_id: worker.id }]);
+      btn.innerHTML = "<i class='bx bx-check'></i> Invited";
+      btn.classList.add('invited');
+      showToast(`Invitation sent to ${worker.full_name}!`, 'success');
+    } else { throw new Error('Email failed'); }
+  } catch (err) {
+    btn.innerHTML = originalHtml; btn.disabled = false;
+    showToast('Failed to send invitation.', 'error');
+  }
+}
+
+function handleWhatsApp(worker, jobData) {
+  if (!worker.phone_number) { showToast('No phone number.', 'warning'); return; }
+  const phone = worker.phone_number.replace(/\D/g, '');
+  const waNumber = phone.startsWith('0') ? '94' + phone.slice(1) : (phone.startsWith('94') ? phone : '94' + phone);
+  const message = encodeURIComponent(`Hi ${worker.full_name}! I've just posted a job "${jobData.title}" on Elinker and I'd like to invite you!`);
+  window.open(`https://wa.me/${waNumber}?text=${message}`, '_blank').focus();
+}
+
+async function sendInviteEmail(workerEmail, workerName, jobTitle) {
+  if (!workerEmail) return false;
+  try {
+    const EMAIL_SERVER_URL = 'https://api.elinker.lk/v1/send-invite'; 
+    const response = await fetch(EMAIL_SERVER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ to: workerEmail, subject: `Job Opportunity: ${jobTitle}`, workerName, jobTitle, inviteLink: `${window.location.origin}/jobs.html` })
+    });
+    return response.ok;
+  } catch (err) { return false; }
 }
 
 // ─── INIT ───

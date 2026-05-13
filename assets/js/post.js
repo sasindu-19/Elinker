@@ -454,8 +454,17 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
 
     if (error) throw error;
 
-    showToast('Job posted successfully! Redirecting…', 'success', 3000);
-    setTimeout(() => { window.location.href = 'jobs.html'; }, 1600);
+    // --- NEW: Suggested Workers Flow ---
+    showToast('Job posted successfully!', 'success', 2000);
+    
+    // Fetch and show suggestions
+    const workers = await fetchSuggestedWorkers(province, category, workMode, data.id);
+    if (workers && workers.length > 0) {
+      showSuggestionsModal(workers, { id: data.id, title: title });
+    } else {
+      // No suggestions? Just redirect
+      setTimeout(() => { window.location.href = 'jobs.html'; }, 1000);
+    }
 
   } catch (err) {
     console.error('Post job error:', err);
@@ -480,3 +489,186 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
     }
   }
 });
+
+
+// ============================================================
+// SUGGESTED WORKERS LOGIC
+// ============================================================
+
+/**
+ * Fetch up to 5 workers matching the province and skills
+ */
+async function fetchSuggestedWorkers(province, category, workMode, jobId) {
+  console.log('Fetching persistent suggestions for:', { province, category, workMode, jobId });
+  try {
+    const { data, error } = await supabaseClient.rpc('get_or_create_job_suggestions', {
+      p_job_id: jobId,
+      p_province: province || '',
+      p_category: category,
+      p_work_mode: workMode
+    });
+
+    if (error) throw error;
+    
+    // Transform RPC result to match the expected worker object format
+    return (data || []).map(w => ({
+      ...w,
+      alreadyInvited: w.already_invited
+    }));
+  } catch (err) {
+    console.error('Error fetching workers via RPC:', err);
+    return [];
+  }
+}
+
+/**
+ * Show the suggestions modal and populate with workers
+ */
+function showSuggestionsModal(workers, jobData) {
+  const overlay = document.getElementById('suggestionsOverlay');
+  const list = document.getElementById('workerList');
+  const skipBtn = document.getElementById('skipSuggestions');
+
+  if (!overlay || !list) return;
+
+  list.innerHTML = '';
+  workers.forEach(worker => {
+    const initials = (worker.full_name || 'W').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    const skills = (worker.skills || []).slice(0, 2).join(', ');
+    
+    const item = document.createElement('div');
+    item.className = 'worker-item';
+    item.innerHTML = `
+      <div class="worker-info">
+        <div class="worker-avatar">${initials}</div>
+        <div class="worker-details">
+          <h4>${sanitizeInput(worker.full_name)}</h4>
+          <div class="worker-meta">
+            <span>📍 ${sanitizeInput(worker.province || 'Sri Lanka')}</span>
+            <span class="worker-skills">✨ ${sanitizeInput(skills)}</span>
+          </div>
+        </div>
+      </div>
+      <div class="worker-actions" style="display:flex; gap:8px;">
+        <button class="invite-btn whatsapp" title="WhatsApp">
+          <i class='bx bxl-whatsapp'></i>
+        </button>
+        ${worker.alreadyInvited ? `
+          <button class="invite-btn email invited" disabled>
+            <i class='bx bx-check'></i> Invited
+          </button>
+        ` : `
+          <button class="invite-btn email" title="Send Email Invite">
+            <i class='bx bx-paper-plane'></i> Invite
+          </button>
+        `}
+      </div>
+    `;
+    
+    // Add invite listener
+    const emailBtn = item.querySelector('.invite-btn.email');
+    if (emailBtn && !worker.alreadyInvited) {
+      emailBtn.addEventListener('click', () => handleInvite(emailBtn, worker, jobData));
+    }
+    
+    const waBtn = item.querySelector('.invite-btn.whatsapp');
+    waBtn.addEventListener('click', () => handleWhatsApp(worker, jobData));
+    
+    list.appendChild(item);
+  });
+
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  skipBtn.onclick = () => {
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+    window.location.href = 'jobs.html';
+  };
+}
+
+/**
+ * Handle the invite button click
+ */
+async function handleInvite(btn, worker, jobData) {
+  if (btn.classList.contains('invited')) return;
+
+  const originalHtml = btn.innerHTML;
+  btn.innerHTML = "<i class='bx bx-loader-alt bx-spin'></i>";
+  btn.disabled = true;
+
+  try {
+    // 1. Send the email via custom server
+    const success = await sendInviteEmail(worker.email, worker.full_name, jobData.title);
+
+    if (success) {
+      // 2. Track the invitation in database
+      await supabaseClient
+        .from('invitations')
+        .insert([{ job_id: jobData.id, worker_id: worker.id }]);
+
+      btn.innerHTML = "<i class='bx bx-check'></i> Invited";
+      btn.classList.add('invited');
+      showToast(`Invitation sent to ${worker.full_name}!`, 'success');
+    } else {
+      throw new Error('Email failed');
+    }
+  } catch (err) {
+    console.error('Invite error:', err);
+    btn.innerHTML = originalHtml;
+    btn.disabled = false;
+    showToast('Failed to send invitation. Please try again.', 'error');
+  }
+}
+
+/**
+ * Handle WhatsApp click
+ */
+function handleWhatsApp(worker, jobData) {
+  if (!worker.phone_number) {
+    showToast('Worker has no phone number listed.', 'warning');
+    return;
+  }
+
+  const phone = worker.phone_number.replace(/\D/g, '');
+  const waNumber = phone.startsWith('0') ? '94' + phone.slice(1) : (phone.startsWith('94') ? phone : '94' + phone);
+  
+  const message = encodeURIComponent(`Hi ${worker.full_name}! I saw your profile on Elinker. I've just posted a job "${jobData.title}" and I'd like to invite you to check it out!`);
+  const url = `https://wa.me/${waNumber}?text=${message}`;
+  
+  window.open(url, '_blank').focus();
+}
+
+/**
+ * Call the custom email server to send an invitation
+ */
+async function sendInviteEmail(workerEmail, workerName, jobTitle) {
+  if (!workerEmail) return false;
+
+  try {
+    // ── CUSTOM EMAIL SERVER CONFIGURATION ────────────────────
+    // Machn, oyage custom email server eke endpoint eka mekt danna.
+    // Example: PHP script ekak nam "https://elinker.lk/api/send_invite.php" wage ekak.
+    const EMAIL_SERVER_URL = 'https://api.elinker.lk/v1/send-invite'; 
+    
+    // Payload eka oyage server ekata adalawa edit krnn puluwan.
+    const response = await fetch(EMAIL_SERVER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        to: workerEmail,
+        subject: `New Job Opportunity: ${jobTitle}`,
+        workerName: workerName,
+        jobTitle: jobTitle,
+        inviteLink: `${window.location.origin}/jobs.html`
+      })
+    });
+
+    return response.ok;
+  } catch (err) {
+    console.error('Email server error:', err);
+    // Fallback: If server isn't ready, let's just return true for the demo/UI
+    // return true; 
+    return false;
+  }
+}

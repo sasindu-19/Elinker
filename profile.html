@@ -472,6 +472,25 @@
 
     </main>
 
+    <!-- SUGGESTED WORKERS MODAL -->
+    <div class="suggestions-overlay" id="suggestionsOverlay">
+      <div class="suggestions-modal">
+        <div class="suggestions-header">
+          <i class='bx bxs-zap'></i>
+          <h2>Find More Workers</h2>
+          <p id="suggestionSubtext">Suggested workers based on your job requirements.</p>
+        </div>
+        
+        <div class="worker-list" id="workerList">
+          <!-- Suggested workers will be injected here -->
+        </div>
+        
+        <div class="suggestions-footer">
+          <button class="skip-btn" id="closeSuggestions">Close</button>
+        </div>
+      </div>
+    </div>
+
     <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/supabase-init.js"></script>
