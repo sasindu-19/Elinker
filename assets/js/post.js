@@ -28,6 +28,25 @@ function showToast(message, type = 'info', duration = 4500) {
 }
 
 
+function parseJobDateTime(dateStr, timeStr) {
+  if (!dateStr || !timeStr) return null;
+  let normalizedTime = timeStr.trim();
+  const match12 = normalizedTime.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)$/i);
+  if (match12) {
+    let hrs = parseInt(match12[1], 10);
+    const mins = match12[2];
+    const secs = match12[3] || '00';
+    const ampm = match12[4].toUpperCase();
+    if (ampm === 'PM' && hrs < 12) hrs += 12;
+    if (ampm === 'AM' && hrs === 12) hrs = 0;
+    normalizedTime = `${String(hrs).padStart(2, '0')}:${mins}:${secs}`;
+  } else if (normalizedTime.length === 5) {
+    normalizedTime += ':00';
+  }
+  const d = new Date(`${dateStr}T${normalizedTime}`);
+  return isNaN(d.getTime()) ? null : d;
+}
+
 // ============================================================
 // FIELD VALIDATION HELPERS
 // ============================================================
@@ -377,12 +396,11 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
   if (missingSchedule.length) {
     checks.push(false);
   } else {
-    const startObj = new Date(`${startDate}T${startTime.length === 5 ? startTime + ':00' : startTime}`);
-    const endObj = new Date(`${endDate}T${endTime.length === 5 ? endTime + ':00' : endTime}`);
+    const startObj = parseJobDateTime(startDate, startTime);
+    const endObj = parseJobDateTime(endDate, endTime);
     const now = new Date();
-    now.setSeconds(0, 0);
 
-    if (isNaN(startObj.getTime()) || isNaN(endObj.getTime())) {
+    if (!startObj || !endObj) {
       setError('startDate', 'Invalid date/time format');
       checks.push(false);
     } else if (startObj < now) {
