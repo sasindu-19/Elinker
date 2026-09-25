@@ -9,6 +9,27 @@ let allJobs     = [];
 let currentProfile = null;
 let realtimeChannel = null;
 
+// ── Schedule Date/Time Helpers ─────────────────────────────────
+function formatTime12Hour(timeStr) {
+  if (!timeStr) return '';
+  const parts = timeStr.split(':');
+  if (parts.length < 2) return timeStr;
+  let hours = parseInt(parts[0], 10);
+  const minutes = parts[1];
+  if (isNaN(hours)) return timeStr;
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  return `${hours}:${minutes} ${ampm}`;
+}
+
+function parseJobDateTime(dateStr, timeStr) {
+  if (!dateStr || !timeStr) return null;
+  const timeFormatted = timeStr.length === 5 ? timeStr + ':00' : timeStr;
+  const d = new Date(`${dateStr}T${timeFormatted}`);
+  return isNaN(d.getTime()) ? null : d;
+}
+
 // ============================================================
 // MAIN INIT  (auth → profile → load → realtime)
 // ============================================================
@@ -318,7 +339,7 @@ function buildJobCard(job, profile) {
 
   // Schedule
   const scheduleStr = (job.start_date && job.start_time)
-    ? `${job.start_date} at ${job.start_time}`
+    ? `${job.start_date} at ${formatTime12Hour(job.start_time)}`
     : 'Not scheduled';
 
   // Ineligible notices
@@ -378,8 +399,8 @@ function getIneligibilityReasons(job, profile) {
   const reasons = [];
   
   if (job.start_date && job.start_time) {
-    const startObj = new Date(`${job.start_date}T${job.start_time}`);
-    if (new Date() >= startObj) {
+    const startObj = parseJobDateTime(job.start_date, job.start_time);
+    if (startObj && new Date() >= startObj) {
       reasons.push('⚠ Application deadline passed (Job started)');
     }
   }
@@ -469,7 +490,8 @@ function openJobModal(jobId) {
 
   const minAge = job.min_age_int ?? parseInt(job.min_age) ?? 18;
 
-  const isClosed = (job.start_date && job.start_time && new Date() >= new Date(`${job.start_date}T${job.start_time}`));
+  const startObj = parseJobDateTime(job.start_date, job.start_time);
+  const isClosed = startObj ? (new Date() >= startObj) : false;
   
   let statusHtml = `<span class="job-tag tag-easy">Open</span>`;
   if (isClosed) {
@@ -501,8 +523,8 @@ function openJobModal(jobId) {
   const scheduleHtml = (job.start_date && job.start_time && job.end_date && job.end_time)
     ? `<div class="jm-section-label">Work Schedule</div>
        <div class="jm-description">
-         <strong>Start:</strong> ${job.start_date} at ${job.start_time} <br>
-         <strong>End:</strong> ${job.end_date} at ${job.end_time}
+         <strong>Start:</strong> ${job.start_date} at ${formatTime12Hour(job.start_time)} <br>
+         <strong>End:</strong> ${job.end_date} at ${formatTime12Hour(job.end_time)}
        </div>`
     : '';
 

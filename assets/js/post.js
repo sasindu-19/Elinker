@@ -377,11 +377,15 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
   if (missingSchedule.length) {
     checks.push(false);
   } else {
-    const startObj = new Date(`${startDate}T${startTime}`);
-    const endObj = new Date(`${endDate}T${endTime}`);
+    const startObj = new Date(`${startDate}T${startTime.length === 5 ? startTime + ':00' : startTime}`);
+    const endObj = new Date(`${endDate}T${endTime.length === 5 ? endTime + ':00' : endTime}`);
     const now = new Date();
+    now.setSeconds(0, 0);
 
-    if (startObj < now) {
+    if (isNaN(startObj.getTime()) || isNaN(endObj.getTime())) {
+      setError('startDate', 'Invalid date/time format');
+      checks.push(false);
+    } else if (startObj < now) {
       setError('startDate', 'Date/time cannot be in the past');
       setError('startTime', 'Date/time cannot be in the past');
       checks.push(false);

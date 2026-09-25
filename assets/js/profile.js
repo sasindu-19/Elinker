@@ -267,7 +267,9 @@ async function fetchMyJobs() {
         }
         
         container.innerHTML = jobs.map(job => {
-            const isExpired = job.start_date && job.start_time && (new Date() >= new Date(`${job.start_date}T${job.start_time}`));
+            const startTimeStr = job.start_time ? (job.start_time.length === 5 ? job.start_time + ':00' : job.start_time) : '';
+            const startDateObj = (job.start_date && startTimeStr) ? new Date(`${job.start_date}T${startTimeStr}`) : null;
+            const isExpired = startDateObj && !isNaN(startDateObj.getTime()) && (new Date() >= startDateObj);
             const statusLabel = isExpired ? 'Expired' : (job.status === 'open' ? 'Open' : 'Closed');
             const statusClass = isExpired ? 'expired' : job.status;
             const canToggle = !isExpired;
