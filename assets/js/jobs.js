@@ -12,7 +12,11 @@ let realtimeChannel = null;
 // ── Schedule Date/Time Helpers ─────────────────────────────────
 function formatTime12Hour(timeStr) {
   if (!timeStr) return '';
-  const parts = timeStr.split(':');
+  const trimmed = timeStr.trim();
+  if (trimmed.toUpperCase().includes('AM') || trimmed.toUpperCase().includes('PM')) {
+    return trimmed;
+  }
+  const parts = trimmed.split(':');
   if (parts.length < 2) return timeStr;
   let hours = parseInt(parts[0], 10);
   const minutes = parts[1];
@@ -25,8 +29,20 @@ function formatTime12Hour(timeStr) {
 
 function parseJobDateTime(dateStr, timeStr) {
   if (!dateStr || !timeStr) return null;
-  const timeFormatted = timeStr.length === 5 ? timeStr + ':00' : timeStr;
-  const d = new Date(`${dateStr}T${timeFormatted}`);
+  let normalizedTime = timeStr.trim();
+  const match12 = normalizedTime.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)$/i);
+  if (match12) {
+    let hrs = parseInt(match12[1], 10);
+    const mins = match12[2];
+    const secs = match12[3] || '00';
+    const ampm = match12[4].toUpperCase();
+    if (ampm === 'PM' && hrs < 12) hrs += 12;
+    if (ampm === 'AM' && hrs === 12) hrs = 0;
+    normalizedTime = `${String(hrs).padStart(2, '0')}:${mins}:${secs}`;
+  } else if (normalizedTime.length === 5) {
+    normalizedTime += ':00';
+  }
+  const d = new Date(`${dateStr}T${normalizedTime}`);
   return isNaN(d.getTime()) ? null : d;
 }
 
@@ -398,11 +414,14 @@ function buildJobCard(job, profile) {
 function getIneligibilityReasons(job, profile) {
   const reasons = [];
   
-  if (job.start_date && job.start_time) {
-    const startObj = parseJobDateTime(job.start_date, job.start_time);
-    if (startObj && new Date() >= startObj) {
-      reasons.push('⚠ Application deadline passed (Job started)');
-    }
+  const endObj = parseJobDateTime(job.end_date, job.end_time);
+  const startObj = parseJobDateTime(job.start_date, job.start_time);
+  const now = new Date();
+
+  if (endObj && now >= endObj) {
+    reasons.push('⚠ Application deadline passed (Job ended)');
+  } else if (startObj && now >= startObj) {
+    reasons.push('⚠ Application deadline passed (Job started)');
   }
 
   if (!profile) {
@@ -490,8 +509,10 @@ function openJobModal(jobId) {
 
   const minAge = job.min_age_int ?? parseInt(job.min_age) ?? 18;
 
+  const endObj = parseJobDateTime(job.end_date, job.end_time);
   const startObj = parseJobDateTime(job.start_date, job.start_time);
-  const isClosed = startObj ? (new Date() >= startObj) : false;
+  const now = new Date();
+  const isClosed = job.status !== 'open' || (endObj && now >= endObj) || (startObj && now >= startObj);
   
   let statusHtml = `<span class="job-tag tag-easy">Open</span>`;
   if (isClosed) {

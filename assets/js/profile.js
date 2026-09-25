@@ -246,6 +246,25 @@ async function handleLogout(btn) {
     }
 }
 
+function parseJobDateTime(dateStr, timeStr) {
+    if (!dateStr || !timeStr) return null;
+    let normalizedTime = timeStr.trim();
+    const match12 = normalizedTime.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(AM|PM)$/i);
+    if (match12) {
+        let hrs = parseInt(match12[1], 10);
+        const mins = match12[2];
+        const secs = match12[3] || '00';
+        const ampm = match12[4].toUpperCase();
+        if (ampm === 'PM' && hrs < 12) hrs += 12;
+        if (ampm === 'AM' && hrs === 12) hrs = 0;
+        normalizedTime = `${String(hrs).padStart(2, '0')}:${mins}:${secs}`;
+    } else if (normalizedTime.length === 5) {
+        normalizedTime += ':00';
+    }
+    const d = new Date(`${dateStr}T${normalizedTime}`);
+    return isNaN(d.getTime()) ? null : d;
+}
+
 // ─── FETCH USER JOBS ───
 async function fetchMyJobs() {
     if (!currentUser) return;
@@ -267,9 +286,10 @@ async function fetchMyJobs() {
         }
         
         container.innerHTML = jobs.map(job => {
-            const startTimeStr = job.start_time ? (job.start_time.length === 5 ? job.start_time + ':00' : job.start_time) : '';
-            const startDateObj = (job.start_date && startTimeStr) ? new Date(`${job.start_date}T${startTimeStr}`) : null;
-            const isExpired = startDateObj && !isNaN(startDateObj.getTime()) && (new Date() >= startDateObj);
+            const endObj = parseJobDateTime(job.end_date, job.end_time);
+            const startObj = parseJobDateTime(job.start_date, job.start_time);
+            const now = new Date();
+            const isExpired = (endObj && now >= endObj) || (startObj && now >= startObj);
             const statusLabel = isExpired ? 'Expired' : (job.status === 'open' ? 'Open' : 'Closed');
             const statusClass = isExpired ? 'expired' : job.status;
             const canToggle = !isExpired;
