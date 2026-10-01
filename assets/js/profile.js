@@ -147,6 +147,18 @@ function toggleEdit() {
     document.getElementById('edit-email').value = currentUser?.email || '';
     document.getElementById('edit-phone').value = currentProfile?.phone_number || '';
 
+    // Update avatar preview inside edit modal
+    const editModalAvatar = document.getElementById('edit-modal-avatar-preview');
+    if (editModalAvatar) {
+        const name = currentProfile?.full_name || currentUser?.email?.split('@')[0] || 'U';
+        const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        if (currentProfile?.avatar_url) {
+            editModalAvatar.innerHTML = `<img src="${currentProfile.avatar_url}" alt="${sanitizeHtml(name)}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.textContent='${initials}';">`;
+        } else {
+            editModalAvatar.textContent = initials;
+        }
+    }
+
     // Show/hide business field
     const bizContainer = document.getElementById('edit-business-container');
     if (currentProfile?.user_type === 'client') {
