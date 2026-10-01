@@ -574,12 +574,15 @@ function showSuggestionsModal(workers, jobData) {
   workers.forEach(worker => {
     const initials = (worker.full_name || 'W').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
     const skills = (worker.skills || []).slice(0, 2).join(', ');
+    const avatarHtml = worker.avatar_url 
+      ? `<img src="${worker.avatar_url}" alt="${sanitizeInput(worker.full_name)}" style="width:100%; height:100%; object-fit:cover; border-radius:12px;" onerror="this.onerror=null; this.parentElement.textContent='${initials}';">` 
+      : initials;
     
     const item = document.createElement('div');
     item.className = 'worker-item';
     item.innerHTML = `
       <div class="worker-info">
-        <div class="worker-avatar">${initials}</div>
+        <div class="worker-avatar" style="overflow:hidden; display:flex; align-items:center; justify-content:center;">${avatarHtml}</div>
         <div class="worker-details">
           <h4>${sanitizeInput(worker.full_name)}</h4>
           <div class="worker-meta">

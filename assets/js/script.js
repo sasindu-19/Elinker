@@ -258,7 +258,7 @@ if (document.querySelector('.stats-section') || document.getElementById('testimo
 
             const { data: reviews, error } = await supabaseClient
                 .from('reviews')
-                .select('*')
+                .select('*, profiles(avatar_url)')
                 .order('created_at', { ascending: false });
 
             if (error) {
@@ -298,13 +298,17 @@ if (document.querySelector('.stats-section') || document.getElementById('testimo
                     for (let j = 1; j <= 5; j++) {
                         starsHtml += j <= r.rating ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>';
                     }
-                    const initial = r.reviewer_name.charAt(0).toUpperCase();
+                    const initial = (r.reviewer_name || 'U').charAt(0).toUpperCase();
+                    const avatarUrl = r.profiles?.avatar_url || r.avatar_url;
+                    const avatarContent = avatarUrl 
+                        ? `<img src="${avatarUrl}" alt="${r.reviewer_name}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.textContent='${initial}';">` 
+                        : initial;
                     const isFeatured = i === 1 ? 'tc-featured' : '';
 
                     html += `
                         <div class="testimonial-card ${isFeatured}" style="opacity: 0; transform: translateY(10px); transition: opacity 0.6s ease, transform 0.6s ease;">
                         <div class="tcard-top">
-                            <div class="tcard-avatar">${initial}</div>
+                            <div class="tcard-avatar" style="overflow:hidden; display:flex; align-items:center; justify-content:center;">${avatarContent}</div>
                             <div>
                             <h4 class="tcard-name">${r.reviewer_name}</h4>
                             <div class="tcard-stars">${starsHtml}</div>
