@@ -148,7 +148,30 @@ async function fetchAndRender() {
     return;
   }
 
-  allJobs = jobs || [];
+  const rawJobs = jobs || [];
+  const userIds = [...new Set(rawJobs.map(j => j.user_id).filter(Boolean))];
+  let profileMap = new Map();
+
+  if (userIds.length > 0) {
+    const { data: profiles } = await supabaseClient
+      .from('profiles')
+      .select('id, full_name, business_name, avatar_url')
+      .in('id', userIds);
+
+    if (profiles) {
+      profileMap = new Map(profiles.map(p => [p.id, p]));
+    }
+  }
+
+  allJobs = rawJobs.map(j => {
+    const p = profileMap.get(j.user_id);
+    return {
+      ...j,
+      poster_name: p ? (p.business_name || p.full_name || 'Individual') : (j.business_name || 'Individual'),
+      poster_avatar: p?.avatar_url || null
+    };
+  });
+
   populateDistrictFilter(allJobs);
   applyFilters();  // render with current filter state
 }
@@ -187,6 +210,17 @@ async function handleRealtimeEvent(payload) {
   if (eventType === 'INSERT') {
     // Only add if status is open
     if (newRow.status === 'open') {
+      if (newRow.user_id) {
+        const { data: p } = await supabaseClient
+          .from('profiles')
+          .select('full_name, business_name, avatar_url')
+          .eq('id', newRow.user_id)
+          .single();
+        if (p) {
+          newRow.poster_name = p.business_name || p.full_name || 'Individual';
+          newRow.poster_avatar = p.avatar_url || null;
+        }
+      }
       allJobs.unshift(newRow);          // newest first
       populateDistrictFilter(allJobs);
       applyFilters();
@@ -204,6 +238,17 @@ async function handleRealtimeEvent(payload) {
         showRealtimeToast('A job listing was updated.', 'bx-refresh');
       }
     } else {
+      if (newRow.user_id) {
+        const { data: p } = await supabaseClient
+          .from('profiles')
+          .select('full_name, business_name, avatar_url')
+          .eq('id', newRow.user_id)
+          .single();
+        if (p) {
+          newRow.poster_name = p.business_name || p.full_name || 'Individual';
+          newRow.poster_avatar = p.avatar_url || null;
+        }
+      }
       // Update existing entry
       if (idx !== -1) {
         allJobs[idx] = newRow;
@@ -334,11 +379,28 @@ function buildJobCard(job, profile) {
   const reasons  = getIneligibilityReasons(job, profile);
   const eligible = reasons.length === 0;
 
-  // Poster badge
-  const bizName    = job.business_name || null;
-  const posterHtml = bizName
+  // Poster badge & details
+  const bizName           = job.business_name || null;
+  const posterDisplayName = job.poster_name || bizName || 'Individual';
+  const posterHtml        = bizName
     ? `<span class="poster-badge">✓ ${sanitizeInput(bizName)}</span>`
     : `<span class="poster-badge individual">Individual</span>`;
+
+  // Avatar HTML
+  const nameParts = posterDisplayName.trim().split(/\s+/);
+  const initials  = nameParts.map(w => w[0] || '').join('').toUpperCase().slice(0, 2) || 'P';
+  const posterAvatarHtml = job.poster_avatar
+    ? `<div class="job-poster-avatar"><img src="${job.poster_avatar}" alt="${sanitizeInput(posterDisplayName)}" onerror="this.onerror=null; this.parentElement.textContent='${initials}';"></div>`
+    : `<div class="job-poster-avatar">${initials}</div>`;
+
+  const posterBarHtml = `
+    <div class="job-poster-bar">
+      ${posterAvatarHtml}
+      <div class="job-poster-info">
+        <span class="job-poster-name">${sanitizeInput(posterDisplayName)}</span>
+      </div>
+      ${posterHtml}
+    </div>`;
 
   // Difficulty
   const diff      = (job.difficulty || 'easy').toLowerCase();
@@ -384,9 +446,9 @@ function buildJobCard(job, profile) {
 
   return `
     <div class="job-card${!eligible ? ' ineligible' : ''}" onclick="openJobModal('${sanitizeInput(job.id)}')">
+      ${posterBarHtml}
       <div class="job-card-header">
         <h3>${sanitizeInput(job.title || 'Untitled Job')}</h3>
-        ${posterHtml}
       </div>
       <div class="job-location">
         <i class='bx bxs-map-pin'></i>
@@ -481,6 +543,25 @@ function openJobModal(jobId) {
     posterEl.textContent = 'Individual';
     posterEl.className   = 'poster-badge individual';
   }
+
+  // Pre-populate poster card in modal
+  const initialDisplayName = job.poster_name || job.business_name || 'Individual Poster';
+  const initialSub = job.business_name ? 'Company / Business' : 'Individual Poster';
+  const initialParts = initialDisplayName.trim().split(/\s+/);
+  const initialInitials = initialParts.map(w => w[0] || '').join('').toUpperCase().slice(0, 2) || 'P';
+
+  const posterAvatarEl = document.getElementById('jm-poster-avatar');
+  if (posterAvatarEl) {
+    if (job.poster_avatar) {
+      posterAvatarEl.innerHTML = `<img src="${job.poster_avatar}" alt="${sanitizeInput(initialDisplayName)}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.textContent='${initialInitials}';">`;
+    } else {
+      posterAvatarEl.textContent = initialInitials;
+    }
+  }
+  const nameEl = document.getElementById('jm-poster-name');
+  if (nameEl) nameEl.textContent = initialDisplayName;
+  const subEl = document.getElementById('jm-poster-sub');
+  if (subEl) subEl.textContent = initialSub;
 
   // Location
   const isOnline = (job.work_mode === 'online');
@@ -587,23 +668,42 @@ function openJobModal(jobId) {
 
 // ── Fetch poster profile → build contact buttons ─────────────
 async function fetchPosterContact(userId, job) {
-  const loadingEl  = document.getElementById('jm-contact-loading');
-  const actionEl   = document.getElementById('jm-action-btns');
+  const loadingEl   = document.getElementById('jm-contact-loading');
+  const actionEl    = document.getElementById('jm-action-btns');
   const noContactEl = document.getElementById('jm-no-contact');
 
   try {
     const { data: poster, error } = await supabaseClient
       .from('profiles')
-      .select('full_name, phone_number')
+      .select('full_name, business_name, avatar_url, phone_number')
       .eq('id', userId)
       .single();
 
     if (error) throw error;
 
+    // Update modal poster card with latest profile details
+    const displayName = poster?.business_name || poster?.full_name || job.business_name || 'Individual Poster';
+    const subTitle    = poster?.business_name ? 'Company / Business' : 'Individual Client';
+    const nameParts   = displayName.trim().split(/\s+/);
+    const initials    = nameParts.map(w => w[0] || '').join('').toUpperCase().slice(0, 2) || 'P';
+
+    const posterAvatarEl = document.getElementById('jm-poster-avatar');
+    if (posterAvatarEl) {
+      if (poster?.avatar_url) {
+        posterAvatarEl.innerHTML = `<img src="${poster.avatar_url}" alt="${sanitizeInput(displayName)}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.textContent='${initials}';">`;
+      } else {
+        posterAvatarEl.textContent = initials;
+      }
+    }
+    const nameEl = document.getElementById('jm-poster-name');
+    if (nameEl) nameEl.textContent = displayName;
+    const subEl = document.getElementById('jm-poster-sub');
+    if (subEl) subEl.textContent = subTitle;
+
     const phone = poster?.phone_number?.replace(/\s/g, '') || '';
 
     if (!phone) {
-      loadingEl.style.display  = 'none';
+      loadingEl.style.display   = 'none';
       noContactEl.style.display = 'block';
       return;
     }
@@ -637,7 +737,7 @@ async function fetchPosterContact(userId, job) {
 
   } catch (err) {
     console.warn('Could not fetch poster contact:', err);
-    loadingEl.style.display  = 'none';
+    loadingEl.style.display   = 'none';
     noContactEl.style.display = 'block';
   }
 }
