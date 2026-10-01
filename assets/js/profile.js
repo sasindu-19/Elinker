@@ -35,8 +35,20 @@ function populateUI(user, profile) {
     const displayType = type.charAt(0).toUpperCase() + type.slice(1);
     const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
-    // Hero section
-    document.getElementById('big-avatar').textContent = initials;
+    // Hero section avatar & edit modal avatar preview
+    const bigAvatar = document.getElementById('big-avatar');
+    const editModalAvatar = document.getElementById('edit-modal-avatar-preview');
+    const avatarUrl = profile?.avatar_url;
+
+    if (avatarUrl) {
+        const imgHtml = `<img src="${avatarUrl}" alt="${sanitizeHtml(name)}" onerror="this.onerror=null; this.parentElement.textContent='${initials}';">`;
+        if (bigAvatar) bigAvatar.innerHTML = imgHtml;
+        if (editModalAvatar) editModalAvatar.innerHTML = imgHtml;
+    } else {
+        if (bigAvatar) bigAvatar.textContent = initials;
+        if (editModalAvatar) editModalAvatar.textContent = initials;
+    }
+
     document.getElementById('hero-name').textContent = name;
     document.getElementById('hero-email').textContent = email;
 
@@ -180,7 +192,248 @@ function handleModalOverlayClick(e) {
 }
 
 // Close on Escape key
-document.addEventListener('keydown', e => { if (e.key === 'Escape') cancelEdit(); });
+document.addEventListener('keydown', e => { 
+    if (e.key === 'Escape') {
+        cancelEdit();
+        closeAvatarModal();
+    } 
+});
+
+// ─── PROFILE PICTURE (DP) FUNCTIONS ───
+let pendingAvatarData = null;
+
+function openAvatarModal() {
+    pendingAvatarData = null;
+    const modal = document.getElementById('dp-modal');
+    if (!modal) return;
+    
+    const previewCircle = document.getElementById('dp-preview-circle');
+    const removeBtn = document.getElementById('remove-dp-btn');
+    const urlInput = document.getElementById('dp-url-input');
+    const fileInput = document.getElementById('dp-file-input');
+
+    if (fileInput) fileInput.value = '';
+    if (urlInput) urlInput.value = '';
+
+    const name = currentProfile?.full_name || currentUser?.email?.split('@')[0] || 'U';
+    const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    const currentAvatar = currentProfile?.avatar_url;
+
+    if (currentAvatar) {
+        if (previewCircle) previewCircle.innerHTML = `<img src="${currentAvatar}" alt="Avatar">`;
+        if (removeBtn) removeBtn.style.display = 'inline-flex';
+    } else {
+        if (previewCircle) previewCircle.innerHTML = `<span id="dp-preview-initials">${initials}</span>`;
+        if (removeBtn) removeBtn.style.display = 'none';
+    }
+
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeAvatarModal() {
+    pendingAvatarData = null;
+    const modal = document.getElementById('dp-modal');
+    if (modal) modal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function handleDpModalOverlayClick(e) {
+    if (e.target === document.getElementById('dp-modal')) closeAvatarModal();
+}
+
+async function handleDpFileSelect(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+        showToast('Please select a valid image file (PNG, JPG, WEBP).', 'error');
+        return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+        showToast('Image file size should be less than 10MB.', 'error');
+        return;
+    }
+
+    try {
+        const compressedDataUrl = await compressAndResizeImage(file, 400, 400, 0.85);
+        pendingAvatarData = compressedDataUrl;
+
+        const previewCircle = document.getElementById('dp-preview-circle');
+        if (previewCircle) previewCircle.innerHTML = `<img src="${compressedDataUrl}" alt="Preview">`;
+        const urlInput = document.getElementById('dp-url-input');
+        if (urlInput) urlInput.value = '';
+        const removeBtn = document.getElementById('remove-dp-btn');
+        if (removeBtn) removeBtn.style.display = 'inline-flex';
+    } catch (err) {
+        console.error('Image processing error:', err);
+        showToast('Failed to process image file.', 'error');
+    }
+}
+
+function handleDpUrlInput(url) {
+    const trimmed = url.trim();
+    const previewCircle = document.getElementById('dp-preview-circle');
+    const removeBtn = document.getElementById('remove-dp-btn');
+
+    if (trimmed) {
+        pendingAvatarData = trimmed;
+        if (previewCircle) previewCircle.innerHTML = `<img src="${trimmed}" alt="Preview" onerror="handleDpImageError()">`;
+        if (removeBtn) removeBtn.style.display = 'inline-flex';
+    } else {
+        pendingAvatarData = null;
+        const name = currentProfile?.full_name || currentUser?.email?.split('@')[0] || 'U';
+        const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        if (previewCircle) previewCircle.innerHTML = `<span id="dp-preview-initials">${initials}</span>`;
+        if (removeBtn && !currentProfile?.avatar_url) {
+            removeBtn.style.display = 'none';
+        }
+    }
+}
+
+function handleDpImageError() {
+    showToast('Invalid image URL or image failed to load.', 'error');
+    const name = currentProfile?.full_name || currentUser?.email?.split('@')[0] || 'U';
+    const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+    const previewCircle = document.getElementById('dp-preview-circle');
+    if (previewCircle) previewCircle.innerHTML = `<span id="dp-preview-initials">${initials}</span>`;
+    pendingAvatarData = null;
+}
+
+function compressAndResizeImage(file, maxWidth = 400, maxHeight = 400, quality = 0.85) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                if (width > height) {
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+                } else {
+                    if (height > maxHeight) {
+                        width = Math.round((width * maxHeight) / height);
+                        height = maxHeight;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                resolve(dataUrl);
+            };
+            img.onerror = (err) => reject(err);
+        };
+        reader.onerror = (err) => reject(err);
+    });
+}
+
+async function uploadAvatarToSupabaseOrFallback(dataUrl, userId) {
+    if (!dataUrl) return null;
+    if (dataUrl.startsWith('http://') || dataUrl.startsWith('https://')) {
+        return dataUrl;
+    }
+
+    try {
+        const res = await fetch(dataUrl);
+        const blob = await res.blob();
+        const filePath = `${userId}/avatar_${Date.now()}.jpg`;
+
+        const { data, error } = await supabaseClient
+            .storage
+            .from('avatars')
+            .upload(filePath, blob, { contentType: 'image/jpeg', upsert: true });
+
+        if (!error && data) {
+            const { data: publicUrlData } = supabaseClient
+                .storage
+                .from('avatars')
+                .getPublicUrl(filePath);
+
+            if (publicUrlData?.publicUrl) {
+                return publicUrlData.publicUrl;
+            }
+        }
+    } catch (e) {
+        console.warn('Supabase storage fallback to data URL:', e);
+    }
+
+    return dataUrl;
+}
+
+async function saveProfilePicture() {
+    if (!currentUser) return;
+    const saveBtn = document.getElementById('save-dp-btn');
+    const originalContent = saveBtn.innerHTML;
+    saveBtn.innerHTML = `<span class="spinner"></span> Saving...`;
+    saveBtn.disabled = true;
+
+    try {
+        let finalAvatarUrl = currentProfile?.avatar_url || null;
+        if (pendingAvatarData) {
+            finalAvatarUrl = await uploadAvatarToSupabaseOrFallback(pendingAvatarData, currentUser.id);
+        }
+
+        const { error } = await supabaseClient
+            .from('profiles')
+            .update({ avatar_url: finalAvatarUrl })
+            .eq('id', currentUser.id);
+
+        if (error) throw error;
+
+        currentProfile.avatar_url = finalAvatarUrl;
+        populateUI(currentUser, currentProfile);
+        closeAvatarModal();
+        showToast('Profile picture updated successfully!', 'success');
+    } catch (err) {
+        console.error('Error saving profile picture:', err);
+        showToast('Failed to update profile picture. Try again.', 'error');
+    } finally {
+        saveBtn.innerHTML = originalContent;
+        saveBtn.disabled = false;
+    }
+}
+
+async function removeProfilePicture() {
+    if (!currentUser) return;
+    const removeBtn = document.getElementById('remove-dp-btn');
+    const originalContent = removeBtn.innerHTML;
+    removeBtn.innerHTML = `<span class="spinner"></span> Removing...`;
+    removeBtn.disabled = true;
+
+    try {
+        const { error } = await supabaseClient
+            .from('profiles')
+            .update({ avatar_url: null })
+            .eq('id', currentUser.id);
+
+        if (error) throw error;
+
+        currentProfile.avatar_url = null;
+        pendingAvatarData = null;
+        populateUI(currentUser, currentProfile);
+        closeAvatarModal();
+        showToast('Profile picture removed.', 'success');
+    } catch (err) {
+        console.error('Error removing profile picture:', err);
+        showToast('Failed to remove profile picture.', 'error');
+    } finally {
+        removeBtn.innerHTML = originalContent;
+        removeBtn.disabled = false;
+    }
+}
 
 // ─── SAVE PROFILE ───
 async function saveProfile() {

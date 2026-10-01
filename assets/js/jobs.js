@@ -101,7 +101,14 @@ function parseJobDateTime(dateStr, timeStr) {
       ? profile.gender.charAt(0).toUpperCase() + profile.gender.slice(1).toLowerCase()
       : '';
 
-    document.getElementById('profile-initials').textContent = initials;
+    const profileInitialsEl = document.getElementById('profile-initials');
+    if (profileInitialsEl) {
+      if (profile.avatar_url) {
+        profileInitialsEl.innerHTML = `<img src="${profile.avatar_url}" alt="${profile.full_name || 'Worker'}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.textContent='${initials}';">`;
+      } else {
+        profileInitialsEl.textContent = initials;
+      }
+    }
     document.getElementById('profile-name').textContent     = profile.full_name || 'Worker';
     document.getElementById('profile-meta').textContent     =
       [location, age !== null ? `Age ${age}` : '', genderLabel].filter(Boolean).join(' · ');

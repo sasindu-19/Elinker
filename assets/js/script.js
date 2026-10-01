@@ -80,7 +80,13 @@ if (typeof getCurrentUser !== 'undefined') {
                 const displayType = type.charAt(0).toUpperCase() + type.slice(1);
 
                 const profileAvatar = document.getElementById('profile-avatar');
-                if (profileAvatar) profileAvatar.textContent = initials;
+                if (profileAvatar) {
+                    if (profile?.avatar_url) {
+                        profileAvatar.innerHTML = `<img src="${profile.avatar_url}" alt="${name}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;" onerror="this.onerror=null; this.parentElement.textContent='${initials}';">`;
+                    } else {
+                        profileAvatar.textContent = initials;
+                    }
+                }
 
                 const profileDisplayName = document.getElementById('profile-display-name');
                 if (profileDisplayName) profileDisplayName.textContent = name;
