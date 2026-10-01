@@ -316,7 +316,8 @@ async function uploadAvatarToSupabaseOrFallback(dataUrl, userId) {
     try {
         const res = await fetch(dataUrl);
         const blob = await res.blob();
-        const filePath = `${userId}/avatar_${Date.now()}.jpg`;
+        // Fixed path per user so space is never wasted with duplicate files
+        const filePath = `${userId}/avatar.jpg`;
 
         const { data, error } = await supabaseClient
             .storage
@@ -330,7 +331,8 @@ async function uploadAvatarToSupabaseOrFallback(dataUrl, userId) {
                 .getPublicUrl(filePath);
 
             if (publicUrlData?.publicUrl) {
-                return publicUrlData.publicUrl;
+                // Add timestamp parameter to ensure browser reloads fresh image
+                return `${publicUrlData.publicUrl}?t=${Date.now()}`;
             }
         }
     } catch (e) {
@@ -381,6 +383,23 @@ async function removeProfilePicture() {
     removeBtn.disabled = true;
 
     try {
+        // Delete avatar image file from Supabase Storage so space is freed up
+        try {
+            const filePath = `${currentUser.id}/avatar.jpg`;
+            await supabaseClient.storage.from('avatars').remove([filePath]);
+
+            // If profile avatar_url contains an older timestamped file path, delete that too
+            if (currentProfile?.avatar_url && currentProfile.avatar_url.includes('/avatars/')) {
+                const parts = currentProfile.avatar_url.split('/avatars/');
+                if (parts[1]) {
+                    const cleanPath = parts[1].split('?')[0];
+                    await supabaseClient.storage.from('avatars').remove([cleanPath]);
+                }
+            }
+        } catch (storageErr) {
+            console.warn('Storage file deletion warning:', storageErr);
+        }
+
         const { error } = await supabaseClient
             .from('profiles')
             .update({ avatar_url: null })
