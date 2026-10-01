@@ -256,24 +256,49 @@ if (document.querySelector('.stats-section') || document.getElementById('testimo
             const container = document.getElementById('testimonials-container');
             if (!container || typeof supabaseClient === 'undefined') return;
 
-            const { data: reviews, error } = await supabaseClient
-                .from('reviews')
-                .select('*, profiles(avatar_url)')
-                .order('created_at', { ascending: false });
+            try {
+                const { data: reviews, error } = await supabaseClient
+                    .from('reviews')
+                    .select('*')
+                    .order('created_at', { ascending: false });
 
-            if (error) {
-                console.error("Error loading reviews for index:", error);
-                return;
-            }
+                if (error) throw error;
 
-            if (!reviews || reviews.length === 0) {
-                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No reviews yet. Be the first to leave one!</p>';
-                return;
-            }
+                if (!reviews || reviews.length === 0) {
+                    container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No reviews yet. Be the first to leave one!</p>';
+                    return;
+                }
 
-            allReviews = reviews;
-            if (container.querySelector('.loading-reviews')) {
+                // Fetch avatar_urls from profiles table for reviewer user_ids
+                const userIds = [...new Set(reviews.map(r => r.user_id).filter(Boolean))];
+                let avatarMap = {};
+
+                if (userIds.length > 0) {
+                    try {
+                        const { data: profiles } = await supabaseClient
+                            .from('profiles')
+                            .select('id, avatar_url')
+                            .in('id', userIds);
+
+                        if (profiles) {
+                            profiles.forEach(p => {
+                                if (p.avatar_url) avatarMap[p.id] = p.avatar_url;
+                            });
+                        }
+                    } catch (pErr) {
+                        console.warn("Could not fetch profiles for reviews:", pErr);
+                    }
+                }
+
+                allReviews = reviews.map(r => ({
+                    ...r,
+                    avatar_url: avatarMap[r.user_id] || null
+                }));
+
                 updateReviewDisplay();
+            } catch (err) {
+                console.error("Error loading reviews for index:", err);
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">Unable to load reviews right now.</p>';
             }
         };
 
