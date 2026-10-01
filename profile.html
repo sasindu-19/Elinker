@@ -211,7 +211,7 @@
 
     <!-- UPDATE PROFILE PICTURE (DP) MODAL -->
     <div class="modal-overlay" id="dp-modal" onclick="handleDpModalOverlayClick(event)">
-        <div class="modal-box" style="max-width: 440px;">
+        <div class="modal-box dp-modal-box">
             <div class="modal-header">
                 <div style="display:flex; align-items:center; gap:12px;">
                     <div class="card-icon"><i class='bx bx-camera'></i></div>
@@ -221,32 +221,22 @@
                     <i class='bx bx-x'></i>
                 </button>
             </div>
-            <div class="modal-body" style="text-align: center; padding: 20px 24px;">
-                <div class="dp-preview-container" style="margin: 0 auto 20px; width: 120px; height: 120px; position: relative;">
+            <div class="modal-body" style="text-align: center; padding: 24px 20px;">
+                <div class="dp-preview-container" style="margin: 0 auto 20px; width: 130px; height: 130px; position: relative;">
                     <div id="dp-preview-circle" class="dp-preview-circle">
                         <span id="dp-preview-initials">?</span>
                     </div>
                 </div>
 
-                <div style="display:flex; flex-direction:column; gap:12px; margin-bottom: 20px;">
-                    <label for="dp-file-input" class="btn btn-primary" style="cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:8px; margin:0 auto; width: 100%;">
-                        <i class='bx bx-upload' style="font-size: 18px;"></i> Choose Photo from Device
+                <div class="dp-upload-wrapper" style="display:flex; flex-direction:column; gap:12px; margin-bottom: 12px;">
+                    <label for="dp-file-input" class="btn btn-primary dp-choose-btn">
+                        <i class='bx bx-upload' style="font-size: 20px;"></i> Choose Photo from Device
                     </label>
                     <input type="file" id="dp-file-input" accept="image/png, image/jpeg, image/webp, image/jpg" style="display:none;" onchange="handleDpFileSelect(event)">
-                    
-                    <div style="display:flex; align-items:center; gap:10px; color:var(--muted); font-size:0.8rem; margin: 2px 0;">
-                        <div style="flex:1; height:1px; background:var(--glass-border);"></div>
-                        <span>OR PASTE IMAGE URL</span>
-                        <div style="flex:1; height:1px; background:var(--glass-border);"></div>
-                    </div>
-
-                    <div class="form-group" style="text-align:left; margin-bottom:0;">
-                        <input type="url" id="dp-url-input" class="form-input" placeholder="https://example.com/my-photo.jpg" oninput="handleDpUrlInput(this.value)">
-                    </div>
                 </div>
 
-                <div style="display:flex; gap:10px; justify-content:center;" id="dp-remove-container">
-                    <button class="btn btn-danger btn-sm" id="remove-dp-btn" onclick="removeProfilePicture()" style="display:none; background: rgba(255, 77, 109, 0.15); color: var(--danger); border: 1px solid rgba(255, 77, 109, 0.3);">
+                <div style="display:flex; gap:10px; justify-content:center; margin-top: 10px;" id="dp-remove-container">
+                    <button class="btn btn-danger btn-sm" id="remove-dp-btn" onclick="removeProfilePicture()" style="display:none; background: rgba(255, 77, 109, 0.15); color: var(--danger); border: 1px solid rgba(255, 77, 109, 0.3); width: 100%; justify-content: center; padding: 10px;">
                         <i class='bx bx-trash'></i> Remove Photo
                     </button>
                 </div>

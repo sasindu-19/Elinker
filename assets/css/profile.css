@@ -1041,3 +1041,66 @@ header {
   background: #128c7e;
   box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
 }
+
+/* ─── DP MODAL & RESPONSIVE STYLES ─── */
+.dp-modal-box {
+    max-width: 440px;
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 20px;
+}
+
+.dp-choose-btn {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 0.95rem;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+@media (max-width: 576px) {
+    .dp-modal-box {
+        width: 94%;
+        border-radius: 18px;
+    }
+
+    .dp-preview-circle {
+        width: 110px;
+        height: 110px;
+        font-size: 38px;
+    }
+
+    .big-avatar {
+        width: 85px;
+        height: 85px;
+        font-size: 30px;
+    }
+
+    .avatar-edit-badge {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+        bottom: 0px;
+        right: 0px;
+    }
+
+    .dp-choose-btn {
+        padding: 12px 16px;
+        font-size: 0.9rem;
+    }
+
+    #dp-modal .modal-footer {
+        flex-direction: column-reverse;
+        gap: 10px;
+    }
+
+    #dp-modal .modal-footer .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

@@ -209,11 +209,9 @@ function openAvatarModal() {
     
     const previewCircle = document.getElementById('dp-preview-circle');
     const removeBtn = document.getElementById('remove-dp-btn');
-    const urlInput = document.getElementById('dp-url-input');
     const fileInput = document.getElementById('dp-file-input');
 
     if (fileInput) fileInput.value = '';
-    if (urlInput) urlInput.value = '';
 
     const name = currentProfile?.full_name || currentUser?.email?.split('@')[0] || 'U';
     const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
@@ -262,43 +260,12 @@ async function handleDpFileSelect(event) {
 
         const previewCircle = document.getElementById('dp-preview-circle');
         if (previewCircle) previewCircle.innerHTML = `<img src="${compressedDataUrl}" alt="Preview">`;
-        const urlInput = document.getElementById('dp-url-input');
-        if (urlInput) urlInput.value = '';
         const removeBtn = document.getElementById('remove-dp-btn');
         if (removeBtn) removeBtn.style.display = 'inline-flex';
     } catch (err) {
         console.error('Image processing error:', err);
         showToast('Failed to process image file.', 'error');
     }
-}
-
-function handleDpUrlInput(url) {
-    const trimmed = url.trim();
-    const previewCircle = document.getElementById('dp-preview-circle');
-    const removeBtn = document.getElementById('remove-dp-btn');
-
-    if (trimmed) {
-        pendingAvatarData = trimmed;
-        if (previewCircle) previewCircle.innerHTML = `<img src="${trimmed}" alt="Preview" onerror="handleDpImageError()">`;
-        if (removeBtn) removeBtn.style.display = 'inline-flex';
-    } else {
-        pendingAvatarData = null;
-        const name = currentProfile?.full_name || currentUser?.email?.split('@')[0] || 'U';
-        const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-        if (previewCircle) previewCircle.innerHTML = `<span id="dp-preview-initials">${initials}</span>`;
-        if (removeBtn && !currentProfile?.avatar_url) {
-            removeBtn.style.display = 'none';
-        }
-    }
-}
-
-function handleDpImageError() {
-    showToast('Invalid image URL or image failed to load.', 'error');
-    const name = currentProfile?.full_name || currentUser?.email?.split('@')[0] || 'U';
-    const initials = name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
-    const previewCircle = document.getElementById('dp-preview-circle');
-    if (previewCircle) previewCircle.innerHTML = `<span id="dp-preview-initials">${initials}</span>`;
-    pendingAvatarData = null;
 }
 
 function compressAndResizeImage(file, maxWidth = 400, maxHeight = 400, quality = 0.85) {
