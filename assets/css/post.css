@@ -1004,7 +1004,7 @@ textarea {
   margin:4px 0 0;
   padding:0;
   list-style:none;
-  background:var(--card);
+  background:#000;
   border:1px solid var(--border);
   border-radius:10px;
   overflow:hidden;
