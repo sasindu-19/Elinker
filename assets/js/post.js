@@ -664,3 +664,70 @@ async function sendInviteEmail(workerEmail, workerName, jobTitle) {
     return false;
   }
 }
+
+
+
+const map = L.map('map').setView([7.8731, 80.7718], 7); // Sri Lanka
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap' }).addTo(map);
+
+const icon = L.divIcon({ className: 'map-pin', html: '<span></span>', iconSize: [28, 28], iconAnchor: [14, 28] });
+let marker = null;
+const $ = (id) => document.getElementById(id);
+const search = $('search'), results = $('results');
+
+function setLocation(lat, lng, address) {
+  $('lat').value = lat; $('lng').value = lng; $('addr').value = address;
+  $('address').textContent = '📍 ' + address;
+  document.dispatchEvent(new CustomEvent('locationchange', { detail: { lat, lng, address } }));
+}
+
+function placePin(lat, lng, zoom = 16) {
+  if (marker) marker.setLatLng([lat, lng]);
+  else {
+    marker = L.marker([lat, lng], { draggable: true, icon }).addTo(map);
+    marker.on('dragend', () => { const p = marker.getLatLng(); reverse(p.lat, p.lng); });
+  }
+  map.setView([lat, lng], zoom);
+}
+
+async function reverse(lat, lng) {
+  try {
+    const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+    const j = await r.json();
+    setLocation(lat, lng, j.display_name || `${lat.toFixed(5)}, ${lng.toFixed(5)}`);
+  } catch { setLocation(lat, lng, `${lat.toFixed(5)}, ${lng.toFixed(5)}`); }
+}
+
+map.on('click', (e) => { placePin(e.latlng.lat, e.latlng.lng, map.getZoom()); reverse(e.latlng.lat, e.latlng.lng); });
+
+let timer;
+search.addEventListener('input', () => {
+  clearTimeout(timer);
+  const q = search.value.trim();
+  if (q.length < 3) { results.style.display = 'none'; return; }
+  timer = setTimeout(async () => {
+    results.innerHTML = '<li>Searching…</li>'; results.style.display = 'block';
+    try {
+      const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=5&countrycodes=lk&q=${encodeURIComponent(q)}`);
+      const data = await r.json();
+      results.innerHTML = '';
+      if (!data.length) { results.innerHTML = '<li>No results</li>'; return; }
+      data.forEach((item) => {
+        const li = document.createElement('li');
+        li.textContent = item.display_name;
+        li.onclick = () => {
+          const lat = parseFloat(item.lat), lng = parseFloat(item.lon);
+          search.value = item.display_name; results.style.display = 'none';
+          placePin(lat, lng); setLocation(lat, lng, item.display_name);
+        };
+        results.appendChild(li);
+      });
+    } catch { results.innerHTML = '<li>Search failed</li>'; }
+  }, 400);
+});
+
+document.addEventListener('click', (e) => { if (!e.target.closest('.search-wrap')) results.style.display = 'none'; });
+
+$('myLoc').onclick = () => navigator.geolocation?.getCurrentPosition((p) => {
+  placePin(p.coords.latitude, p.coords.longitude); reverse(p.coords.latitude, p.coords.longitude);
+});
