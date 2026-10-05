@@ -13,6 +13,7 @@
   <link href="https://cdn.boxicons.com/3.0.8/fonts/filled/boxicons-filled.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 
 <body>
@@ -171,6 +172,21 @@
             </div>
           </div>
 
+<section class="panel">
+  <h2 class="panel-title">Location</h2>
+  <div class="search-wrap">
+    <input id="search" class="field" placeholder="Search address…" autocomplete="off" />
+    <button type="button" id="myLoc" class="my-loc">My location</button>
+    <ul id="results" class="results"></ul>
+  </div>
+  <div id="map"></div>
+  <p id="address" class="hint">Search, tap the map, or drag the pin to set the exact spot.</p>
+  <input type="hidden" id="lat" name="lat" />
+  <input type="hidden" id="lng" name="lng" />
+  <input type="hidden" id="addr" name="address" />
+</section>
+
+
           <!-- Posting As -->
           <div class="card">
             <div class="card-title">Posting As</div>
@@ -237,6 +253,7 @@
     <script src="assets/js/supabase-init.js"></script>
     <script src="assets/js/srilanka-locations.js"></script>
     <script src="assets/js/post.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </body>
 
 </html>
