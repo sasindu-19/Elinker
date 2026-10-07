@@ -236,6 +236,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (locationCard) {
       locationCard.style.display = isOnline ? 'none' : 'block';
     }
+    const mapPanel = document.querySelector('.panel');
+    if (mapPanel) {
+      mapPanel.style.display = isOnline ? 'none' : 'block';
+    }
     if (isOnline) {
       prevLocation.textContent = 'Online / Remote';
     } else {
@@ -336,6 +340,10 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
   const province = sanitizeInput(document.getElementById('province').value);
   const district = sanitizeInput(document.getElementById('district').value);
   const city = sanitizeInput(document.getElementById('city').value);
+  
+  const latVal = document.getElementById('lat')?.value;
+  const lngVal = document.getElementById('lng')?.value;
+  const addrVal = document.getElementById('addr')?.value;
 
   // difficulty: stored lowercase ('easy' | 'medium' | 'hard')
   const diffValue = document.querySelector('.diff-card.active')?.dataset.value || 'Easy';
@@ -472,7 +480,10 @@ document.getElementById('jobForm')?.addEventListener('submit', async function (e
       start_date: startDate,
       start_time: startTime,
       end_date: endDate,
-      end_time: endTime
+      end_time: endTime,
+      lat: workMode === 'online' ? null : (parseFloat(latVal) || null),
+      lng: workMode === 'online' ? null : (parseFloat(lngVal) || null),
+      map_address: workMode === 'online' ? null : addrVal
     };
 
     const { data, error } = await supabaseClient

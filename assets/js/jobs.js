@@ -453,6 +453,7 @@ function buildJobCard(job, profile) {
       <div class="job-location">
         <i class='bx bxs-map-pin'></i>
         ${sanitizeInput(locationStr || 'Location not set')}
+        ${(!isOnline && job.lat && job.lng) ? `<a href="https://www.google.com/maps/dir/?api=1&destination=${job.lat},${job.lng}" target="_blank" onclick="event.stopPropagation()" style="margin-left: 8px; color: var(--accent); font-size: 0.75rem; text-decoration: none; display: inline-flex; align-items: center; gap: 3px; background: rgba(0,209,209,0.1); padding: 2px 8px; border-radius: 12px;"><i class='bx bx-map-alt'></i> Distance</a>` : ''}
       </div>
       <div class="job-schedule" title="Application Deadline">
         <i class='bx bx-calendar'></i>
@@ -566,7 +567,12 @@ function openJobModal(jobId) {
   // Location
   const isOnline = (job.work_mode === 'online');
   const loc = isOnline ? 'Online / Remote' : [job.city, job.district, job.province].filter(Boolean).join(', ');
-  document.getElementById('jm-location-text').textContent = loc || 'Location not set';
+  
+  let mapLinkHtml = '';
+  if (!isOnline && job.lat && job.lng) {
+    mapLinkHtml = `<a href="https://www.google.com/maps/dir/?api=1&destination=${job.lat},${job.lng}" target="_blank" style="margin-left: 10px; color: var(--accent); font-size: 0.8rem; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; background: rgba(0,209,209,0.1); padding: 4px 10px; border-radius: 12px;"><i class='bx bx-map-alt'></i> View on Map</a>`;
+  }
+  document.getElementById('jm-location-text').innerHTML = (loc || 'Location not set') + mapLinkHtml;
 
   // ── Populate body ─────────────────────────────────────────
   // Pay
