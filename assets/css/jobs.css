@@ -1902,16 +1902,24 @@ a:hover {
   gap: 8px;
 }
 
+#jm-location-text {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
 .job-location .loc-text {
   flex: 1;
   min-width: 120px;
 }
 
 @media (max-width: 600px) {
-  .job-location {
+  .job-location, #jm-location-text {
     flex-direction: column;
     align-items: flex-start;
-    gap: 6px;
+    gap: 8px;
   }
   .card-map-btn, .modal-map-btn {
     margin-left: 0;
