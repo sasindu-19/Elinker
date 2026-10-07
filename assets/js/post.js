@@ -312,6 +312,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.getElementById('page-content').style.display = '';
+  
+  // Fix map rendering issue when unhiding the container
+  setTimeout(() => {
+    if (typeof map !== 'undefined') {
+      map.invalidateSize();
+    }
+  }, 100);
 })();
 
 
@@ -708,22 +715,29 @@ search.addEventListener('input', () => {
   timer = setTimeout(async () => {
     results.innerHTML = '<li>Searching…</li>'; results.style.display = 'block';
     try {
-      const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=5&countrycodes=lk&q=${encodeURIComponent(q)}`);
+      let searchQuery = q;
+      if (!searchQuery.toLowerCase().includes('sri lanka')) {
+        searchQuery += ', Sri Lanka';
+      }
+      const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=5&countrycodes=lk&q=${encodeURIComponent(searchQuery)}`, {
+        headers: { 'Accept-Language': 'en-US,en;q=0.9' }
+      });
       const data = await r.json();
       results.innerHTML = '';
-      if (!data.length) { results.innerHTML = '<li>No results</li>'; return; }
+      if (!data.length) { results.innerHTML = '<li>No results found</li>'; return; }
       data.forEach((item) => {
         const li = document.createElement('li');
-        li.textContent = item.display_name;
+        let dName = item.display_name.replace(', Sri Lanka', '');
+        li.textContent = dName;
         li.onclick = () => {
           const lat = parseFloat(item.lat), lng = parseFloat(item.lon);
-          search.value = item.display_name; results.style.display = 'none';
+          search.value = dName; results.style.display = 'none';
           placePin(lat, lng); setLocation(lat, lng, item.display_name);
         };
         results.appendChild(li);
       });
     } catch { results.innerHTML = '<li>Search failed</li>'; }
-  }, 400);
+  }, 500);
 });
 
 document.addEventListener('click', (e) => { if (!e.target.closest('.search-wrap')) results.style.display = 'none'; });
