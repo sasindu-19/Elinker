@@ -1841,3 +1841,79 @@ a:hover {
     text-align: center;
   }
 }
+
+/* ============================
+   MAP LINK BUTTONS
+   ============================ */
+.map-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  border-radius: var(--radius-pill);
+  font-family: var(--font);
+  transition: all 0.25s ease;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.card-map-btn {
+  margin-left: auto;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  color: var(--accent);
+  background: rgba(124, 107, 255, 0.1);
+  border: 1px solid rgba(124, 107, 255, 0.3);
+}
+
+.card-map-btn:hover {
+  background: rgba(124, 107, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.modal-map-btn {
+  margin-left: auto;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  color: #fff;
+  background: linear-gradient(135deg, #10b981, #059669); /* Bright green gradient */
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.modal-map-btn i {
+  font-size: 1.1rem;
+}
+
+.modal-map-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #059669, #047857);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.6);
+  color: #fff;
+}
+
+.job-location {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.job-location .loc-text {
+  flex: 1;
+  min-width: 120px;
+}
+
+@media (max-width: 600px) {
+  .job-location {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .card-map-btn, .modal-map-btn {
+    margin-left: 0;
+  }
+}
