@@ -1320,7 +1320,7 @@ body {
     }
 
     .language-menu {
-
+        right: -120px;
         width: 145px;
 
     }
@@ -1353,7 +1353,7 @@ body {
 
     .language-menu {
 
-        right: 10px;
+        right: -120px;
         width: 145px;
 
     }
