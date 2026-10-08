@@ -14,13 +14,66 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="assets/css/translate.css">
 </head>
 
 <body>
 
 
   <div id="page-content" style="display: none;">
+        <!-- Language Selector -->
+<div class="language-selector">
 
+    <button class="language-toggle" type="button" onclick="toggleLanguageMenu()">
+        <span class="language-icon">🌐</span>
+        <span id="selectedLanguage">English</span>
+    </button>
+
+    <div class="language-menu" id="languageMenu">
+
+        <button type="button" onclick="translatePage('en'); selectLanguage('English')">
+            <center></center><span>English</span>
+        </button>
+
+        <button type="button" onclick="translatePage('si'); selectLanguage('සිංහල')">
+            <center></center><span>සිංහල</span>
+        </button>
+
+        <button type="button" onclick="translatePage('ta'); selectLanguage('தமிழ்')">
+            <center></center><span>தமிழ்</span>
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- Google Translate -->
+<div id="google_translate_element"></div>
+
+
+<!-- Your JavaScript -->
+<script src="assets/js/translate.js"></script>
+
+<!-- Google Translate API -->
+<script>
+function googleTranslateElementInit() {
+
+    new google.translate.TranslateElement(
+        {
+            pageLanguage: 'en',
+            includedLanguages: 'en,si,ta',
+            autoDisplay: false
+        },
+        'google_translate_element'
+    );
+
+}
+</script>
+
+<script
+src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+</script>
     <a href="/" class="back-btn"><i class='bx bx-arrow-back'></i> Back</a>
     <form id="jobForm" class="container">
       <h1>Post a new job</h1>
