@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css">
+  <link rel="stylesheet" href="assets/css/translate.css">
 </head>
 
 <body>
@@ -44,7 +45,62 @@
           <a data-aos="fade-down" data-aos-duration="3000" href="reviews">Reviews</a>
         </li>
       </ul>
+      
+        <!-- Language Selector -->
+<div class="language-selector">
 
+    <button class="language-toggle" type="button" onclick="toggleLanguageMenu()">
+        <span class="language-icon">🌐</span>
+        <span id="selectedLanguage">English</span>
+    </button>
+
+    <div class="language-menu" id="languageMenu">
+
+        <button type="button" onclick="translatePage('en'); selectLanguage('English')">
+            <center></center><span>English</span>
+        </button>
+
+        <button type="button" onclick="translatePage('si'); selectLanguage('සිංහල')">
+            <center></center><span>සිංහල</span>
+        </button>
+
+        <button type="button" onclick="translatePage('ta'); selectLanguage('தமிழ்')">
+            <center></center><span>தமிழ்</span>
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- Google Translate -->
+<div id="google_translate_element"></div>
+
+
+<!-- Your JavaScript -->
+<script src="assets/js/translate.js"></script>
+
+<!-- Google Translate API -->
+<script>
+function googleTranslateElementInit() {
+
+    new google.translate.TranslateElement(
+        {
+            pageLanguage: 'en',
+            includedLanguages: 'en,si,ta',
+            autoDisplay: false
+        },
+        'google_translate_element'
+    );
+
+}
+</script>
+
+<script
+src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+</script>
+
+      
       <!-- Login Button -->
       <a href="login" id="login-btn-link" class="action_btn">Login</a>
 
